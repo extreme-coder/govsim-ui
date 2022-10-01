@@ -11,6 +11,8 @@ import * as actions from './actions'
 import rootReducer from './reducers'
 import App from './App';
 
+import { store } from './store'
+
 const client = axios.create({
   baseURL: 'http://localhost:1337/api',
   responseType: 'json'
@@ -46,14 +48,6 @@ const middlewareConfig = {
     ]
   }
 };
-
-const store = createStore(
-  rootReducer, // custom reducers
-  applyMiddleware(
-    thunkMiddleware,
-    axiosMiddleware(client, middlewareConfig), // second parameter options can optionally contain onSuccess, onError, onComplete, successSuffix, errorSuffix
-  )
-)
 
 
 const container = document.getElementById('root');
