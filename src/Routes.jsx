@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Signup from './Signup.jsx';
-import Login from './Login.jsx';
-import Logout from './Logout.jsx';
+import Signup from './components/Signup.jsx';
+import Login from './components/Login.jsx';
+import Logout from './components/Logout.jsx';
 import Home from './components/Home.jsx';
 import withRouter from './components/withRouter.js';
 

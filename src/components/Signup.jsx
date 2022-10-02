@@ -3,8 +3,8 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import TextField from './components/common/TextField';
-import { useRegisterMutation } from './services/govsim';
+import TextField from './common/TextField';
+import { useRegisterMutation } from '../services/govsim';
 import { useNavigate } from 'react-router-dom'
 
 const SignupSchema = Yup.object().shape({
