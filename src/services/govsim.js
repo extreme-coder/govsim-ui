@@ -8,10 +8,13 @@ export const govsimApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:1337/' }),
   endpoints: (builder) => ({
     getEntity: builder.query({
-      query: (name, id) => `${pluralize(name.replace('_', '-'))}/${id}`,
+      query: (arg) => {
+        const {name, id} = arg;
+        return `${pluralize(name.replace('_', '-'))}/${id}`
+      }
     }),
     getEntities: builder.query({
-      query: (name, id) => `${pluralize(name.replace('_', '-'))}`,
+      query: (name) => `${pluralize(name.replace('_', '-'))}`,
     }),
     login: builder.mutation({
       query(body) {
