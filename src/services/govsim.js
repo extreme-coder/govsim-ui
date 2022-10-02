@@ -11,11 +11,20 @@ export const govsimApi = createApi({
       query: (name, id) => `${pluralize(name.replace('_', '-'))}/${id}`,
     }),
     getEntities: builder.query({
-        query: (name, id) => `${pluralize(name.replace('_', '-'))}`,
-      }),
+      query: (name, id) => `${pluralize(name.replace('_', '-'))}`,
+    }),
+    login: builder.mutation({
+      query(body) {
+          return {
+            url: `/auth/local`,
+            method: 'POST',
+            body,
+          }
+      },        
+    }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetEntityQuery, useGetEntitiesQuery } = govsimApi
+export const { useGetEntityQuery, useGetEntitiesQuery, useLoginMutation } = govsimApi

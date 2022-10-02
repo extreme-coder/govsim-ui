@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import * as actions from './actions/auth';
 import TextField from './components/common/TextField';
 
+import { useLoginMutation } from './services/govsim';
+
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
     .required('Required'),
@@ -15,22 +17,16 @@ const LoginSchema = Yup.object().shape({
     .required('Required'),
 });
 
-class Login extends React.Component {
-  login = (values) => {
+export default function Login() {
+  let login = (values) => {
     console.log(values)
-    this.props.login(values)
+    authLogin(values)
   }
 
-  render() {
-    if (localStorage.getItem('user') != null) {
-      return (
-        <Navigate
-          to={{
-            pathname: '/home'
-          }}
-        />
-      )
-    }
+  const [
+    authLogin, 
+    { isLoading: isUpdating }
+  ] = useLoginMutation()
 
     return (
       <div className="container">
@@ -50,7 +46,7 @@ class Login extends React.Component {
                       </div>
                       <div>
                         <h3>Log In</h3>
-                        <Formik enableReinitialize validationSchema={LoginSchema} onSubmit={this.login} initialValues={{ identifier: '', password: '' }}>
+                        <Formik enableReinitialize validationSchema={LoginSchema} onSubmit={login} initialValues={{ identifier: '', password: '' }}>
                           {(props) => (
                             <Form noValidate onSubmit={props.handleSubmit}>
                               <Form.Group controlId="formBasicName">
@@ -82,10 +78,6 @@ class Login extends React.Component {
 
       </div>
     );
-  }
-}
+};
 
 
-export default Login = connect(
-  null, actions
-)(Login);
