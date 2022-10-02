@@ -1,12 +1,11 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import TextField from './components/common/TextField';
-import * as actions from './actions/auth';
-
+import { useRegisterMutation } from './services/govsim';
+import { useNavigate } from 'react-router-dom'
 
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
@@ -17,13 +16,22 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
 });
 
-class Signup extends React.Component {
-  addUser = (values) => {
+export default function Signup() {
+  const [
+    authRegister, 
+    { isLoading: isUpdating }
+  ] = useRegisterMutation()
+
+  const navigate = useNavigate()
+
+  let addUser = async (values) => {
     values.username = values.email
-    this.props.addUser(values)
+    let response = await authRegister(values)    
+    localStorage.setItem('user', JSON.stringify(response.data));
+    navigate(`/game`)
   }
 
-  render() {
+  
     return (
       <div className="container">
 
@@ -41,7 +49,7 @@ class Signup extends React.Component {
                         <h1 className="h4 text-gray-900 mb-4">Sign Up</h1>
                       </div>
                       <div>
-                        <Formik enableReinitialize validationSchema={SignupSchema} onSubmit={this.addUser} initialValues={{ email: '', password: '' }}>
+                        <Formik enableReinitialize validationSchema={SignupSchema} onSubmit={addUser} initialValues={{ email: '', password: '' }}>
                           {(props) => (
                             <Form noValidate onSubmit={props.handleSubmit}>
                               <Form.Group controlId="formBasicName">
@@ -73,9 +81,6 @@ class Signup extends React.Component {
 
       </div>
     );
-  }
-}
+  
+};
 
-export default Signup = connect(
-  null, actions
-)(Signup);

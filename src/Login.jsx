@@ -1,13 +1,12 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
-import { Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import * as actions from './actions/auth';
 import TextField from './components/common/TextField';
 
 import { useLoginMutation } from './services/govsim';
+import { useNavigate } from 'react-router-dom'
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -18,16 +17,18 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Login() {
-  let login = (values) => {
-    console.log(values)
-    authLogin(values)
-  }
 
+  const navigate = useNavigate()
   const [
     authLogin, 
     { isLoading: isUpdating }
   ] = useLoginMutation()
 
+  let login = async (values) => {    
+    let response = await authLogin(values)     
+    localStorage.setItem('user', JSON.stringify(response.data));
+    navigate(`/game`)
+  }
     return (
       <div className="container">
 

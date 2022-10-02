@@ -22,9 +22,22 @@ export const govsimApi = createApi({
           }
       },        
     }),
+    register: builder.mutation({
+      query(body) {
+          return {
+            url: `/auth/local/register`,
+            method: 'POST',
+            body,
+          }
+      },        
+    }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetEntityQuery, useGetEntitiesQuery, useLoginMutation } = govsimApi
+export const { 
+  useGetEntityQuery, 
+  useGetEntitiesQuery, 
+  useLoginMutation,
+  useRegisterMutation } = govsimApi
