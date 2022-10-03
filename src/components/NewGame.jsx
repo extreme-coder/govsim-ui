@@ -15,20 +15,24 @@ const GameSchema = Yup.object().shape({
 
 export default function NewGame() {
   const [joinCode, setJoinCode] = useState('');
+  
 
   const navigate = useNavigate()
   const [
     addEntity, 
-    { isLoading: isUpdating }
+    { isLoading: isUpdating, error }
   ] = useAddEntityMutation()
 
   let newGame = async (values) => {    
-    let response = await addEntity({name: 'country', body:{data: values}})     
-    console.log(response)   
-    setJoinCode(response.data.data.attributes.join_code)
+    let response = await addEntity({name: 'country', body:{data: values}})         
+    if(!response.error) {
+      setJoinCode(response.data.data.attributes.join_code)
+    }
   }
   if(joinCode==='') {
-    return (<NewGameForm onSubmit={newGame}/>);
+    return (      
+      <NewGameForm onSubmit={newGame}/>      
+    );
   } else {
     return (
       <div className="container">

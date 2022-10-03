@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { govsimApi } from './services/govsim'
+import { rtkQueryErrorLogger } from './middlewares/error'
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +11,7 @@ export const store = configureStore({
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(govsimApi.middleware),
+    getDefaultMiddleware().concat([govsimApi.middleware, rtkQueryErrorLogger]),
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
