@@ -13,7 +13,7 @@ const GameSchema = Yup.object().shape({
     .required('Required'),  
 });
 
-export default function Login() {
+export default function NewGame() {
   const [joinCode, setJoinCode] = useState('');
 
   const navigate = useNavigate()
@@ -27,23 +27,33 @@ export default function Login() {
     console.log(response)   
     setJoinCode(response.data.data.attributes.join_code)
   }
+  if(joinCode==='') {
+    return (<NewGameForm onSubmit={newGame}/>);
+  } else {
     return (
       <div className="container">
-        <Formik enableReinitialize validationSchema={GameSchema} onSubmit={newGame} initialValues={{ name: ''}}>
-          {(props) => (
-            <Form noValidate onSubmit={props.handleSubmit}>
-              <Form.Group controlId="formBasicName">
-                <TextField name="name" label="Country Name" placeholder="Name your Country" />                
-                <Button variant="primary" type="submit">
-                  Start Game
-                </Button>
-              </Form.Group>
-            </Form>
-          )}
-        </Formik>       
-            {joinCode}
+        Your Join code is : {joinCode}
       </div>
-    );
+    )
+  }
 };
 
+function NewGameForm({onSubmit}) {
+  return (
+    <div className="container">
+      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: ''}}>
+        {(props) => (
+          <Form noValidate onSubmit={props.handleSubmit}>
+            <Form.Group controlId="formBasicName">
+              <TextField name="name" label="Country Name" placeholder="Name your Country" />                
+              <Button variant="primary" type="submit">
+                Start Game
+              </Button>
+            </Form.Group>
+          </Form>
+        )}
+      </Formik>                 
+    </div>
+  );
+}
 
