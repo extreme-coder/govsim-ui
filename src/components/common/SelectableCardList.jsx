@@ -46,7 +46,14 @@ class SelectableCardList extends React.Component {
 
   constructor(props) {
     super(props);
-    var selected = props.multiple ? [] : -1;
+    var selected;
+    if(!props.multiple && props.selected)
+    {
+      selected = props.selected
+    } else {
+      selected = props.multiple ? [] : -1;
+    }
+    
     var initialState = {
       selected: selected
     };

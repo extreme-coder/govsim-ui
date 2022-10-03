@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import TextField from './common/TextField';
 
 import { useAddEntityMutation } from '../services/govsim';
 import { useNavigate } from 'react-router-dom'
+import SelectableCardList from './common/SelectableCardList';
 
 const GameSchema = Yup.object().shape({
   name: Yup.string()
@@ -43,13 +44,29 @@ export default function NewGame() {
 };
 
 function NewGameForm({onSubmit}) {
+  
+  const onPublicChange = (selected, setFieldValue) => {
+    if(selected === 2) {
+      setFieldValue('is_public', false)
+    } else {
+      setFieldValue('is_public', true)
+    }    
+  }
   return (
     <div className="container">
-      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: ''}}>
+      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: '', is_public: true }}>
         {(props) => (
           <Form noValidate onSubmit={props.handleSubmit}>
             <Form.Group controlId="formBasicName">
-              <TextField name="name" label="Country Name" placeholder="Name your Country" />                
+              <TextField name="name" label="Country Name" placeholder="Name your Country" />             
+              <TextField type="hidden" name="is_public" />
+
+              <SelectableCardList 
+                multiple={false}           
+                contents={[{id: 1, title:'Public'}, {id:2 , title:'Private'}]}
+                onChange={(e)=>{onPublicChange(e, props.setFieldValue)}}
+                selected={1}
+              />   
               <Button variant="primary" type="submit">
                 Start Game
               </Button>
