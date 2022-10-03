@@ -16,6 +16,16 @@ export const govsimApi = createApi({
     getEntities: builder.query({
       query: (name) => `${pluralize(name.replace('_', '-'))}`,
     }),
+    addEntity: builder.mutation({
+      query(arg) {
+        const {name, body} = arg;
+        return {
+          url: `${pluralize(name.replace('_', '-'))}`,
+          method: 'POST',
+          body,
+        }
+      },        
+    }),
     login: builder.mutation({
       query(body) {
           return {
@@ -43,4 +53,5 @@ export const {
   useGetEntityQuery, 
   useGetEntitiesQuery, 
   useLoginMutation,
-  useRegisterMutation } = govsimApi
+  useRegisterMutation,
+  useAddEntityMutation } = govsimApi
