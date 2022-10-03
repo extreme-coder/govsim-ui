@@ -87,16 +87,17 @@ class SelectableCardList extends React.Component {
 
     var content = contents.map((cardContent, i) => {
       var {
+        id,
         title,
         description,
         selected
       } = cardContent;
-      var selected = multiple ? this.state.selected.indexOf(i) > -1 : this.state.selected == i;
+      var selected = multiple ? this.state.selected.indexOf(i) > -1 : this.state.selected === id;
       return (
-        <SelectableTitleCard key={i} 
+        <SelectableTitleCard key={id} 
           title={title} description={description}
           selected={selected} 
-          onClick={(e) => this.onItemSelected(i)} />
+          onClick={(e) => this.onItemSelected(id)} />
       );
     });
     return (<div className="cardlist">{content}</div>);
