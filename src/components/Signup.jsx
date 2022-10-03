@@ -27,8 +27,10 @@ export default function Signup() {
   let addUser = async (values) => {
     values.username = values.email
     let response = await authRegister(values)    
-    localStorage.setItem('user', JSON.stringify(response.data));
-    navigate(`/game`)
+    if(!response.error) {
+      localStorage.setItem('user', JSON.stringify(response.data));
+      navigate(`/game`)
+    }
   }
 
   

@@ -21,13 +21,15 @@ export default function Login() {
   const navigate = useNavigate()
   const [
     authLogin, 
-    { isLoading: isUpdating }
+    { isLoading: isUpdating, error }
   ] = useLoginMutation()
 
   let login = async (values) => {    
     let response = await authLogin(values)     
-    localStorage.setItem('user', JSON.stringify(response.data));
-    navigate(`/game`)
+    if(!response.error) {
+      localStorage.setItem('user', JSON.stringify(response.data));
+      navigate(`/game`)
+    }
   }
     return (
       <div className="container">
