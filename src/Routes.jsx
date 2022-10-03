@@ -16,7 +16,7 @@ const AppRoutes = () => (
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/game/:id" element={<Game />} />
-        <Route path="/joingame/:id" element={<JoinGame />} />
+        <Route path="/joingame/:code" element={<JoinGame />} />
         <Route path="/newgame" element={<NewGame />} />
         <Route path="/games" element={<Games />} />
         <Route path="/" element={<Home />} />

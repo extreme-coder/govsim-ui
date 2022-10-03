@@ -15,7 +15,7 @@ export default function Games() {
         <div className="col-xl-10 col-lg-12 col-md-9">
           {data && data.data.map(country =>
               <div key={country.id}>
-                {country.attributes.name}   <Link to="/joingame/1"><Button>Join Game</Button></Link>      
+                {country.attributes.name}   <Link to={`/joingame/${country.attributes.join_code}`}><Button>Join Game</Button></Link>      
               </div>
           )}
         </div>
