@@ -7,6 +7,7 @@ import Home from './components/Home.jsx';
 import Game from './components/Game.jsx';
 import Games from './components/Games.jsx';
 import JoinGame from './components/JoinGame.jsx';
+import NewGame from './components/NewGame.jsx'
 import withRouter from './components/withRouter.js';
 
 const AppRoutes = () => (
@@ -16,6 +17,7 @@ const AppRoutes = () => (
         <Route path="/logout" element={<Logout />} />
         <Route path="/game/:id" element={<Game />} />
         <Route path="/joingame/:id" element={<JoinGame />} />
+        <Route path="/newgame" element={<NewGame />} />
         <Route path="/games" element={<Games />} />
         <Route path="/" element={<Home />} />
     </Routes>
