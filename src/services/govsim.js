@@ -81,4 +81,6 @@ export const {
   useGetEntitiesByFieldQuery,
   useLoginMutation,
   useRegisterMutation,
-  useAddEntityMutation } = govsimApi
+  useAddEntityMutation,
+  useGetPartiesQuery,
+} = govsimApi
