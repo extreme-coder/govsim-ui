@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useGetEntitiesQuery, useAddEntityMutation, useGetEntitiesByFieldQuery } from '../services/govsim';
+import { useGetEntitiesQuery, useAddEntityMutation, useGetEntitiesByFieldQuery,  useGetPartiesQuery} from '../services/govsim';
 import { Button, Form } from 'react-bootstrap';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import SelectableCardList from './common/SelectableCardList';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Formik } from 'formik'
@@ -14,6 +14,7 @@ export default function JoinGame() {
   const { data, error, isLoading } = useGetEntitiesQuery('party-template')
   const { data: country, error: cerror, isLoading: cisLoading } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const [addEntity, { isLoading: isUpdating }] = useAddEntityMutation()
+  const { data: party } = useGetPartiesQuery({ code: code, user: user.user.id })
   
   const joinGame = (vals) => {    
     addEntity({name:'party', body:{data:{country: country.data[0].id, name: vals.name, template: selectedPartyType, user: user.user.id}}})
@@ -22,7 +23,7 @@ export default function JoinGame() {
   const onPartyTypeChanged = (selected) => {
     setSelectedPartyType(selected)
   }
-  
+  console.log(party)
   if (country && country.data.length === 0) {
     return (
       <div>
@@ -34,7 +35,10 @@ export default function JoinGame() {
         </Link>
       </div>
     )
-  } else {
+  } else if (party && party.data.length > 0) {
+    return (<Navigate to={"/game/" + code} />)
+  }
+  else {
     return (
       <div className="container">
         {country && <div>{country.data[0].attributes.name}</div>}
