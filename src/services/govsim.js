@@ -23,7 +23,7 @@ export const govsimApi = createApi({
         for (let i = 0; i < fields.length; i++){
           let f = fields[i]
           let v = values[i]
-          filters.push(`filters[$and][${i}][${f}][$eq]=${v}&`)
+          filters.push(`filters[${f}][$eq]=${v}&`)
          
         }
         return `${pluralize(name.replace('_', '-'))}?${filters.join('')}`
