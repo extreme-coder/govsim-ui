@@ -63,6 +63,12 @@ export const govsimApi = createApi({
           }
       },        
     }),
+    getParties: builder.query({
+      query: (arg) => { 
+        const { country, user } = arg;
+        return `parties?filters[country][id][$eq]=${country}&filters[user][id][$eq]=${user}`
+      }
+    }),
   }),
 })
 
