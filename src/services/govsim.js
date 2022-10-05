@@ -16,6 +16,19 @@ export const govsimApi = createApi({
     getEntities: builder.query({
       query: (name) => `${pluralize(name.replace('_', '-'))}`,
     }),
+    getEntitiesByFields: builder.query({
+      query: (arg) => { 
+        const { name, fields, values } = arg;
+        const filters = []
+        for (let i = 0; i < fields.length; i++){
+          let f = fields[i]
+          let v = values[i]
+          filters.push(`filters[$and][${i}][${f}][$eq]=${v}&`)
+         
+        }
+        return `${pluralize(name.replace('_', '-'))}?${filters.join('')}`
+      }
+    }),
     getEntitiesByField: builder.query({
       query: (arg) => { 
         const {name, field, value} = arg;
@@ -57,7 +70,8 @@ export const govsimApi = createApi({
 // auto-generated based on the defined endpoints
 export const { 
   useGetEntityQuery, 
-  useGetEntitiesQuery, 
+  useGetEntitiesQuery,
+  useGetEntitiesByFieldsQuery,
   useGetEntitiesByFieldQuery,
   useLoginMutation,
   useRegisterMutation,
