@@ -18,21 +18,34 @@ export const govsimApi = createApi({
     }),
     getEntitiesByFields: builder.query({
       query: (arg) => { 
-        const { name, fields, values } = arg;
+        const { name, fields, values, relations } = arg;
         const filters = []
         for (let i = 0; i < fields.length; i++){
           let f = fields[i]
           let v = values[i]
-          filters.push(`filters[${f}][$eq]=${v}&`)
-         
+          let r = relations[i]
+          if(r) {
+            filters.push(`filters[${f}][$eq]=${v}&`)
+          } else {
+            filters.push(`filters[${f}][${r}][$eq]=${v}&`)
+          }         
         }
         return `${pluralize(name.replace('_', '-'))}?${filters.join('')}`
       }
     }),
     getEntitiesByField: builder.query({
       query: (arg) => { 
-        const {name, field, value} = arg;
-        return `${pluralize(name.replace('_', '-'))}?filters[${field}][$eq]=${value}`
+        const {name, field, value, relation, populate} = arg;
+        let query 
+        if (relation) {
+          query = `${pluralize(name.replace('_', '-'))}?filters[${field}][${relation}][$eq]=${value}`
+        } else {
+          query = `${pluralize(name.replace('_', '-'))}?filters[${field}][$eq]=${value}`
+        }
+        if(populate) {
+          query += '&populate=*'
+        }
+        return query
       }
     }),
     addEntity: builder.mutation({

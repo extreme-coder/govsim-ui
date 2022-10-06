@@ -1,8 +1,9 @@
 import React from 'react';
 import { useGetEntityQuery } from '../services/govsim';
 import { useParams } from "react-router-dom";
-import PlayerInfo from './game/PlayerInfo'
+import PlayerInfo from './game/PlayerInfo';
 import useLocalStorage from '../hooks/useLocalStorage';
+import Platform from './game/Platform';
 
 export default function Game() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ export default function Game() {
         </div>
       </div>
       <PlayerInfo name={user.user.username}/>
-    </div>
+      <Platform partyId={1} />
+    </div> 
   );
 };
