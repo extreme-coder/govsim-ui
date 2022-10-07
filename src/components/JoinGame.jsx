@@ -11,7 +11,7 @@ export default function JoinGame() {
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
   const [selectedPartyType, setSelectedPartyType] = useState(0)
-  const { data, error, isLoading } = useGetEntitiesQuery('party-template')
+  const { data, error, isLoading } = useGetEntitiesQuery({name:'party-template'})
   const { data: country, error: cerror, isLoading: cisLoading } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const [addEntity, { isLoading: isUpdating }] = useAddEntityMutation()
   const { data: party } = useGetPartiesQuery({ code: code, user: user.user.id })

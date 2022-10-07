@@ -1,5 +1,6 @@
 import React from 'react';
 import {useGetEntitiesByFieldQuery} from '../../services/govsim';
+import BillCreator from './BillCreator';
 
 export default function Platform(props) {
   const { partyId } = props
@@ -14,6 +15,9 @@ export default function Platform(props) {
               </div>
           )}
         </div>
+        <BillCreator />
     </div>
   );
 };
+
+

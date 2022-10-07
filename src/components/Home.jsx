@@ -3,7 +3,7 @@ import { useGetEntitiesQuery } from '../services/govsim';
 
 
 export default function Home() {
-  const { data, error, isLoading } = useGetEntitiesQuery('country')
+  const { data, error, isLoading } = useGetEntitiesQuery({name:'country'})
 
   return (
     <div className="container">

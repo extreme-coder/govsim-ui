@@ -14,7 +14,12 @@ export const govsimApi = createApi({
       }
     }),
     getEntities: builder.query({
-      query: (name) => `${pluralize(name.replace('_', '-'))}`,
+      query: (arg) => {
+        const {name, populate} = arg;
+        let query = `${pluralize(name.replace('_', '-'))}`
+        if(populate) query += '?populate=*'
+        return query
+      }
     }),
     getEntitiesByFields: builder.query({
       query: (arg) => { 
