@@ -7,7 +7,8 @@ import SelectField from '../common/SelectField';
 import { useGetEntitiesQuery, useAddEntityMutation } from '../../services/govsim';
 
 
-export default function BillCreator () {
+export default function BillCreator (props) {
+  const { partyId } = props
   const [ltField, setLtField] = useState(false)
   const [lawField, setLawField] = useState(false)
   const [nameField, setNameField] = useState(false)
@@ -20,6 +21,7 @@ export default function BillCreator () {
   const [addEntity] = useAddEntityMutation() 
 
   const saveBill = (vals) => {  
+    vals.party = partyId
     addEntity({name:'promise', body:{data:vals}})
   }
 
