@@ -4,7 +4,7 @@ import BillCreator from './BillCreator';
 
 export default function Platform(props) {
   const { partyId } = props
-  const { data } = useGetEntitiesByFieldQuery({ name: 'promises', field: 'party', value: partyId, relation: 'id', populate: true })
+  const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
 
   return (
     <div className="container">
@@ -15,7 +15,7 @@ export default function Platform(props) {
               </div>
           )}
         </div>
-        <BillCreator />
+        <BillCreator partyId={partyId}/>
     </div>
   );
 };

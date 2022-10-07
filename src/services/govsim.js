@@ -51,7 +51,8 @@ export const govsimApi = createApi({
           query += '&populate=*'
         }
         return query
-      }
+      },
+      providesTags: (result, error, arg) => [{ type: arg.name, id: 'LIST' }],
     }),
     addEntity: builder.mutation({
       query(arg) {
@@ -61,7 +62,8 @@ export const govsimApi = createApi({
           method: 'POST',
           body,
         }
-      },        
+      },    
+      invalidatesTags: (result, error, arg) => [{ type: arg.name, id: 'LIST' }],
     }),
     login: builder.mutation({
       query(body) {
