@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import PlayerInfo from './game/PlayerInfo';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Platform from './game/Platform';
+import PartyLister from './game/PartyLister';
 
 export default function Game() {
   const { code } = useParams();
@@ -21,6 +22,8 @@ export default function Game() {
       {party && 
         <Platform partyId={party.data[0].id} />
       }
+
+      {country && <PartyLister countryId={country.data[0].id} />}
     </div> 
   );
 };
