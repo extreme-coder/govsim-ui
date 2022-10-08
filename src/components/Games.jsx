@@ -13,7 +13,7 @@ export default function Games() {
       .required('Required'),  
   });
 
-  const { data, error, isLoading } = useGetEntitiesQuery('country')
+  const { data, error, isLoading } = useGetEntitiesQuery({name:'country'})
   const [ addEntity, { isLoading: isUpdating } ] = useAddEntityMutation()
   const navigate = useNavigate()
   const joinGame = (values) => {    
