@@ -17,7 +17,9 @@ export default function Platform(props) {
       <div className="col-xl-10 col-lg-12 col-md-9">
           {data && data.data.map((bill) =>
               <div key={bill.id}>
-                {bill.attributes.name} - {bill.attributes.law.data.attributes.name} <Button onClick={()=>callVote(bill.id)}>Call Vote</Button>
+                {bill.attributes.name} - {bill.attributes.law.data.attributes.name} 
+                
+                {bill.attributes.status === 'NEW' && <Button onClick={()=>callVote(bill.id)}>Call Vote</Button>}
               </div>
           )}
         </div>

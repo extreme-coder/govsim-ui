@@ -63,7 +63,13 @@ export const govsimApi = createApi({
           body,
         }
       },    
-      invalidatesTags: (result, error, arg) => [{ type: arg.name, id: 'LIST' }],
+      invalidatesTags: (result, error, arg) => {
+        let tags = [{ type: arg.name, id: 'LIST' }]
+        if(arg.name === 'vote') {
+          tags.push({ type: 'promise', id: 'LIST' })
+        } 
+        return tags
+      },
     }),
     login: builder.mutation({
       query(body) {
