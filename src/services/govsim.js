@@ -5,7 +5,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const govsimApi = createApi({
   reducerPath: 'govsimApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:1337/api/' }),
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: 'http://localhost:1337/api/' ,
+    prepareHeaders: (headers, { getState }) => {
+      const user = JSON.parse(localStorage.getItem('user'))
+      const token = user.jwt
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
+      }
+      return headers
+    },
+  }),
   endpoints: (builder) => ({
     getEntity: builder.query({
       query: (arg) => {
