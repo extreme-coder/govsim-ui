@@ -10,7 +10,7 @@ export default function PartyLister(props) {
       <div className="col-xl-10 col-lg-12 col-md-9">
           {data && data.data.map((party) =>
               <div key={party.id}>
-                {party.attributes.name} 
+                {party.attributes.name} [{party.attributes.template.data.attributes.name}]
               </div>
           )}
         </div>        

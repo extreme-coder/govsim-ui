@@ -5,6 +5,7 @@ import PlayerInfo from './game/PlayerInfo';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Platform from './game/Platform';
 import PartyLister from './game/PartyLister';
+import CountryInfo from './game/CountryInfo';
 
 export default function Game() {
   const { code } = useParams();
@@ -19,6 +20,9 @@ export default function Game() {
         </div>
       </div>
       <PlayerInfo name={user.user.username}/>
+
+      {country && <CountryInfo country={country.data[0]}/> }
+
       {party && 
         <Platform partyId={party.data[0].id} />
       }
