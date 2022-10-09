@@ -6,6 +6,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import Platform from './game/Platform';
 import PartyLister from './game/PartyLister';
 import CountryInfo from './game/CountryInfo';
+import Demographics from './game/Demoraphics';
 
 export default function Game() {
   const { code } = useParams();
@@ -28,6 +29,8 @@ export default function Game() {
       }
 
       {country && <PartyLister countryId={country.data[0].id} />}
+
+      {country && <Demographics countryId={country.data[0].id} />}
     </div> 
   );
 };

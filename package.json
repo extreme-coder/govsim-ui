@@ -25,6 +25,7 @@
     "redux-actions": "^2.6.5",
     "redux-axios-middleware": "^4.0.1",
     "redux-thunk": "^2.4.1",
+    "victory": "^36.6.8",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
