@@ -8,9 +8,9 @@ export const govsimApi = createApi({
   baseQuery: fetchBaseQuery({ 
     baseUrl: 'http://localhost:1337/api/' ,
     prepareHeaders: (headers, { getState }) => {
-      const user = JSON.parse(localStorage.getItem('user'))
-      const token = user.jwt
-      if (token) {
+      const user = JSON.parse(localStorage.getItem('user'))      
+      if (user) {
+        const token = user.jwt
         headers.set('authorization', `Bearer ${token}`)
       }
       return headers
