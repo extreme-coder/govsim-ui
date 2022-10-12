@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useGetEntitiesByFieldQuery} from '../../services/govsim';
 import BillCreator from './BillCreator';
 import {Button} from 'react-bootstrap';
@@ -8,13 +8,14 @@ export default function Platform(props) {
   const { partyId } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const [ addEntity ]  = useAddEntityMutation()
+  const [addBill, setAddBill] = useState(false)
 
   const callVote = (billId) => {
     addEntity({name: 'vote', body: {data: {'promise': billId}}})
   }
   return (
-    <div className="container">
-      <div className="col-xl-10 col-lg-12 col-md-9">
+    <div>
+        {!addBill && <div>
           {data && data.data.map((bill) =>
               <div key={bill.id}>
                 {bill.attributes.name} - {bill.attributes.law.data.attributes.name} 
@@ -22,8 +23,10 @@ export default function Platform(props) {
                 {bill.attributes.status === 'NEW' && <Button onClick={()=>callVote(bill.id)}>Call Vote</Button>}
               </div>
           )}
-        </div>
-        <BillCreator partyId={partyId}/>
+          <Button onClick={()=>setAddBill(true)}>Add Bill</Button>
+        </div>}
+      
+        {addBill && <BillCreator partyId={partyId} closeCallback={()=>setAddBill(false)}/>}
     </div>
   );
 };

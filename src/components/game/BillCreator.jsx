@@ -8,7 +8,7 @@ import { useGetEntitiesQuery, useAddEntityMutation } from '../../services/govsim
 
 
 export default function BillCreator (props) {
-  const { partyId } = props
+  const { partyId, closeCallback } = props
   const [ltField, setLtField] = useState(false)
   const [lawField, setLawField] = useState(false)
   const [nameField, setNameField] = useState(false)
@@ -23,6 +23,7 @@ export default function BillCreator (props) {
   const saveBill = (vals) => {  
     vals.party = partyId
     addEntity({name:'promise', body:{data:vals}})
+    closeCallback()
   }
 
   const getDepartments = () => {    
@@ -86,13 +87,13 @@ export default function BillCreator (props) {
 
   const nameRender = () => {
     if (nameField) {
-      return (<TextField name="name" label="Finally, give your campaign promise a catchy name; something that will stick in your voters' minds." onChange={handleOnChange} />)
+      return (<TextField name="name" label="Finally, give your campaign promise a catchy name; something that will stick in your voters' minds." />)
     }
   }
 
   
   return (
-    <Formik onSubmit={saveBill} initialValues={{ }}>
+    <Formik onSubmit={saveBill} initialValues={{ name: "", law:"", "law-type":"", department:""}}>
       {(props) => (
         <Form noValidate onSubmit={props.handleSubmit}>
           <Form.Group controlId="formBasicName">
@@ -106,6 +107,7 @@ export default function BillCreator (props) {
             </div>
             <div className="actions">
               <Button type="submit"> Save </Button>              
+              <Button onClick={closeCallback}> Cancel </Button>              
             </div>
           </Form.Group>
         </Form>

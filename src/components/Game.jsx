@@ -11,26 +11,48 @@ import Demographics from './game/Demoraphics';
 export default function Game() {
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
-  const { data: country } = useGetEntitiesByFieldQuery({name: 'country', field: 'join_code', value: code})
-  const { data: party } = useGetPartiesQuery({code, user: user.user.id})
+  const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
+  const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          {country && country.data[0].attributes.name}
+    <div className="album py-5 bg-light">
+      <div className="container">
+
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {country && country.data[0].attributes.name}
+                <PlayerInfo name={user.user.username} />
+                {country && <CountryInfo country={country.data[0]} />}
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {party &&
+                  <Platform partyId={party.data[0].id} />
+                }
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {country && <PartyLister countryId={country.data[0].id} />}
+              </div>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {country && <Demographics countryId={country.data[0].id} />}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <PlayerInfo name={user.user.username}/>
-
-      {country && <CountryInfo country={country.data[0]}/> }
-
-      {party && 
-        <Platform partyId={party.data[0].id} />
-      }
-
-      {country && <PartyLister countryId={country.data[0].id} />}
-
-      {country && <Demographics countryId={country.data[0].id} />}
-    </div> 
+    </div>
   );
 };

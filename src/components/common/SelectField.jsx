@@ -15,8 +15,8 @@ const SelectField = ({ ...props }) => {
   const { setFieldValue } = useFormikContext();
   const [field] = useField(props);
   let selected = null;
-  if (field[props.name] && field[props.name].value) {
-    selected = props.children.filter((obj) => (obj.value === field[props.name].value))[0];
+  if (field.value) {
+    selected = props.children.filter((obj) => (obj.value === field.value))[0];
   }
 
   return (
