@@ -1,32 +1,41 @@
-import React, {useState} from 'react';
-import {useGetEntitiesByFieldQuery} from '../../services/govsim';
+import React, { useState } from 'react';
+import { useGetEntitiesByFieldQuery } from '../../services/govsim';
 import BillCreator from './BillCreator';
-import {Button} from 'react-bootstrap';
+import { Button, Accordion } from 'react-bootstrap';
 import { useAddEntityMutation } from '../../services/govsim';
 
 export default function Platform(props) {
   const { partyId } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
-  const [ addEntity ]  = useAddEntityMutation()
+  const [addEntity] = useAddEntityMutation()
   const [addBill, setAddBill] = useState(false)
 
   const callVote = (billId) => {
-    addEntity({name: 'vote', body: {data: {'promise': billId}}})
+    addEntity({ name: 'vote', body: { data: { 'promise': billId } } })
   }
   return (
     <div>
-        {!addBill && <div>
+      {!addBill && <div>
+
+        <Accordion defaultActiveKey="0">
           {data && data.data.map((bill) =>
-              <div key={bill.id}>
-                {bill.attributes.name} - {bill.attributes.law.data.attributes.name} 
-                
-                {bill.attributes.status === 'NEW' && <Button onClick={()=>callVote(bill.id)}>Call Vote</Button>}
-              </div>
+            <Accordion.Item eventKey={bill.id}>
+              <Accordion.Header>{bill.attributes.name} - {bill.attributes.law.data.attributes.name}</Accordion.Header>
+              <Accordion.Body>                
+                {bill.attributes.status === 'NEW' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
+              </Accordion.Body>
+            </Accordion.Item>
+
           )}
-          <Button onClick={()=>setAddBill(true)}>Add Bill</Button>
-        </div>}
-      
-        {addBill && <BillCreator partyId={partyId} closeCallback={()=>setAddBill(false)}/>}
+
+
+        </Accordion>
+
+
+        <Button onClick={() => setAddBill(true)}>Add Bill</Button>
+      </div>}
+
+      {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} />}
     </div>
   );
 };

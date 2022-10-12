@@ -57,9 +57,11 @@ export const govsimApi = createApi({
         } else {
           query = `${pluralize(name.replace('_', '-'))}?filters[${field}][$eq]=${value}`
         }
-        if(populate) {
+        if(populate === true) {
           query += '&populate=*'
-        }
+        } else if (populate !== undefined){
+          query +=  '&' + populate
+        }        
         return query
       },
       providesTags: (result, error, arg) => [{ type: arg.name, id: 'LIST' }],

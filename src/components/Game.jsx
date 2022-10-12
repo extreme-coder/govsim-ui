@@ -7,6 +7,7 @@ import Platform from './game/Platform';
 import PartyLister from './game/PartyLister';
 import CountryInfo from './game/CountryInfo';
 import Demographics from './game/Demoraphics';
+import VotesInSession from './game/VotesInSession';
 
 export default function Game() {
   const { code } = useParams();
@@ -32,6 +33,15 @@ export default function Game() {
               <div className="card-body">
                 {party &&
                   <Platform partyId={party.data[0].id} />
+                }
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {country && party &&
+                  <VotesInSession countryId={country.data[0].id} partyId={party.data[0].id} />
                 }
               </div>
             </div>
