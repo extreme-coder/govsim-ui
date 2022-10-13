@@ -7,7 +7,7 @@ import { useAddEntityMutation } from '../../services/govsim';
 
 export default function VotesInSession(props) {
   const { countryId, partyId } = props
-  const { data } = useGetEntitiesByFieldQuery({ name: 'vote', field: 'country', value: countryId, relation: 'id', populate: 'populate[promise][populate][0]=law' })
+  const { data } = useGetEntitiesByFieldQuery({ name: 'vote', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=promise&populate[1]=promise.law&populate[2]=promise.party' })
   const { data: ballots } = useGetEntitiesByFieldQuery({ name: 'ballot', field: 'party', value: partyId, relation: 'id', populate: true })
   const [addEntity] = useAddEntityMutation()
 
@@ -23,6 +23,28 @@ export default function VotesInSession(props) {
     return false
   }
 
+  const voteActions = (vote, bill, ballot) => {
+    if (bill.data.attributes.status === 'IN_VOTE') {
+      if (bill.data.attributes.party.data.id == partyId) {
+        return (<div>Your own vote</div>)
+      }
+      else if (ballot) {
+        return (<div>
+          You voted {ballot.attributes.for ? 'Yes' : 'No'}
+        </div>)
+      } else {
+        return (
+          <div>
+            <Button onClick={() => addBallot(vote.id, true)}>Yes</Button>
+            <Button onClick={() => addBallot(vote.id, false)}>No</Button>
+          </div>)
+      }
+    } else {
+      return 'Vote finished'
+    }
+  }
+
+
   return (
     <div>
       <div>
@@ -33,15 +55,7 @@ export default function VotesInSession(props) {
             return (<Accordion.Item eventKey={vote.id}>
               <Accordion.Header>{bill.data.attributes.name} - {bill.data.attributes.law.data.attributes.name}</Accordion.Header>
               <Accordion.Body>
-                {!ballot && bill.data.attributes.status === 'IN_VOTE' && <div>
-                  <Button onClick={() => addBallot(vote.id, true)}>Yes</Button>
-                  <Button onClick={() => addBallot(vote.id, false)}>No</Button>
-                </div>
-                }
-                {ballot && <div>
-                  You voted {ballot.attributes.for?'Yes':'No'}
-                </div>
-                }
+                {voteActions(vote, bill, ballot)}
               </Accordion.Body>
             </Accordion.Item>)
           }
