@@ -31,8 +31,8 @@ export default function Game() {
           <div className="col">
             <div className="card shadow-sm">
               <div className="card-body">
-                {party &&
-                  <Platform partyId={party.data[0].id} />
+                {country && party &&
+                  <Platform countryId={country.data[0].id} partyId={party.data[0].id} />
                 }
               </div>
             </div>
