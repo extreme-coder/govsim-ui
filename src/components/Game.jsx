@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery } from '../services/govsim';
+import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery, useGetMessagesQuery } from '../services/govsim';
 import { useParams } from "react-router-dom";
 import PlayerInfo from './game/PlayerInfo';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -8,16 +8,18 @@ import PartyLister from './game/PartyLister';
 import CountryInfo from './game/CountryInfo';
 import Demographics from './game/Demoraphics';
 import VotesInSession from './game/VotesInSession';
+import Parliament from './game/Parliament';
 
 export default function Game() {
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
+  const { data: messages } = useGetMessagesQuery('group')
+
   return (
     <div className="album py-5 bg-light">
       <div className="container">
-
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div className="col">
             <div className="card shadow-sm">
@@ -32,7 +34,7 @@ export default function Game() {
             <div className="card shadow-sm">
               <div className="card-body">
                 {country && party &&
-                  <Platform countryId={country.data[0].id} partyId={party.data[0].id} />
+                  <Platform countryId={country.data[0].id} partyId={party.data[0].id} isPartyReady={party.data[0].attributes.ready_for_election}/>
                 }
               </div>
             </div>
@@ -61,6 +63,15 @@ export default function Game() {
               </div>
             </div>
           </div>
+
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                {country && <Parliament countryId={country.data[0].id} />}                
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

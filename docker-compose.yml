@@ -1,0 +1,48 @@
+version: '2'
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: always
+    volumes:
+        - "./data:/var/mysql/data"     
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: gov
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    logging:
+      options:
+        max-size: 50m
+  govsimapi:
+    build: ../govsim-api
+    ports:
+      - "1337:1337"    
+    volumes:
+      - "../govsim-api/src:/home/app/webapp/govsim-api/src" 
+      - "../govsim-api/config:/home/app/webapp/govsim-api/config"        
+    environment:        
+      - DATABASE_CLIENT=mysql
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=gov
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=wordpress
+    depends_on:
+      - db    
+  govsimui:
+    build: ../govsim-ui
+    ports:
+      - "3000:3000"    
+    volumes:
+      - "../govsim-ui/src:/app/src" 
+      - "../govsim-ui/public:/app/public"        
+    environment:        
+      - DATABASE_CLIENT=mysql
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=gov
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=wordpress
+    depends_on:
+      - db    

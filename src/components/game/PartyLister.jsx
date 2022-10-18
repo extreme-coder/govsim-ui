@@ -11,6 +11,7 @@ export default function PartyLister(props) {
           {data && data.data.map((party) =>
               <div key={party.id}>
                 {party.attributes.name} [{party.attributes.template.data.attributes.name}]
+                {party.attributes.ready_for_election && <div> Party is ready for election</div>}
               </div>
           )}
         </div>        
