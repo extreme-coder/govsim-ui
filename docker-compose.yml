@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     restart: always
     volumes:
-        - "./data:/var/mysql/data"     
+        - "./.data:/var/mysql/data"     
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: gov
@@ -21,6 +21,7 @@ services:
     volumes:
       - "../govsim-api/src:/home/app/webapp/govsim-api/src" 
       - "../govsim-api/config:/home/app/webapp/govsim-api/config"        
+      - "../govsim-api/public:/home/app/webapp/govsim-api/public"        
     environment:        
       - DATABASE_CLIENT=mysql
       - DATABASE_HOST=db
@@ -31,12 +32,12 @@ services:
     depends_on:
       - db    
   govsimui:
-    build: ../govsim-ui
+    build: .
     ports:
       - "3000:3000"    
     volumes:
-      - "../govsim-ui/src:/app/src" 
-      - "../govsim-ui/public:/app/public"        
+      - "./src:/app/src" 
+      - "./public:/app/public"        
     environment:        
       - DATABASE_CLIENT=mysql
       - DATABASE_HOST=db
