@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetEntitiesQuery, useAddEntityMutation } from '../services/govsim';
+import { useGetEntitiesByFieldQuery, useAddEntityMutation } from '../services/govsim';
 import { Link } from 'react-router-dom';
 import TextField from './common/TextField';
 import { Form, Button } from 'react-bootstrap';
@@ -13,7 +13,7 @@ export default function Games() {
       .required('Required'),  
   });
 
-  const { data, error, isLoading } = useGetEntitiesQuery({name:'country'})
+  const { data, error, isLoading } = useGetEntitiesByFieldQuery({name:'country', field: 'is_template', value:'false'})
   const [ addEntity, { isLoading: isUpdating } ] = useAddEntityMutation()
   const navigate = useNavigate()
   const joinGame = (values) => {    
