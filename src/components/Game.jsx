@@ -9,18 +9,27 @@ import CountryInfo from './game/CountryInfo';
 import Demographics from './game/Demoraphics';
 import VotesInSession from './game/VotesInSession';
 import Parliament from './game/Parliament';
+import MessageHandler from './game/MessageHandler';
 
 export default function Game() {
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
-  const { data: messages } = useGetMessagesQuery('group')
+
 
   return (
     <div className="album py-5 bg-light">
       <div className="container">
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body">
+                <MessageHandler />
+              </div>
+            </div>
+          </div>
+
           <div className="col">
             <div className="card shadow-sm">
               <div className="card-body">

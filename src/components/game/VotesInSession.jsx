@@ -52,7 +52,7 @@ export default function VotesInSession(props) {
           {data && ballots && data.data.map((vote) => {
             const bill = vote.attributes.promise
             const ballot = getBallot(vote.id)
-            return (<Accordion.Item eventKey={vote.id}>
+            return (<Accordion.Item key={vote.id}>
               <Accordion.Header>{bill.data.attributes.name} - {bill.data.attributes.law.data.attributes.name}</Accordion.Header>
               <Accordion.Body>
                 {voteActions(vote, bill, ballot)}

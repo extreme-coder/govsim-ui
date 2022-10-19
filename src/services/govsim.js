@@ -130,28 +130,38 @@ export const govsimApi = createApi({
       }
     }),
     getMessages: builder.query({
-      query: (channel) => `messages/${channel}`,
+      query: (channel) => `messages`,
       async onCacheEntryAdded(
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         // create a websocket connection when the cache subscription starts
         //const ws = new WebSocket('ws://localhost:1337')
         const socket = io("http://localhost:1337");
         try {
+          socket.on('connect', () => {
+            console.log("connected to socket")            
+            socket.emit('request_all_messages');
+          });
+
           // wait for the initial query to resolve before proceeding
           await cacheDataLoaded
+          
 
-          socket.on('connect', () => {
-            socket.emit('request_all_messages');
+          socket.emit("join", { username: "eee" }, (error) => { 
+            if (error) return alert(error);
           });
           // when data is received from the socket connection to the server,
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
-          socket.on('recieve_message', (message) => {
+          socket.on('message', (message) => {
             updateCachedData((draft) => {
-              draft.push(message);
-            });
+              draft.data.push(message);
+              dispatch({
+                type: `govsimApi/invalidateTags`,
+                payload: [{ type: 'promise', id: 'LIST' }],
+             });              
+            });            
           });
           
         } catch {
@@ -162,7 +172,7 @@ export const govsimApi = createApi({
         await cacheEntryRemoved
         // perform cleanup steps once the `cacheEntryRemoved` promise resolves
         socket.off('connect');
-        socket.off('recieve_message');
+        socket.off('message');
       }
     })
   })

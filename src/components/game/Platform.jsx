@@ -22,7 +22,7 @@ export default function Platform(props) {
       {!addBill && <div>
         <Accordion defaultActiveKey="0">
           {data && data.data.map((bill) =>
-            <Accordion.Item eventKey={bill.id}>
+            <Accordion.Item key={bill.id}>
               <Accordion.Header>{bill.attributes.name} - {bill.attributes.law.data.attributes.name}</Accordion.Header>
               <Accordion.Body>                
                 {bill.attributes.status === 'NEW' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
