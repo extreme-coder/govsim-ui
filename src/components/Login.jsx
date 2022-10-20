@@ -28,7 +28,7 @@ export default function Login() {
     let response = await authLogin(values)     
     if(!response.error) {
       localStorage.setItem('user', JSON.stringify(response.data));
-      navigate(`/game`)
+      navigate(`/games`)
     }
   }
     return (
