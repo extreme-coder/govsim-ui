@@ -126,7 +126,10 @@ export const govsimApi = createApi({
     getParties: builder.query({
       query: (arg) => {
         const { code, user } = arg;
-        return `parties?filters[country][join_code][$eq]=${code}&filters[user][id][$eq]=${user}`
+        if (user) {
+          return `parties?filters[country][join_code][$eq]=${code}&filters[user][id][$eq]=${user}`
+        }
+        return `parties?filters[country][join_code][$eq]=${code}&populate=*`
       }
     }),
     getMessages: builder.query({

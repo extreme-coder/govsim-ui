@@ -16,6 +16,7 @@ export default function JoinGame() {
   const [addEntity, { isLoading: isUpdating }] = useAddEntityMutation()
   const { data: party } = useGetPartiesQuery({ code: code, user: user.user.id })
   const navigate = useNavigate()
+  const { data: allParties } = useGetPartiesQuery({ code: code })
   
   const joinGame = async (vals) => {    
     const e = await addEntity({ name: 'party', body: { data: { country: country.data[0].id, name: vals.name, template: selectedPartyType, user: user.user.id } } })
@@ -25,7 +26,7 @@ export default function JoinGame() {
   const onPartyTypeChanged = (selected) => {
     setSelectedPartyType(selected)
   }
-  console.log(party)
+
   if (country && country.data.length === 0) {
     return (
       <div>
@@ -41,6 +42,7 @@ export default function JoinGame() {
     return (<Navigate to={"/game/" + code} />)
   }
   else {
+    console.log(allParties)
     return (
       <div className="container">
         {country && <div>{country.data[0].attributes.name}</div>}
@@ -59,6 +61,16 @@ export default function JoinGame() {
                     onChange={(e)=>{onPartyTypeChanged(e)}}
                     />
                     }
+                  </div>
+                  <div className="container">
+                    <div className="col-xl-10 col-lg-12 col-md-9">
+                      {allParties && allParties.data.map((party) => (
+                        <div key={party.id}>
+                          {party.attributes.name} [{party.attributes.template.data.attributes.name}]
+                          {party.attributes.ready_for_election && <div> Party is ready for election</div>}
+                        </div>)
+                      )}
+                    </div>        
                   </div>
                   <Button type="submit" >Join Game</Button>
                 </Form.Group>
