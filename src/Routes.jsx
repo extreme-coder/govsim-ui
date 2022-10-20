@@ -8,6 +8,7 @@ import Game from './components/Game.jsx';
 import Games from './components/Games.jsx';
 import JoinGame from './components/JoinGame.jsx';
 import NewGame from './components/NewGame.jsx'
+import Chat from './components/Chat.jsx';
 import withRouter from './components/withRouter.js';
 import { ProtectedRoute } from './components/common/ProtectedRoute.jsx';
 import useLocalStorage from './hooks/useLocalStorage.js';
@@ -26,6 +27,7 @@ const AppRoutes = () => {
                 <Route path="/joingame/:code" element={<JoinGame />} />
                 <Route path="/newgame" element={<NewGame />} />
                 <Route path="/games" element={<Games />} />
+                <Route path="/chat/:code" element={<Chat />} />
             </Route>
         </Routes>
     )

@@ -127,13 +127,13 @@ export const govsimApi = createApi({
       query: (arg) => {
         const { code, user } = arg;
         if (user) {
-          return `parties?filters[country][join_code][$eq]=${code}&filters[user][id][$eq]=${user}`
+          return `parties?filters[country][join_code][$eq]=${code}&filters[user][id][$eq]=${user}&populate[0]=template&populate[1]=template.avatar`
         }
         return `parties?filters[country][join_code][$eq]=${code}&populate=*`
       }
     }),
     getMessages: builder.query({
-      query: (channel) => `messages`,
+      query: (country) => `messages?filters[country][id]=${country}&populate=*&pagination[pageSize]=1000`,
       async onCacheEntryAdded(
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
@@ -176,7 +176,8 @@ export const govsimApi = createApi({
         // perform cleanup steps once the `cacheEntryRemoved` promise resolves
         socket.off('connect');
         socket.off('message');
-      }
+      },
+      providesTags: (result, error, arg) => [{ type: 'message', id: 'LIST' }],
     })
   })
 })

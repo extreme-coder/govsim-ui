@@ -24,8 +24,8 @@ export default function Game() {
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div className="col">
             <div className="card shadow-sm">
-              <div className="card-body">
-                <MessageHandler />
+              <div className="card-body">               
+                {country && <MessageHandler country={country.data[0]} />}
               </div>
             </div>
           </div>
