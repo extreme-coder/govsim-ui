@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGetEntitiesQuery, useAddEntityMutation, useGetEntitiesByFieldQuery,  useGetPartiesQuery} from '../services/govsim';
 import { Button, Form } from 'react-bootstrap';
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link, useParams, useNavigate, Navigate } from "react-router-dom";
 import SelectableCardList from './common/SelectableCardList';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Formik } from 'formik'
@@ -15,9 +15,11 @@ export default function JoinGame() {
   const { data: country, error: cerror, isLoading: cisLoading } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const [addEntity, { isLoading: isUpdating }] = useAddEntityMutation()
   const { data: party } = useGetPartiesQuery({ code: code, user: user.user.id })
+  const navigate = useNavigate()
   
-  const joinGame = (vals) => {    
-    addEntity({name:'party', body:{data:{country: country.data[0].id, name: vals.name, template: selectedPartyType, user: user.user.id}}})
+  const joinGame = async (vals) => {    
+    const e = await addEntity({ name: 'party', body: { data: { country: country.data[0].id, name: vals.name, template: selectedPartyType, user: user.user.id } } })
+    navigate(`/game/${code}`)
   }
 
   const onPartyTypeChanged = (selected) => {
