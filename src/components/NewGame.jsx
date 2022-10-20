@@ -40,7 +40,26 @@ export default function NewGame() {
   } else {
     return (
       <div className="container">
-        Your Join code is : {joinCode}
+        <div className="row">
+          Your Join code is : {joinCode}
+        </div>
+        <div className="row">
+          <Button onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_DOMAIN}/joingame/${joinCode}`)}}>
+            Copy join link
+          </Button>
+        </div>
+        <div className="row">
+          <Link to={`/joingame/${joinCode}`}>
+            <Button>
+              Join the game
+            </Button>
+          </Link>
+          <Link to={`/games`}>
+            <Button type="secondary">
+              Back to games
+            </Button>
+          </Link>
+        </div>
       </div>
     )
   }
