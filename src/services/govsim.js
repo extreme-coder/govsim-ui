@@ -38,7 +38,7 @@ export const govsimApi = createApi({
         let query = `blocks/groups?country=${countryId}`        
         return query
       }
-    }),
+    }),    
     getEntitiesByFields: builder.query({
       query: (arg) => {
         const { name, fields, values, relations } = arg;
@@ -105,6 +105,20 @@ export const govsimApi = createApi({
         return tags
       },
     }),
+    updateMessagesRead: builder.mutation({
+      query(arg) {
+        const { body } = arg;
+        return {
+          url: `/messages/read`,
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: (result, error, arg) => {
+        let tags = [{ type: 'message', id: 'LIST' }]        
+        return tags
+      },
+    }),    
     login: builder.mutation({
       query(body) {
         return {
@@ -194,6 +208,7 @@ export const {
   useRegisterMutation,
   useAddEntityMutation,
   useUpdateEntityMutation,
+  useUpdateMessagesReadMutation,
   useGetPartiesQuery,
   useGetMessagesQuery
 } = govsimApi

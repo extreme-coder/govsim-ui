@@ -60,7 +60,7 @@ export default function Game() {
           <div className="col">
             <div className="card shadow-sm">
               <div className="card-body">
-                {country && <PartyLister countryId={country.data[0].id} />}
+                {country && <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
               </div>
             </div>
           </div>
