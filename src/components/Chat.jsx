@@ -41,7 +41,7 @@ export default function Chat() {
       <div className="row clearfix">
         <div className="col-lg-12">
           <div className="card chat-app">
-            {country && <PartyList countryId={country.data[0].id} onPartyChange={(party) => { setSelectedParty(party) }} myParty={party.data[0]} />}
+            {country && party && <PartyList countryId={country.data[0].id} onPartyChange={(party) => { setSelectedParty(party) }} myParty={party.data[0]} />}
             <div className="chat">
               <div className="chat-header clearfix">
                 <div className="row">
@@ -96,7 +96,7 @@ export function Messages(props) {
     }
     if (message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id) {
       return (
-        <li className="clearfix">
+        <li className="clearfix" key={message.id}>
           <div className="message-data text-right">
             <span className="message-data-time">10:10 AM, Today</span>
             {getAvatar(myParty)}
@@ -136,11 +136,13 @@ export function PartyList(props) {
   const [selectedParty, setSelectedParty] = useState(null)
   const { data: parties } = useGetEntitiesByFieldQuery({ name: 'party', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=template&populate[1]=template.avatar' })
 
-
-  if (parties && parties.data && selectedParty == null) {
-    setSelectedParty(parties.data[0])
-    onPartyChange(parties.data[0])
-  }
+  useEffect(() => {
+    if (parties && parties.data && selectedParty == null) {
+      const firstParty = parties.data.filter((p)=> p.id !== myParty.id)[0]
+      setSelectedParty(firstParty)
+      onPartyChange(firstParty)
+    }
+  }, [parties]);  
 
   return (
     <div id="plist" className="people-list">
