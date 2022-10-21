@@ -9,7 +9,7 @@ import {Button} from 'react-bootstrap';
 
 const getAvatar = (party) => {
   if (party.attributes.template.data.attributes.avatar.data) {
-    return (<img src={`http://localhost:1337${party.attributes.template.data.attributes.avatar.data.attributes.url}`} alt="avatar" />)
+    return (<img src={`${process.env.REACT_APP_API_DOMAIN}${party.attributes.template.data.attributes.avatar.data.attributes.url}`} alt="avatar" />)
   } else {
     return (<img src={profileImg} alt="avatar" />)
   }

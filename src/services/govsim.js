@@ -154,7 +154,7 @@ export const govsimApi = createApi({
       ) {
         // create a websocket connection when the cache subscription starts
         //const ws = new WebSocket('ws://localhost:1337')
-        const socket = io("http://localhost:1337");
+        const socket = io(process.env.REACT_APP_API_DOMAIN);
         try {
           socket.on('connect', () => {
             console.log("connected to socket")            
