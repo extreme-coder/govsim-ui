@@ -29,7 +29,7 @@ export default function Signup() {
     let response = await authRegister(values)    
     if(!response.error) {
       localStorage.setItem('user', JSON.stringify(response.data));
-      navigate(`/game`)
+      navigate(`/games`)
     }
   }
 
