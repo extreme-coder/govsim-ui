@@ -10,6 +10,7 @@ import Demographics from './game/Demoraphics';
 import VotesInSession from './game/VotesInSession';
 import Parliament from './game/Parliament';
 import MessageHandler from './game/MessageHandler';
+import SideBar from './game/SideBar';
 
 export default function Game() {
   const { code } = useParams();
@@ -18,8 +19,9 @@ export default function Game() {
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
 
 
-  return (
+  return (    
     <div className="album py-5 bg-light">
+      <SideBar code={code} />
       <div className="container">
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div className="col">
@@ -60,7 +62,7 @@ export default function Game() {
           <div className="col">
             <div className="card shadow-sm">
               <div className="card-body">
-                {country && <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
+                {country && party && <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     restart: always
     volumes:
-        - "./.data:/var/mysql/data"     
+        - "./.data:/var/lib/mysql"     
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: gov
