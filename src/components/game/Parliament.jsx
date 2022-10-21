@@ -28,7 +28,7 @@ export default function Parliament(props) {
       />
       }
       {country &&
-        <div>{!(country.election_called) && <p>test</p>}</div>
+        <div>{!(country.election_called) && <p>No elections have occurred yet</p>}</div>
       }
     </div>
   );
