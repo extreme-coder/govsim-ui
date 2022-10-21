@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 export const govsimApi = createApi({
   reducerPath: 'govsimApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_API_DOMAIN}/api/`,
+    baseUrl: `${process.env.REACT_APP_API_DOMAIN}/api/`,
     prepareHeaders: (headers, { getState }) => {
       const user = JSON.parse(localStorage.getItem('user'))
       if (user) {
