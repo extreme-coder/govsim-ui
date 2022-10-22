@@ -21,14 +21,14 @@ export default function Parliament(props) {
   }
   return (    
     <div className="container" style={{maxWidth:"500px"}}>
-      {parties && country && (country.election_called) &&
+      {parties && country && (country.data.attributes.elections_occurred) &&
       <PieChart 
         data={getData(parties)} 
         innerRadius={40}
       />
       }
       {country &&
-        <div>{!(country.election_called) && <p>No elections have occurred yet</p>}</div>
+        <div>{!(country.data.attributes.elections_occurred) && <p>No elections have occurred yet</p>}</div>
       }
     </div>
   );
