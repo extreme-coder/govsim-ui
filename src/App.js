@@ -1,5 +1,7 @@
 import React from 'react';
-import './App.css';
+
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+
 import {
   BrowserRouter as Router
 } from 'react-router-dom';
@@ -8,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import './App.css';
 function App() {
   return (
     <Router>

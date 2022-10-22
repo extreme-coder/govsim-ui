@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 export const govsimApi = createApi({
   reducerPath: 'govsimApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:1337/api/',
+    baseUrl: `${process.env.REACT_APP_API_DOMAIN}/api/`,
     prepareHeaders: (headers, { getState }) => {
       const user = JSON.parse(localStorage.getItem('user'))
       if (user) {
@@ -38,7 +38,7 @@ export const govsimApi = createApi({
         let query = `blocks/groups?country=${countryId}`        
         return query
       }
-    }),
+    }),    
     getEntitiesByFields: builder.query({
       query: (arg) => {
         const { name, fields, values, relations } = arg;
@@ -105,6 +105,20 @@ export const govsimApi = createApi({
         return tags
       },
     }),
+    updateMessagesRead: builder.mutation({
+      query(arg) {
+        const { body } = arg;
+        return {
+          url: `/messages/read`,
+          method: 'POST',
+          body,
+        }
+      },
+      invalidatesTags: (result, error, arg) => {
+        let tags = [{ type: 'message', id: 'LIST' }]        
+        return tags
+      },
+    }),    
     login: builder.mutation({
       query(body) {
         return {
@@ -140,7 +154,7 @@ export const govsimApi = createApi({
       ) {
         // create a websocket connection when the cache subscription starts
         //const ws = new WebSocket('ws://localhost:1337')
-        const socket = io("http://localhost:1337");
+        const socket = io(process.env.REACT_APP_API_DOMAIN);
         try {
           socket.on('connect', () => {
             console.log("connected to socket")            
@@ -194,6 +208,7 @@ export const {
   useRegisterMutation,
   useAddEntityMutation,
   useUpdateEntityMutation,
+  useUpdateMessagesReadMutation,
   useGetPartiesQuery,
   useGetMessagesQuery
 } = govsimApi

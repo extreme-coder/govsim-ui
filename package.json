@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@trendmicro/react-sidenav": "^0.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "formik": "^2.2.9",
@@ -25,10 +26,10 @@
     "redux-actions": "^2.6.5",
     "redux-axios-middleware": "^4.0.1",
     "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.5.2",
     "victory": "^36.6.8",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11",
-    "socket.io-client": "^4.5.2"
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
