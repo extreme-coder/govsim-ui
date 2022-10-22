@@ -17,7 +17,8 @@ export default function BillCreator (props) {
   
   const { data: departments } = useGetEntitiesQuery({name:'department'})
   const { data: lawTypes } = useGetEntitiesQuery({name:'category', populate: true})
-  const { data: laws } = useGetEntitiesQuery({name:'law', populate: true}) 
+  const { data: laws } = useGetEntitiesQuery({ name: 'law', populate: true })
+  const { data: cLaws} = useGetEntitiesQuery({ name: 'country-law', populate: true })
   const [addEntity] = useAddEntityMutation() 
 
   const saveBill = (vals) => {  
@@ -43,7 +44,12 @@ export default function BillCreator (props) {
 
   const getLaws = (lt) => {
     if (laws) {
-      return laws.data.filter((law) => (lawType === law.attributes.law_type.data.id)).map((law) => ({ value: law.id, label: law.attributes.name }))      
+      return laws.data.filter((law) => (lawType === law.attributes.law_type.data.id)).map((law) => {
+        if (cLaws.data.filter((c) => (c.attributes.passed_law.data.id === law.id && c.attributes.country.data.id === props.countryId)).length > 0) {
+          return { value: law.id, label: `${law.attributes.name} - Current Law` }
+        }
+        return { value: law.id, label: law.attributes.name }
+      })      
     }
     return []
   }

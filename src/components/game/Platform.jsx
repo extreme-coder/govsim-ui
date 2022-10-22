@@ -34,7 +34,7 @@ export default function Platform(props) {
         <Button onClick={() => setAddBill(true)}>Add Bill</Button>
         {!isPartyReady && <Button onClick={() => readyForElection()}>Ready for Election</Button> }
       </div>}
-      {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} />}
+      {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId}/>}
     </div>
   );
 };
