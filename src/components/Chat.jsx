@@ -96,7 +96,7 @@ export function Messages(props) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data">
-            <span className="message-data-time">10:12 AM, Today</span>
+            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', {hour: '2-digit', minute: '2-digit'})}</span>
           </div>
           <div className="message my-message">{message.attributes.body}</div>
         </li>
@@ -106,7 +106,7 @@ export function Messages(props) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data text-right">
-            <span className="message-data-time">10:10 AM, Today</span>
+            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', {hour: '2-digit', minute: '2-digit'})}</span>
             {getAvatar(myParty)}
           </div>
           <div className="message other-message float-right">{message.attributes.body}</div>
