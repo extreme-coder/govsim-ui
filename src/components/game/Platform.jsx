@@ -25,7 +25,8 @@ export default function Platform(props) {
             <Accordion.Item key={bill.id}>
               <Accordion.Header>{bill.attributes.name} - {bill.attributes.law.data.attributes.name}</Accordion.Header>
               <Accordion.Body>                
-                {bill.attributes.status === 'NEW' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
+                {bill.attributes.status === 'NEW' && props.electionsOccurred && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
+                {bill.attributes.status === 'NEW' && !props.electionsOccurred && <p>You can call a vote on this bill once you're in parliament</p>}
                 {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
               </Accordion.Body>
             </Accordion.Item>
