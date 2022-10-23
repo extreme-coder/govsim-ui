@@ -2,6 +2,7 @@
 import pluralize from 'pluralize';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { io } from 'socket.io-client';
+import { toast } from 'react-toastify';
 
 
 // Define a service using a base URL and expected endpoints
@@ -158,16 +159,15 @@ export const govsimApi = createApi({
         try {
           socket.on('connect', () => {
             console.log("connected to socket")            
-            socket.emit('request_all_messages');
+            //join the country room
+            socket.emit("join", { country:arg }, (error) => {             
+              console.log("joined the room:" + arg)
+              if (error) return alert(error);
+            });
           });
 
           // wait for the initial query to resolve before proceeding
-          await cacheDataLoaded
-          
-
-          socket.emit("join", { username: "eee" }, (error) => { 
-            if (error) return alert(error);
-          });
+          await cacheDataLoaded           
           // when data is received from the socket connection to the server,
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
@@ -179,6 +179,14 @@ export const govsimApi = createApi({
                 payload: [{ type: 'promise', id: 'LIST' }],
              });              
             });            
+          });
+
+          socket.on('new_party', (message) => {            
+            toast('A new party has joined the Game : ' + message.name)
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }],
+            });              
           });
           
         } catch {
