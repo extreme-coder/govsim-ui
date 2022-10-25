@@ -46,25 +46,24 @@ export default function VotesInSession(props) {
 
 
   return (
-    <div>
-      <div>
-        <Accordion defaultActiveKey="0">
-          {data && ballots && data.data.map((vote) => {
-            const bill = vote.attributes.promise
-            const ballot = getBallot(vote.id)
-            return (<Accordion.Item key={vote.id}>
-              <Accordion.Header>{bill.data.attributes.name} - {bill.data.attributes.law.data.attributes.name}</Accordion.Header>
-              <Accordion.Body>
-                {voteActions(vote, bill, ballot)}
-              </Accordion.Body>
-            </Accordion.Item>)
-          }
-          )}
-
-
-        </Accordion>
-      </div>
-    </div>
+    <table className="mb-0 table table-sm">
+      <thead>
+        <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {data && ballots && data.data.map((vote) => {
+          const bill = vote.attributes.promise
+          const ballot = getBallot(vote.id)
+          return (<tr key={vote.id}>
+            <td>{bill.data.attributes.name}</td>
+            <td>{bill.data.attributes.law.data.attributes.name}</td>
+            <td>{bill.data.attributes.party.data.attributes.name}</td>
+            <td>{voteActions(vote, bill, ballot)}</td>
+          </tr>)
+        }
+        )}
+      </tbody>
+    </table>
   );
 };
 
