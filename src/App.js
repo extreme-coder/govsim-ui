@@ -1,25 +1,21 @@
+// @flow
 import React from 'react';
+import Routes from './routes/Routes';
 
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
-import {
-  BrowserRouter as Router
-} from 'react-router-dom';
-import AppRoutes from './Routes.jsx'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// Themes
 
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
-function App() {
-  return (
-    <Router>
-      <div>
-        <ToastContainer />
-        <AppRoutes />
-      </div>
-    </Router>
-  );
-}
+// For Saas import Saas.scss
+import './assets/scss/Saas.scss';
+
+
+type AppProps = {};
+
+/**
+ * Main app component
+ */
+const App = (props: AppProps): React$Element<any> => {
+    return <Routes></Routes>;
+};
 
 export default App;
