@@ -28,7 +28,7 @@ export default function Platform(props) {
           <Tab eventKey="home" title="My Platform">
           {data && <MyPlatform data={data.data} countryId={countryId} />}
           </Tab>
-          <Tab eventKey="profile" title="Other's Platform">
+          <Tab eventKey="profile" title="Other Bills">
           {allBills && <AllPlatform data={allBills.data.filter((b) => b.attributes.party.data.id !== partyId)} countryId={countryId} />}
           </Tab>          
         </Tabs>
@@ -53,14 +53,13 @@ function MyPlatform(props) {
   return (
     <table className="mb-0 table table-sm">
       <thead>
-        <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th></tr>
+        <tr><th>Bill</th><th>Law</th><th>Actions</th></tr>
       </thead>
       <tbody>
         {data && data.map((bill) =>
           <tr key={bill.id}>
             <td>{bill.attributes.name}</td>
-            <td>{bill.attributes.law.data.attributes.name}</td>
-            <td>{bill.attributes.party.data.attributes.name}</td>
+            <td>{bill.attributes.law.data.attributes.name}</td>            
             <td>
               {bill.attributes.status === 'NEW' && props.electionsOccurred && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
               {bill.attributes.status === 'NEW' && !props.electionsOccurred && <p>You can call a vote on this bill once you're in parliament</p>}
@@ -79,13 +78,14 @@ function AllPlatform(props) {
   return (
     <table className="mb-0 table table-sm">
       <thead>
-        <tr><th>Bill</th><th>Law</th><th>Actions</th></tr>
+        <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th></tr>
       </thead>
       <tbody>
         {data && data.map((bill) =>
           <tr key={bill.id}>
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
+            <td>{bill.attributes.party.data.attributes.name}</td>
             <td>
 
             </td>
