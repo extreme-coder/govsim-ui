@@ -42,6 +42,13 @@
         a.active {
             border-bottom: 2px solid $primary;
         }
+        button {
+          border: 0;
+          padding: 0.625rem 1.25rem;
+        }
+        button.active {
+          border-bottom: 2px solid $primary;
+        }
     }
 }
 

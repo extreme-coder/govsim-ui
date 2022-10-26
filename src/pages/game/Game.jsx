@@ -37,7 +37,11 @@ export default function Game() {
               </div>
         </div>
         <div className="col-xl-6 col-lg-6">
-
+        <div className="card shadow-sm">
+                <div className="card-body">
+                  {country && <Demographics countryId={country.data[0].id} />}
+                </div>
+              </div>
         </div>
       </div>
       <div className="row">
@@ -51,7 +55,11 @@ export default function Game() {
               </div>
         </div>
         <div className="col-xl-6 col-lg-6">
-
+        <div className="card shadow-sm">
+                <div className="card-body">
+                  {country && <Parliament countryId={country.data[0].id} />}
+                </div>
+              </div>
         </div>
       </div>
     </div>
@@ -85,22 +93,8 @@ export default function Game() {
               </div>
             </div>
 
-            <div className="col">
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  {country && <Demographics countryId={country.data[0].id} />}
-                </div>
-              </div>
-            </div>
-
-            <div className="col">
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  {country && <Parliament countryId={country.data[0].id} />}
-                </div>
-              </div>
-            </div>
-
+            
+            
           </div>
         </div>
       </div>
