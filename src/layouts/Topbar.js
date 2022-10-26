@@ -247,7 +247,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
           )}
            <div className="app-search text-center" >
            
-              <h4>{country.attributes.name}</h4>
+              <h4>{country && country.attributes.name}</h4>
             
            </div>
         </div>
