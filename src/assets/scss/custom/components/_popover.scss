@@ -16,3 +16,7 @@
 .bs-popover-end > .popover-arrow::after, .bs-popover-auto[data-popper-placement^=right] > .popover-arrow::after {  
   border-right-color: var(--#{$variable-prefix}popover-bg-2);
 }
+
+.bs-popover-start > .popover-arrow::after, .bs-popover-auto[data-popper-placement^=left] > .popover-arrow::after {  
+  border-left-color: var(--#{$variable-prefix}popover-bg-2);
+}

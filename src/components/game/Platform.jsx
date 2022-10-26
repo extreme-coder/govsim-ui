@@ -99,7 +99,7 @@ function MyPlatform(props) {
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
-              <OverlayTrigger trigger="click" placement="right" overlay={popover(bill)} rootClose>
+              <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                 <Button variant="success">Promote</Button>
               </OverlayTrigger>
 
@@ -155,7 +155,7 @@ function AllPlatform(props) {
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>{bill.attributes.party.data.attributes.name}</td>
             <td>
-              <OverlayTrigger trigger="click" placement="right" overlay={popover(bill)} rootClose>
+              <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                 <Button variant="success">Oppose</Button>
               </OverlayTrigger>
             </td>
