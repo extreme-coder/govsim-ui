@@ -23,9 +23,13 @@ type SideBarContentProps = {
 /* sidebar content */
 const SideBarContent = ({ hideUserProfile }: SideBarContentProps) => {
 
-  const { gameCode } = useSelector((state) => ({
-    gameCode: state.theme.Game.code,
+  const { country } = useSelector((state) => ({
+    country: state.theme.Game.country,
   }));
+  let gameCode
+  if(country) {
+    gameCode = country.attributes.join_code
+  }
 
   return (
     <>

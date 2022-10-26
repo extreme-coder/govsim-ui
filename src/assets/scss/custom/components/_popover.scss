@@ -4,4 +4,15 @@
 
 .popover-header {
     margin-top: 0;
+    background-color: var(--#{$variable-prefix}popover-header-bg-2);
+    color: var(--#{$variable-prefix}popover-header-color-2);
+}
+
+.popover {
+  background-color: var(--#{$variable-prefix}popover-bg-2);
+  border: var(--#{$variable-prefix}popover-border-width) solid var(--#{$variable-prefix}popover-border-color-2);
+}
+
+.bs-popover-end > .popover-arrow::after, .bs-popover-auto[data-popper-placement^=right] > .popover-arrow::after {  
+  border-right-color: var(--#{$variable-prefix}popover-bg-2);
 }

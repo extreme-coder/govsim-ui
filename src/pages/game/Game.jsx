@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery, useGetMessagesQuery } from '../../services/govsim';
 import { useParams } from "react-router-dom";
 import PlayerInfo from '../../components/game/PlayerInfo';
@@ -11,16 +11,25 @@ import VotesInSession from '../../components/game/VotesInSession';
 import Parliament from '../../components/game/Parliament';
 import MessageHandler from '../../components/game/MessageHandler';
 import { useDispatch } from 'react-redux';
-import { changeGame } from '../../redux/actions';
+import { changeGame, changeParty } from '../../redux/actions';
 
 export default function Game() {
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
-
   const dispatch = useDispatch()
-  dispatch(changeGame(code))
+
+  useEffect(() => {
+    if(country && country.data) {
+      dispatch(changeGame(country.data[0]))          
+    }
+    if(party && party.data[0]) {
+      dispatch(changeParty(party.data[0]))    
+    }
+  }, [country, party]);
+  
+  
 
   return (
     <>

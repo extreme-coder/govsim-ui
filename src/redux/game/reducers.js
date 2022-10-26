@@ -3,20 +3,25 @@ import { GameActionTypes } from './constants';
 
 
 const INIT_STATE = {
-    code: '',    
+  country: null,
 };
 
 
 const Game = (state = INIT_STATE, action) => {
-    switch (action.type) {
-        case GameActionTypes.CHANGE_GAME:
-            return {
-                ...state,
-                code: action.payload,
-            };        
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case GameActionTypes.CHANGE_GAME:
+      return {
+        ...state,
+        country: action.payload,
+      };
+    case GameActionTypes.CHANGE_PARTY:
+      return {
+        ...state,
+        party: action.payload,
+      };
+    default:
+      return state;
+  }
 };
 
 export default Game;

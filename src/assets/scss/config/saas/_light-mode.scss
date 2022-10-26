@@ -189,8 +189,11 @@
 
     // scss-docs-start popover-variables
     --#{$variable-prefix}popover-bg:                                     #{$white};
+    --#{$variable-prefix}popover-bg-2:                                     #{$white};
     --#{$variable-prefix}popover-border-color:                           #{map-get($grays, "300")};
+    --#{$variable-prefix}popover-border-color-2:                           #{map-get($grays, "300")};
     --#{$variable-prefix}popover-header-bg:                              #{map-get($grays, "100")};
+    --#{$variable-prefix}popover-header-bg-2:                              #{map-get($grays, "100")};
     --#{$variable-prefix}popover-header-color:                           #{$headings-color};
     --#{$variable-prefix}popover-body-color:                             #{$body-color};
     --#{$variable-prefix}popover-arrow-color:                            #{$white};

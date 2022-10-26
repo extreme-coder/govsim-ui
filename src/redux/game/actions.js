@@ -1,8 +1,13 @@
 // @flow
 import { GameActionTypes } from './constants';
 
-export const changeGame = (code) => ({
+export const changeGame = (country) => ({
     type: GameActionTypes.CHANGE_GAME,
-    payload: code,
+    payload: country,
+});
+
+export const changeParty = (party) => ({
+  type: GameActionTypes.CHANGE_PARTY,
+  payload: party,
 });
 

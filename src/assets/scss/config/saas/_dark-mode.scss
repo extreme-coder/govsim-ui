@@ -251,9 +251,13 @@ body[data-layout-color="dark"] {
 
      // scss-docs-start popover-variables
      --#{$variable-prefix}popover-bg: #{map-get($dark-grays, "200")};
+     --#{$variable-prefix}popover-bg-2: #{map-get($dark-grays, "200")};
      --#{$variable-prefix}popover-border-color: #{map-get($dark-grays, "300")};
+     --#{$variable-prefix}popover-border-color-2: #{map-get($dark-grays, "300")};
      --#{$variable-prefix}popover-header-bg: #{lighten(map-get($dark-grays, "200"), 2.5%)};
+     --#{$variable-prefix}popover-header-bg-2: #{lighten(map-get($dark-grays, "200"), 2.5%)};
      --#{$variable-prefix}popover-header-color: #{map-get($dark-grays, "700")};
+     --#{$variable-prefix}popover-header-color-2: #{map-get($dark-grays, "700")};
      --#{$variable-prefix}popover-body-color: #{map-get($dark-grays, "700")};
      --#{$variable-prefix}popover-arrow-color: #{map-get($dark-grays, "200")};
      --#{$variable-prefix}popover-arrow-outer-color: #{map-get($dark-grays, "300")};
