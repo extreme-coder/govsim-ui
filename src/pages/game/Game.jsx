@@ -38,9 +38,8 @@ export default function Game() {
         <div className="row">
           <div className="col-xl-3 col-lg-3">
             <div className="card shadow-sm">
-              <div className="card-body">
-                {country && country.data[0].attributes.name}
-                <PlayerInfo name={user.user.username} />
+              <div className="card-body">                
+                {party && party.data && party.data[0] && <PlayerInfo name={user.user.username} party={party.data[0]} /> }
                 {country && <CountryInfo country={country.data[0]} />}
               </div>
             </div>
@@ -49,7 +48,7 @@ export default function Game() {
             <div className="card shadow-sm">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
-                  <Platform countryId={country.data[0].id} partyId={party.data[0].id} isPartyReady={party.data[0].attributes.ready_for_election} electionsOccurred={country.data[0].attributes.elections_occurred} />
+                  <Platform countryId={country.data[0].id} partyId={party.data[0].id}  electionsOccurred={country.data[0].attributes.elections_occurred} />
                 }
               </div>
             </div>

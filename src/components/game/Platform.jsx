@@ -2,23 +2,21 @@ import React, { useState } from 'react';
 import { useGetEntitiesByFieldQuery } from '../../services/govsim';
 import BillCreator from './BillCreator';
 import { Button, Tabs, Tab, Popover, OverlayTrigger } from 'react-bootstrap';
-import { useAddEntityMutation, useUpdateEntityMutation } from '../../services/govsim';
+import { useAddEntityMutation } from '../../services/govsim';
 import FormInput from '../FormInput';
 import { useSelector } from 'react-redux';
 
 
 export default function Platform(props) {
-  const { partyId, countryId, isPartyReady } = props
+  const { partyId, countryId } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
 
-  const [updateEntity] = useUpdateEntityMutation()
+
   const [addBill, setAddBill] = useState(false)
 
 
-  const readyForElection = () => {
-    updateEntity({ name: 'party', id: partyId, body: { data: { ready_for_election: true } } })
-  }
+ 
   let otherBills=[]
   if(allBills) {
     otherBills = allBills.data.filter((b) => b.attributes.party.data.id !== partyId)
@@ -45,7 +43,7 @@ export default function Platform(props) {
         </Tabs>
 
         <Button onClick={() => setAddBill(true)}>Add Bill</Button>
-        {!isPartyReady && <Button onClick={() => readyForElection()}>Ready for Election</Button>}
+        
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
     </div>
