@@ -30,18 +30,18 @@ export default function Platform(props) {
         <Tabs
           defaultActiveKey="my_platform"
           id="uncontrolled-tab-example"
-          className="mb-3 nav-bordered"
+          className="mb-3 nav-bordered "
         >
-          <Tab eventKey="my_platform" title="My Platform">
+          <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
             {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} />}
           </Tab>
 
           {allBills && 
-            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`}>   
+            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead">   
               <AllPlatform data={otherBills} countryId={countryId} />
             </Tab>
           }
-          
+
         </Tabs>
 
         <Button onClick={() => setAddBill(true)}>Add Bill</Button>
@@ -92,7 +92,7 @@ function MyPlatform(props) {
   );
 
   return (
-    <table className="mb-0 table table-sm">
+    <table className="mb-0 table table-sm ">
       <thead>
         <tr><th>Bill</th><th>Law</th><th>Actions</th><th></th></tr>
       </thead>
@@ -152,7 +152,7 @@ function AllPlatform(props) {
     </Popover>
   );
   return (
-    <table className="mb-0 table table-sm">
+    <table className="mb-0 table table-sm ">
       <thead>
         <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th></tr>
       </thead>
