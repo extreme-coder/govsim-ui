@@ -2,7 +2,7 @@ import React from "react";
 
 class Card extends React.Component {
   render() {
-    return (<div className="card">{this.props.children}</div>)
+    return (<div className="scard">{this.props.children}</div>)
   }
 }
 
@@ -34,7 +34,7 @@ class SelectableTitleCard extends React.Component {
       <SelectableCard onClick={this.props.onClick}
         selected={selected}>
         <div className="content">
-          <h1 className="title">{title}</h1>
+          <h3 className="title">{title}</h3>
           <p className="description">{description}</p>
         </div>
       </SelectableCard>
