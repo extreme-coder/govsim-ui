@@ -19,6 +19,10 @@ export default function Platform(props) {
   const readyForElection = () => {
     updateEntity({ name: 'party', id: partyId, body: { data: { ready_for_election: true } } })
   }
+  let otherBills=[]
+  if(allBills) {
+    otherBills = allBills.data.filter((b) => b.attributes.party.data.id !== partyId)
+  }
   return (
     <div>
       {!addBill && <div>
@@ -31,9 +35,13 @@ export default function Platform(props) {
           <Tab eventKey="my_platform" title="My Platform">
             {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} />}
           </Tab>
-          <Tab eventKey="other_bills" title="Other Bills">
-            {allBills && <AllPlatform data={allBills.data.filter((b) => b.attributes.party.data.id !== partyId)} countryId={countryId} />}
-          </Tab>
+
+          {allBills && 
+            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`}>   
+              <AllPlatform data={otherBills} countryId={countryId} />
+            </Tab>
+          }
+          
         </Tabs>
 
         <Button onClick={() => setAddBill(true)}>Add Bill</Button>

@@ -192,6 +192,13 @@ export const govsimApi = createApi({
               payload: [{ type: 'party', id: 'LIST' }],
             });              
           });
+
+          socket.on('new_bill', (message) => {                        
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'promise', id: 'LIST' }],
+            });              
+          });
           
         } catch {
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
