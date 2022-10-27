@@ -89,6 +89,9 @@ export const govsimApi = createApi({
         if (arg.name === 'vote') {
           tags.push({ type: 'promise', id: 'LIST' })
         }
+        if (arg.name === 'promotion') {
+          tags.push({ type: 'party', id: 'LIST' })
+        }
         return tags
       },
     }),
@@ -145,7 +148,8 @@ export const govsimApi = createApi({
           return `parties?filters[country][join_code][$eq]=${code}&filters[user][id][$eq]=${user}&populate[0]=template&populate[1]=template.avatar`
         }
         return `parties?filters[country][join_code][$eq]=${code}&populate=*`
-      }
+      },
+      providesTags: (result, error, arg) => [{ type: 'party', id: 'LIST' }],
     }),
     getMessages: builder.query({
       query: (country) => `messages?filters[country][id]=${country}&populate=*&pagination[pageSize]=1000`,
