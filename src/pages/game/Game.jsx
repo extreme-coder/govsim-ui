@@ -39,7 +39,7 @@ export default function Game() {
         <div className="col-xl-6 col-lg-6">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  {country && party &&
+                  {country && party && party.data && party.data[0] &&
                     <Platform countryId={country.data[0].id} partyId={party.data[0].id} isPartyReady={party.data[0].attributes.ready_for_election} electionsOccurred={country.data[0].attributes.elections_occurred} />
                   }
                 </div>
@@ -57,7 +57,7 @@ export default function Game() {
         <div className="col-xl-6 col-lg-6">
         <div className="card shadow-sm">
                 <div className="card-body">
-                  {country && party &&
+                  {country && party && party.data && party.data[0] &&
                     <VotesInSession countryId={country.data[0].id} partyId={party.data[0].id} />
                   }
                 </div>
@@ -97,7 +97,8 @@ export default function Game() {
             <div className="col">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  {country && party && <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
+                  {country && party && party.data && party.data[0] && 
+                   <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
                 </div>
               </div>
             </div>
