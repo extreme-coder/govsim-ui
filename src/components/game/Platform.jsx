@@ -54,7 +54,7 @@ export default function Platform(props) {
 function MyPlatform(props) {
   const { data, countryId, partyId } = props
 
-  const [promotionBudget, setPromotionBudget] = useState(200)
+  const [promotionBudget, setPromotionBudget] = useState(0)
 
   const { party } = useSelector((state) => ({
     party: state.theme.Game.party,
@@ -67,6 +67,7 @@ function MyPlatform(props) {
   }
   const promoteBill = (billId) => {
     addEntity({ name: 'promotion', body: { data: { type: 'POSITIVE', 'promise': billId, party: partyId, budget: promotionBudget } } })
+    setPromotionBudget(0)
     document.body.click()
   }
 
@@ -129,6 +130,7 @@ function AllPlatform(props) {
   const promoteBill = (billId) => {
     addEntity({ name: 'promotion', body: { data: { type: 'NEGATIVE', 'promise': billId, party: party.id, budget: promotionBudget } } })
     document.body.click()
+    setPromotionBudget(0)
   }
 
   const popover = (bill) => (
