@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 
 export default function Platform(props) {
-  const { partyId, countryId } = props
+  const { partyId, countryId, electionsOccurred } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
 
@@ -31,7 +31,7 @@ export default function Platform(props) {
           className="mb-3 nav-bordered "
         >
           <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
-            {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} />}
+            {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred}/>}
           </Tab>
 
           {allBills && 
