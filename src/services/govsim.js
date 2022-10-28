@@ -193,6 +193,14 @@ export const govsimApi = createApi({
             });              
           });
 
+          socket.on('ready_for_election', (message) => {            
+            toast('Party ' + message.name + ' is ready for Elections')
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }],
+            });              
+          });
+
           socket.on('new_bill', (message) => {                        
             dispatch({
               type: `govsimApi/invalidateTags`,
