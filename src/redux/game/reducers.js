@@ -4,6 +4,7 @@ import { GameActionTypes } from './constants';
 
 const INIT_STATE = {
   country: null,
+  message: {show:false}
 };
 
 
@@ -18,6 +19,11 @@ const Game = (state = INIT_STATE, action) => {
       return {
         ...state,
         party: action.payload,
+      };
+    case GameActionTypes.SHOW_ALERT:
+      return {
+        ...state,
+        message: action.payload,
       };
     default:
       return state;

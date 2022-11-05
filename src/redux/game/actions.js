@@ -11,3 +11,8 @@ export const changeParty = (party) => ({
   payload: party,
 });
 
+export const showAlert = (message) => ({
+  type: GameActionTypes.SHOW_ALERT,
+  payload: message,
+});
+

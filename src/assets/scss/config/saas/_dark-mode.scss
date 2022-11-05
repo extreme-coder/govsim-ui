@@ -1,9 +1,6 @@
 //
 // dark-mode.scss
 //
-:root {
-  color-scheme: dark;
-}
 
 // Dark Variable
 
@@ -64,7 +61,7 @@ body[data-layout-color="dark"] {
      // <=============================================>
      // Bootstrap variable
      // <=============================================>
-
+     color-scheme: dark;
      // Body Variable
      --#{$variable-prefix}body-bg: #343a40;
      --#{$variable-prefix}body-color: #{map-get($dark-grays, "500")};

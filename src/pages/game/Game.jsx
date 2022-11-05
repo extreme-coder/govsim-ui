@@ -12,6 +12,8 @@ import Parliament from '../../components/game/Parliament';
 import MessageHandler from '../../components/game/MessageHandler';
 import { useDispatch } from 'react-redux';
 import { changeGame, changeParty } from '../../redux/actions';
+import { useSelector } from 'react-redux';
+import SweetAlert2 from 'react-sweetalert2';
 
 export default function Game() {
   const { code } = useParams();
@@ -29,14 +31,16 @@ export default function Game() {
     }
   }, [country, party]);
 
-
+  const { message } = useSelector((state) => ({
+    message: state.theme.Game.message,
+  }));
 
   return (
     <>
-
+      <SweetAlert2 {...message} />
       <div className="container-fluid pt-2">
         <div className="row">
-          <div className="col-xl-3 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">                
                 {party && party.data && party.data[0] && <PlayerInfo name={user.user.username} party={party.data[0]} /> }
@@ -44,7 +48,7 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="col-xl-5 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-5 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
@@ -53,7 +57,7 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="col-xl-4 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-4 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && <Demographics countryId={country.data[0].id} />}
@@ -62,7 +66,7 @@ export default function Game() {
           </div>
 
        
-          <div className="col-xl-3 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
@@ -70,7 +74,7 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="col-xl-5 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-5 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
@@ -79,7 +83,7 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="col-xl-4 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-4 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && <Parliament countryId={country.data[0].id} />}

@@ -3,7 +3,7 @@ import pluralize from 'pluralize';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
-
+import { showAlert } from '../redux/actions';
 
 // Define a service using a base URL and expected endpoints
 export const govsimApi = createApi({
@@ -194,7 +194,7 @@ export const govsimApi = createApi({
           });
 
           socket.on('ready_for_election', (message) => {            
-            toast('Party ' + message.name + ' is ready for Elections')
+            toast( message.name + ' is ready for Elections')
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'party', id: 'LIST' }],
@@ -207,6 +207,14 @@ export const govsimApi = createApi({
               payload: [{ type: 'promise', id: 'LIST' }],
             });              
           });
+          socket.on('election_underway', (message) => {     
+            dispatch(showAlert({show:true, title:'Elections', text:'Elections are underway'}));     
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'country', id: 'LIST' }],
+            });              
+          });
+          
           
         } catch {
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,

@@ -8,21 +8,23 @@ import createSagaMiddleware from 'redux-saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const localStorageMiddleware = ({getState}) => { // <--- FOCUS HERE
+const localStorageMiddleware = ({ getState }) => { // <--- FOCUS HERE
   return (next) => (action) => {
-      const result = next(action);
-      localStorage.setItem('applicationState', JSON.stringify(
-          getState().theme
+    const result = next(action);
+    if (getState().theme.Layout) {
+      localStorage.setItem('applicationState2', JSON.stringify(
+        getState().theme.Layout
       ));
-      return result;
+    }
+    return result;
   };
 };
 
 
 const reHydrateStore = () => { // <-- FOCUS HERE
 
-  if (localStorage.getItem('applicationState') !== null) {
-      return {theme: JSON.parse(localStorage.getItem('applicationState'))} // re-hydrate the store
+  if (localStorage.getItem('applicationState2') !== null) {
+    return { theme: { Layout: JSON.parse(localStorage.getItem('applicationState2')) } } // re-hydrate the store
   }
 }
 
@@ -37,7 +39,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([govsimApi.middleware, rtkQueryErrorLogger, sagaMiddleware, localStorageMiddleware]),
 
-  preloadedState: reHydrateStore()  
+  preloadedState: reHydrateStore()
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
