@@ -208,11 +208,39 @@ export const govsimApi = createApi({
             });              
           });
           socket.on('election_underway', (message) => {     
-            dispatch(showAlert({show:true, title:'Elections', text:'Elections are underway'}));     
+            dispatch(showAlert({
+              show:true, 
+              title:'Elections', 
+              message:'Elections are underway',  
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false
+                          
+            }));     
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'country', id: 'LIST' }],
             });              
+          });
+
+          socket.on('election_finished', (message) => {
+            dispatch(showAlert({
+              show:false,               
+            }));   
+
+            setTimeout(() => {
+              dispatch(showAlert({
+                show:true, 
+                title:'Elections',                 
+                message:'Elections result are out',                            
+              }));   
+            }, 100);
+            
+            
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'country', id: 'LIST' }],
+            });
           });
           
           

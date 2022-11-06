@@ -22,12 +22,17 @@ export default function Game() {
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
   const dispatch = useDispatch()
 
+  const sal = React.createRef();
+
   useEffect(() => {
     if (country && country.data) {
       dispatch(changeGame(country.data[0]))
     }
     if (party && party.data[0]) {
       dispatch(changeParty(party.data[0]))
+    }
+    if(sal.current) {
+      sal.current.close()
     }
   }, [country, party]);
 
@@ -37,7 +42,9 @@ export default function Game() {
 
   return (
     <>
-      <SweetAlert2 {...message} />
+      <SweetAlert2 {...message} ref={sal}>
+        {message.message}
+      </SweetAlert2>
       <div className="container-fluid pt-2">
         <div className="row">
           <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
