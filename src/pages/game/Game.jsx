@@ -49,7 +49,10 @@ export default function Game() {
         <div className="row">
           <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">                
+              <div className="card-body">      
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Country Info</h4>
+                </div>          
                 {party && party.data && party.data[0] && <PlayerInfo name={user.user.username} party={party.data[0]} /> }
                 {country && <CountryInfo country={country.data[0]} />}
               </div>
@@ -67,6 +70,9 @@ export default function Game() {
           <div className="col-xxl-4 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Demographics</h4>
+                </div>    
                 {country && <Demographics countryId={country.data[0].id} />}
               </div>
             </div>
@@ -76,6 +82,9 @@ export default function Game() {
           <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Parties</h4>
+                </div> 
                 {country && party && party.data && party.data[0] &&
                   <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} />}
               </div>
@@ -84,6 +93,9 @@ export default function Game() {
           <div className="col-xxl-5 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Votes In Session</h4>
+                </div> 
                 {country && party && party.data && party.data[0] &&
                   <VotesInSession countryId={country.data[0].id} partyId={party.data[0].id} />
                 }
@@ -93,6 +105,9 @@ export default function Game() {
           <div className="col-xxl-4 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Parliament</h4>
+                </div> 
                 {country && <Parliament countryId={country.data[0].id} />}
               </div>
             </div>
