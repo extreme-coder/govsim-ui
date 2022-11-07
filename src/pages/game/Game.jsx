@@ -51,10 +51,9 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">      
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Country Info</h4>
+                  <h4 class="header-title">Party Info</h4>
                 </div>          
-                {party && party.data && party.data[0] && <PlayerInfo name={user.user.username} party={party.data[0]} /> }
-                {country && <CountryInfo country={country.data[0]} />}
+                {party && party.data && party.data[0] && <PlayerInfo name={user.user.username} party={party.data[0]} /> }              
               </div>
             </div>
           </div>
