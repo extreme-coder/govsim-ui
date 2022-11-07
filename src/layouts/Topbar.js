@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 // actions
 import { showRightSidebar, changeSidebarType } from '../redux/actions';
@@ -88,26 +89,6 @@ const Notifications = [
 // get the profilemenu
 const ProfileMenus = [
   {
-    label: 'My Account',
-    icon: 'mdi mdi-account-circle',
-    redirectTo: '#',
-  },
-  {
-    label: 'Settings',
-    icon: 'mdi mdi-account-edit',
-    redirectTo: '#',
-  },
-  {
-    label: 'Support',
-    icon: 'mdi mdi-lifebuoy',
-    redirectTo: '#',
-  },
-  {
-    label: 'Lock Screen',
-    icon: 'mdi mdi-lock-outline',
-    redirectTo: '/account/lock-screen',
-  },
-  {
     label: 'Logout',
     icon: 'mdi mdi-logout',
     redirectTo: '/account/logout',
@@ -125,6 +106,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
   const dispatch = useDispatch();
 
   const [isopen, setIsopen] = useState(false);
+  const [user, setUser] = useLocalStorage("user", "");
 
   const navbarCssClasses = navCssClasses || '';
   const containerCssClasses = !hideLogo ? 'container-fluid' : '';
@@ -193,7 +175,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
 
             
 
-            <li className="dropdown notification-list">
+            <li className="dropdown notification-list" style={{display: 'none'}}>
               <NotificationDropdown notifications={Notifications} />
             </li>
 
@@ -208,8 +190,8 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
               <ProfileDropdown
                 profilePic={profilePic}
                 menuItems={ProfileMenus}
-                username={'Dominic Keller'}
-                userTitle={'Founder'}
+                username={user.user.name}
+                userTitle={user.user.email}
               />
             </li>
           </ul>
