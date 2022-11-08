@@ -207,6 +207,15 @@ export const govsimApi = createApi({
               payload: [{ type: 'promise', id: 'LIST' }],
             });              
           });
+
+          socket.on('new_vote', (message) => {         
+            toast( 'A new vote was called, Please cast your ballot')               
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'vote', id: 'LIST' }],
+            });              
+          });
+
           socket.on('election_underway', (message) => {     
             dispatch(showAlert({
               show:true, 
