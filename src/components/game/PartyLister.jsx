@@ -1,6 +1,6 @@
 import React from 'react';
-import {useGetEntitiesByFieldQuery, useGetMessagesQuery} from '../../services/govsim';
-import {Button} from 'react-bootstrap';
+import { useGetEntitiesByFieldQuery, useGetMessagesQuery } from '../../services/govsim';
+import { Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 export default function PartyLister(props) {
@@ -9,22 +9,29 @@ export default function PartyLister(props) {
   const { data: messages } = useGetMessagesQuery(countryId)
 
   const getMessageCount = (partyId) => {
-    return messages.data.filter((m) => (m.attributes.is_read===false && m.attributes.from_party && m.attributes.from_party.data.id == partyId && m.attributes.to_party.data.id == myParty.id)).length
+    return messages.data.filter((m) => (m.attributes.is_read === false && m.attributes.from_party && m.attributes.from_party.data.id == partyId && m.attributes.to_party.data.id == myParty.id)).length
   }
 
   return (
     <div className="container">
       <div className="col-xl-10 col-lg-12 col-md-9">
-          {data && messages && data.data.map((party) =>
-              <div key={party.id}>
-                {party.attributes.name} [{party.attributes.template.data.attributes.name}]
-                {party.attributes.ready_for_election && <div> Party is ready for election</div>}
-                {getMessageCount(party.id)}
-              </div>
-          )}
-
-          <Link to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link>
-        </div>        
+        <table className="mb-0 table table-sm">
+          <thead>
+            <tr><th>Party</th><th>Score</th><th>Ready for Elections</th></tr>
+          </thead>
+          <tbody>
+            {data && messages && data.data.map((party) =>
+              <tr key={party.id}>
+                <td>{party.attributes.name} [{party.attributes.template.data.attributes.name}]</td>
+                {/*<td>{getMessageCount(party.id)}</td>*/}
+                <td>{party.attributes.points}</td>
+                <td>{party.attributes.ready_for_election ? 'Yes' : 'No'}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        <Link to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link>
+      </div>
     </div>
   );
 };
