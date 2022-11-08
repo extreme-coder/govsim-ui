@@ -228,8 +228,9 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
             </Link>
           )}
            <div className="app-search text-center" >
-           
-              <h4>{country && country.attributes.name}</h4>
+            
+              <h4>{country && country.attributes.name}  {country && `(Join Code:  ${country.attributes.join_code} )`}</h4>
+              
             
            </div>
         </div>

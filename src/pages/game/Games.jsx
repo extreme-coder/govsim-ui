@@ -10,39 +10,47 @@ import * as Yup from 'yup';
 export default function Games() {
   const JoinSchema = Yup.object().shape({
     join_code: Yup.string()
-      .required('Required'),  
+      .required('Required'),
   });
 
-  const { data, error, isLoading } = useGetEntitiesByFieldQuery({name:'country', field: 'is_template', value:'false'})
-  const [ addEntity, { isLoading: isUpdating } ] = useAddEntityMutation()
+  const { data, error, isLoading } = useGetEntitiesByFieldQuery({ name: 'country', field: 'is_template', value: 'false' })
+  const [addEntity, { isLoading: isUpdating }] = useAddEntityMutation()
   const navigate = useNavigate()
-  const joinGame = (values) => {    
+  const joinGame = (values) => {
     navigate(`/joingame/${values.join_code}`)
   }
   return (
     <div className="container">
       <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          {data && data.data.map(country =>
-              <div key={country.id}>
-                {country.attributes.name}   <Link to={`/joingame/${country.attributes.join_code}`}><Button>Join Game</Button></Link>      
-              </div>
-          )}
+        <div className="col-xl-10 col-lg-12 col-md-9 tableFixHead">
+          <table className="mb-0 table table-sm ">
+            <thead>
+              <tr><th>Game</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              {data && data.data.map(country =>
+                <tr key={country.id}>
+                  <td>{country.attributes.name}</td>
+                  <td><Link to={`/joingame/${country.attributes.join_code}`}><Button>Join Game</Button></Link> </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         <div>
-        Join a Private Game with code : 
-        <Formik enableReinitialize validationSchema={JoinSchema} onSubmit={joinGame} initialValues={{ join_code: ''}}>
-        {(props) => (
-          <Form noValidate onSubmit={props.handleSubmit}>
-            <Form.Group controlId="formBasicName">
-              <TextField name="join_code" label="Join Code" placeholder="six letter join code" />                
-              <Button variant="primary" type="submit">
-                Join Game
-              </Button>
-            </Form.Group>
-          </Form>
-        )}
-        </Formik>           
+          Join a Private Game with code :
+          <Formik enableReinitialize validationSchema={JoinSchema} onSubmit={joinGame} initialValues={{ join_code: '' }}>
+            {(props) => (
+              <Form noValidate onSubmit={props.handleSubmit}>
+                <Form.Group controlId="formBasicName">
+                  <TextField name="join_code" label="Join Code" placeholder="six letter join code" />
+                  <Button variant="primary" type="submit">
+                    Join Game
+                  </Button>
+                </Form.Group>
+              </Form>
+            )}
+          </Formik>
         </div>
         <Link to="/newgame" ><Button>Create New Game</Button></Link>
       </div>
