@@ -39,6 +39,12 @@ export const govsimApi = createApi({
         let query = `blocks/groups?country=${countryId}`        
         return query
       }
+    }),
+    getResults: builder.query({
+      query: (electionId) => {        
+        let query = `get_results?election_id=${electionId}`        
+        return query
+      }
     }),    
     getEntitiesByFields: builder.query({
       query: (arg) => {
@@ -274,6 +280,7 @@ export const {
   useGetEntityQuery,
   useGetEntitiesQuery,
   useGetBlockGroupsQuery,
+  useGetResultsQuery,
   useGetEntitiesByFieldsQuery,
   useGetEntitiesByFieldQuery,
   useLoginMutation,

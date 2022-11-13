@@ -9,6 +9,13 @@ const getMenuItems = (gameCode) => {
       icon: 'uil-comments-alt',
       url: `/chat/${gameCode}`,
     },
+    {
+      key: 'apps-chat',
+      label: 'History',
+      isTitle: false,
+      icon: 'uil-comments-alt',
+      url: `/history/${gameCode}`,
+    },
   ];
 };
 
