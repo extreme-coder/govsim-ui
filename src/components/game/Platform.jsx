@@ -5,6 +5,7 @@ import { Button, Tabs, Tab, Popover, OverlayTrigger } from 'react-bootstrap';
 import { useAddEntityMutation } from '../../services/govsim';
 import FormInput from '../FormInput';
 import { useSelector } from 'react-redux';
+import Promotions from './Promotions';
 
 
 export default function Platform(props) {
@@ -39,6 +40,10 @@ export default function Platform(props) {
               <AllPlatform data={otherBills} countryId={countryId} />
             </Tab>
           }
+
+          <Tab eventKey="my_promotions" title="Promotions" className="tableFixHead">
+            <Promotions partyId={partyId} />
+          </Tab>
 
         </Tabs>
 
