@@ -93,10 +93,10 @@ const Login = (): React$Element<any> => {
                     resolver={schemaResolver}
                     defaultValues={{ username: 'test', password: 'test' }}>
                     <FormInput
-                        label={t('Username')}
+                        label={t('Email')}
                         type="text"
                         name="identifier"
-                        placeholder={t('Enter your Username')}
+                        placeholder={t('Enter your Email')}
                         containerClass={'mb-3'}
                     />
                     <FormInput
