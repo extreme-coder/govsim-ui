@@ -28,7 +28,7 @@ export default function Games() {
               <tr><th>Game</th><th>Actions</th></tr>
             </thead>
             <tbody>
-              {data && data.data.map(country =>
+              {data && data.data.filter((c) => c.attributes.is_public === true).map(country =>
                 <tr key={country.id}>
                   <td>{country.attributes.name}</td>
                   <td><Link to={`/joingame/${country.attributes.join_code}`}><Button>Join Game</Button></Link> </td>
