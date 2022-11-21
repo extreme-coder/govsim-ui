@@ -14,6 +14,10 @@ import { useDispatch } from 'react-redux';
 import { changeGame, changeParty } from '../../redux/actions';
 import { useSelector } from 'react-redux';
 import SweetAlert2 from 'react-sweetalert2';
+import spinner from '../../assets/images/spinner.gif';
+import Image from 'react-bootstrap/Image';
+
+
 
 export default function Game() {
   const { code } = useParams();
@@ -41,6 +45,7 @@ export default function Game() {
     <>
       <SweetAlert2 {...message} >
         {message.message}
+        {message.showSpinner && <div><Image src={spinner}  /></div>}
       </SweetAlert2>
       <div className="container-fluid pt-2">
         <div className="row">

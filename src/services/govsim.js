@@ -226,11 +226,11 @@ export const govsimApi = createApi({
             dispatch(showAlert({
               show:true, 
               title:'Elections', 
+              showSpinner: true,
               message:'Elections are underway',  
               showConfirmButton: false,
               allowOutsideClick: false,
-              allowEscapeKey: false
-                          
+              allowEscapeKey: false                          
             }));     
             dispatch({
               type: `govsimApi/invalidateTags`,
@@ -246,6 +246,7 @@ export const govsimApi = createApi({
             setTimeout(() => {
               dispatch(showAlert({
                 show:true, 
+                showSpinner: false,
                 title:'Elections',                 
                 message:'Elections result are out',                            
               }));   
