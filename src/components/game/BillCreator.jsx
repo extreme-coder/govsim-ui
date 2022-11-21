@@ -14,6 +14,7 @@ export default function BillCreator (props) {
   const [nameField, setNameField] = useState(false)
   const [deptt, setDeptt] = useState(0)
   const [lawType, setLawType] = useState(0)
+  const [saveDisabled, setSaveDisabled] = useState(true)
   
   const { data: departments } = useGetEntitiesQuery({name:'department'})
   const { data: lawTypes } = useGetEntitiesQuery({name:'category', populate: true})
@@ -21,10 +22,13 @@ export default function BillCreator (props) {
   const { data: cLaws} = useGetEntitiesQuery({ name: 'country-law', populate: true })
   const [addEntity] = useAddEntityMutation() 
 
-  const saveBill = (vals) => {  
+  const saveBill = async (vals) => {  
     vals.party = partyId
-    addEntity({name:'promise', body:{data:vals}})
-    closeCallback()
+    const e = await addEntity({name:'promise', body:{data:vals}})
+    //check if no error 
+    if (!e.error) {      
+      closeCallback()
+    }
   }
 
   const getDepartments = () => {    
@@ -66,6 +70,7 @@ export default function BillCreator (props) {
         break;
       case 'law':
         setNameField(true)
+        setSaveDisabled(false)
         break;
       default:
     }
@@ -112,7 +117,7 @@ export default function BillCreator (props) {
               {nameRender()}
             </div>
             <div className="actions">
-              <Button type="submit"> Save </Button>              
+              <Button type="submit" disabled={saveDisabled}> Save </Button>              
               <Button onClick={closeCallback}> Cancel </Button>              
             </div>
           </Form.Group>
