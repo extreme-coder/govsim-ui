@@ -203,9 +203,18 @@ export const govsimApi = createApi({
             toast( message.name + ' is ready for Elections')
             dispatch({
               type: `govsimApi/invalidateTags`,
-              payload: [{ type: 'party', id: 'LIST' }],
+              payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
             });              
           });
+
+          socket.on('finished_campaign', (message) => {            
+            toast( message.name + ' has finished campaigning')
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
+            });              
+          });
+          
 
           socket.on('new_bill', (message) => {                        
             dispatch({
@@ -255,7 +264,7 @@ export const govsimApi = createApi({
             
             dispatch({
               type: `govsimApi/invalidateTags`,
-              payload: [{ type: 'country', id: 'LIST' }],
+              payload: [{ type: 'country', id: 'LIST' }, { type: 'party', id: 'LIST' }],
             });
           });
           
