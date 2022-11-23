@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Promotions from './Promotions';
 
 
+
 export default function Platform(props) {
   const { partyId, countryId, electionsOccurred } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
@@ -16,10 +17,12 @@ export default function Platform(props) {
 
   const [addBill, setAddBill] = useState(false)
 
+  const { country } = useSelector((state) => ({
+    country: state.theme.Game.country
+  }));
 
- 
-  let otherBills=[]
-  if(allBills) {
+  let otherBills = []
+  if (allBills) {
     otherBills = allBills.data.filter((b) => b.attributes.party.data.id !== partyId)
   }
   return (
@@ -32,11 +35,11 @@ export default function Platform(props) {
           className="mb-3 nav-bordered "
         >
           <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
-            {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred}/>}
+            {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} />}
           </Tab>
 
-          {allBills && 
-            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead">   
+          {allBills &&
+            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead">
               <AllPlatform data={otherBills} countryId={countryId} />
             </Tab>
           }
@@ -47,8 +50,8 @@ export default function Platform(props) {
 
         </Tabs>
 
-        <Button onClick={() => setAddBill(true)}>Add Bill</Button>
-        
+        {country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
     </div>
@@ -61,8 +64,9 @@ function MyPlatform(props) {
 
   const [promotionBudget, setPromotionBudget] = useState(0)
 
-  const { party } = useSelector((state) => ({
+  const { party, country } = useSelector((state) => ({
     party: state.theme.Game.party,
+    country: state.theme.Game.country
   }));
 
   const [addEntity] = useAddEntityMutation()
@@ -106,15 +110,15 @@ function MyPlatform(props) {
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>
-              {bill.attributes.status === 'NEW' && props.electionsOccurred && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
-              {bill.attributes.status === 'NEW' && !props.electionsOccurred && <p>You can call a vote on this bill once you're in parliament</p>}
+              {bill.attributes.status === 'NEW' && country.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
-              <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
-                <Button variant="success">Promote</Button>
-              </OverlayTrigger>
-
+              {country.attributes.status === 'CAMPAIGN' &&
+                <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
+                  <Button variant="success">Promote</Button>
+                </OverlayTrigger>
+              }
             </td>
           </tr>
         )}
@@ -128,8 +132,9 @@ function AllPlatform(props) {
   const [addEntity] = useAddEntityMutation()
   const [promotionBudget, setPromotionBudget] = useState(200)
 
-  const { party } = useSelector((state) => ({
+  const { party, country } = useSelector((state) => ({
     party: state.theme.Game.party,
+    country: state.theme.Game.country
   }));
 
   const promoteBill = (billId) => {
@@ -168,9 +173,11 @@ function AllPlatform(props) {
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>{bill.attributes.party.data.attributes.name}</td>
             <td>
-              <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
-                <Button variant="success">Oppose</Button>
-              </OverlayTrigger>
+              {country.attributes.status === 'CAMPAIGN' &&
+                <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
+                  <Button variant="success">Oppose</Button>
+                </OverlayTrigger>
+              }
             </td>
           </tr>
         )}
