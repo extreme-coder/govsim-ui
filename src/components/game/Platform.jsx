@@ -48,7 +48,7 @@ export default function Platform(props) {
 
         </Tabs>
 
-        {country && country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+        {country && country.data.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
 
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
@@ -107,11 +107,11 @@ function MyPlatform(props) {
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>
-              {bill.attributes.status === 'NEW' && country.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
+              {bill.attributes.status === 'NEW' && country.data.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
-              {country.attributes.status === 'CAMPAIGN' &&
+              {country.data.attributes.status === 'CAMPAIGN' &&
                 <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                   <Button variant="success">Promote</Button>
                 </OverlayTrigger>
@@ -169,7 +169,7 @@ function AllPlatform(props) {
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>{bill.attributes.party.data.attributes.name}</td>
             <td>
-              {country.attributes.status === 'CAMPAIGN' &&
+              {country.data.attributes.status === 'CAMPAIGN' &&
                 <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                   <Button variant="success">Oppose</Button>
                 </OverlayTrigger>
