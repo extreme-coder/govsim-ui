@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetEntitiesByFieldQuery } from '../../services/govsim';
+import { useGetEntitiesByFieldQuery, useGetEntityQuery } from '../../services/govsim';
 import BillCreator from './BillCreator';
 import { Button, Tabs, Tab, Popover, OverlayTrigger } from 'react-bootstrap';
 import { useAddEntityMutation } from '../../services/govsim';
@@ -14,12 +14,10 @@ export default function Platform(props) {
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
 
+  const { data: country } = useGetEntityQuery({ name: 'country', id: countryId })
 
   const [addBill, setAddBill] = useState(false)
 
-  const { country } = useSelector((state) => ({
-    country: state.theme.Game.country
-  }));
 
   let otherBills = []
   if (allBills) {
@@ -35,12 +33,12 @@ export default function Platform(props) {
           className="mb-3 nav-bordered "
         >
           <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
-            {data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} />}
+            {country && data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} country={country}/>}
           </Tab>
 
-          {allBills &&
+          {country && allBills &&
             <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead">
-              <AllPlatform data={otherBills} countryId={countryId} />
+              <AllPlatform data={otherBills} countryId={countryId} country={country} />
             </Tab>
           }
 
@@ -50,7 +48,7 @@ export default function Platform(props) {
 
         </Tabs>
 
-        {country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+        {country && country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
 
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
@@ -60,13 +58,12 @@ export default function Platform(props) {
 
 
 function MyPlatform(props) {
-  const { data, countryId, partyId } = props
+  const { data, countryId, partyId, country } = props
 
   const [promotionBudget, setPromotionBudget] = useState(0)
 
-  const { party, country } = useSelector((state) => ({
-    party: state.theme.Game.party,
-    country: state.theme.Game.country
+  const { party } = useSelector((state) => ({
+    party: state.theme.Game.party    
   }));
 
   const [addEntity] = useAddEntityMutation()
@@ -128,13 +125,12 @@ function MyPlatform(props) {
 }
 
 function AllPlatform(props) {
-  const { data, countryId } = props
+  const { data, countryId, country } = props
   const [addEntity] = useAddEntityMutation()
   const [promotionBudget, setPromotionBudget] = useState(200)
 
-  const { party, country } = useSelector((state) => ({
-    party: state.theme.Game.party,
-    country: state.theme.Game.country
+  const { party } = useSelector((state) => ({
+    party: state.theme.Game.party,    
   }));
 
   const promoteBill = (billId) => {
