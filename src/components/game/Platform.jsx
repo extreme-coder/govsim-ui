@@ -107,7 +107,7 @@ function MyPlatform(props) {
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>
-              {bill.attributes.status === 'NEW' && country.data.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
+              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED' ) && country.data.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
