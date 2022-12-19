@@ -6,6 +6,7 @@ import SelectableCardList from '../../components/common/SelectableCardList';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { Formik } from 'formik'
 import TextField from '../../components/common/TextField';
+import * as Yup from 'yup';
 
 export default function JoinGame() {
   const { code } = useParams();
@@ -30,6 +31,10 @@ export default function JoinGame() {
     setSelectedPartyType(selected)
   }
 
+  const LoginSchema = Yup.object().shape({
+    name: Yup.string().required('Required'),
+  });
+
   if (country && country.data.length === 0) {
     return (
       <div>
@@ -50,7 +55,7 @@ export default function JoinGame() {
       <div className="container">
         {country && <div>{country.data[0].attributes.name}</div>}
         <div className="row justify-content-center">
-          <Formik enableReinitialize onSubmit={joinGame} initialValues={{ name: '', is_public: true }}>
+          <Formik enableReinitialize onSubmit={joinGame} initialValues={{ name: '', is_public: true }} validationSchema={LoginSchema}>
             {(props) => (
               <Form noValidate onSubmit={props.handleSubmit}>
                 <Form.Group controlId="formBasicName">
