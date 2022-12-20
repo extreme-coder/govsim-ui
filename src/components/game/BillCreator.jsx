@@ -24,7 +24,7 @@ export default function BillCreator (props) {
 
   const saveBill = async (vals) => {  
     vals.party = partyId
-    const e = await addEntity({name:'promise', body:{data:vals}})
+    const e = await addEntity({ name: 'promise', body: { data: { ...vals, country_law: cLaws.data.filter((c) => (getLaws(vals['law-type']).map(a=>a.value).indexOf(c.attributes.passed_law.data.id) !== -1))[0].id } }})
     //check if no error 
     if (!e.error) {      
       closeCallback()
