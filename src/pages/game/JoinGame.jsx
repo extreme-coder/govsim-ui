@@ -47,6 +47,8 @@ export default function JoinGame() {
       </div>
     )
   } else if (party && party.data.length > 0) {
+    //save party id in local storage
+    localStorage.setItem("partyId", party.data[0].id)
     return (<Navigate to={"/game/" + code} />)
   }
   else {
