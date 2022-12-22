@@ -109,7 +109,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
-                  <Platform countryId={country.data[0].id} partyId={party.data[0].id}  electionsOccurred={country.data[0].attributes.elections_occurred} />
+                  <Platform country={country.data[0]} countryId={country.data[0].id} partyId={party.data[0].id}  electionsOccurred={country.data[0].attributes.elections_occurred} />
                 }
               </div>
             </div>
