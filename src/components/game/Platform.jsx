@@ -10,11 +10,10 @@ import Promotions from './Promotions';
 
 
 export default function Platform(props) {
-  const { partyId, countryId, electionsOccurred } = props
+  const { partyId, countryId, electionsOccurred, country } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
 
-  const { data: country } = useGetEntityQuery({ name: 'country', id: countryId })
 
   const [addBill, setAddBill] = useState(false)
 
@@ -48,7 +47,7 @@ export default function Platform(props) {
 
         </Tabs>
 
-        {country && country.data.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+        {country && country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
 
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
@@ -107,11 +106,11 @@ function MyPlatform(props) {
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>
-              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED' ) && country.data.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
+              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED' ) && country.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
-              {country.data.attributes.status === 'CAMPAIGN' &&
+              {country.attributes.status === 'CAMPAIGN' &&
                 <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                   <Button variant="success">Promote</Button>
                 </OverlayTrigger>
@@ -169,7 +168,7 @@ function AllPlatform(props) {
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>{bill.attributes.party.data.attributes.name}</td>
             <td>
-              {country.data.attributes.status === 'CAMPAIGN' &&
+              {country.attributes.status === 'CAMPAIGN' &&
                 <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
                   <Button variant="success">Oppose</Button>
                 </OverlayTrigger>
