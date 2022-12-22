@@ -228,7 +228,9 @@ export const govsimApi = createApi({
           });
 
           socket.on('new_vote', (message) => {         
-            toast( 'A new vote was called, Please cast your ballot')               
+            if(message.partyId !== parseInt(localStorage.getItem('partyId'))) {
+              toast( 'A new vote was called, Please cast your ballot')      
+            }         
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'vote', id: 'LIST' }],
