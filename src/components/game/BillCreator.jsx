@@ -4,11 +4,11 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik'
 import TextField from '../common/TextField';
 import SelectField from '../common/SelectField';
-import { useGetEntitiesQuery, useAddEntityMutation } from '../../services/govsim';
+import { useGetEntitiesQuery, useAddEntityMutation, useGetEntitiesByFieldQuery } from '../../services/govsim';
 
 
 export default function BillCreator (props) {
-  const { partyId, closeCallback } = props
+  const { partyId, closeCallback, countryId } = props
   const [ltField, setLtField] = useState(false)
   const [lawField, setLawField] = useState(false)
   const [nameField, setNameField] = useState(false)
@@ -19,7 +19,7 @@ export default function BillCreator (props) {
   const { data: departments } = useGetEntitiesQuery({name:'department'})
   const { data: lawTypes } = useGetEntitiesQuery({name:'category', populate: true})
   const { data: laws } = useGetEntitiesQuery({ name: 'law', populate: true })
-  const { data: cLaws} = useGetEntitiesQuery({ name: 'country-law', populate: true })
+  const { data: cLaws} = useGetEntitiesByFieldQuery({ name: 'country-law', field: 'country', value: countryId, relation: 'id', populate: true })
   const [addEntity] = useAddEntityMutation() 
 
   const saveBill = async (vals) => {  
