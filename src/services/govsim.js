@@ -273,6 +273,25 @@ export const govsimApi = createApi({
               payload: [{ type: 'country', id: 'LIST' }, { type: 'party', id: 'LIST' }],
             });
           });
+
+          socket.on('new_story', (message) => {
+            console.log('story received')
+            if (parseInt(localStorage.getItem('partyId')) === parseInt(message.party.id) || message.allParties) {
+              dispatch(showAlert({
+                show:true, 
+                title: message.headline, 
+                showSpinner: false,
+                message: message.body,  
+                showConfirmButton: true,
+                allowOutsideClick: true,
+                allowEscapeKey: true                
+              }));  
+            }    
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'country', id: 'LIST' }],
+            });              
+          });
           
           
         } catch {
