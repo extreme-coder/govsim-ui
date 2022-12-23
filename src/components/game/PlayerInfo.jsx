@@ -18,11 +18,11 @@ export default function PlayerInfo(props) {
   return (
     <div className="container">
       <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          <p>Party Name: {party.attributes.name}</p>
-          <p>Remaining Budget: {party.attributes.budget}</p>
-          <p>Score: {party.attributes.score}</p>
-
+        
+          <div className="col-xl-3 col-lg-3 col-md-3">Party Name: {party.attributes.name}</div>
+          <div className="col-xl-3 col-lg-3 col-md-3">Remaining Budget: {party.attributes.budget}</div>
+          <div className="col-xl-3 col-lg-3 col-md-3" >Score: {party.attributes.points}</div>
+        <div className="col-xl-3 col-lg-3 col-md-3">
           {country.attributes.status === 'PARLIAMENT' && !isPartyReady && <Button onClick={() => readyForElection()}>Ready for Election</Button>}
           {country.attributes.status === 'CAMPAIGN' &&  !party.attributes.finished_campaign && <Button onClick={() => finishedCampaign()}>Finish Campaigning</Button>}
         </div>

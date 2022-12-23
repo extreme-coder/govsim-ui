@@ -199,16 +199,20 @@ export const govsimApi = createApi({
             });              
           });
 
-          socket.on('ready_for_election', (message) => {            
-            toast( message.name + ' is ready for Elections')
+          socket.on('ready_for_election', (message) => {       
+            if(message.id !== parseInt(localStorage.getItem('partyId'))) {
+              toast( message.name + ' is ready for Elections')
+            }                 
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
             });              
           });
 
-          socket.on('finished_campaign', (message) => {            
-            toast( message.name + ' has finished campaigning')
+          socket.on('finished_campaign', (message) => {       
+            if(message.id !== parseInt(localStorage.getItem('partyId'))) {
+              toast( message.name + ' has finished campaigning')
+            }
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
@@ -224,7 +228,9 @@ export const govsimApi = createApi({
           });
 
           socket.on('new_vote', (message) => {         
-            toast( 'A new vote was called, Please cast your ballot')               
+            if(message.partyId !== parseInt(localStorage.getItem('partyId'))) {
+              toast( 'A new vote was called, Please cast your ballot')      
+            }         
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'vote', id: 'LIST' }],

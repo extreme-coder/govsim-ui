@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 export default function PartyLister(props) {
-  const { countryId, countryCode, myParty } = props
+  const { countryId, countryCode, myParty, country } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'party', field: 'country', value: countryId, relation: 'id', populate: true })
   const { data: messages } = useGetMessagesQuery(countryId)
 
@@ -17,7 +17,11 @@ export default function PartyLister(props) {
       <div className="col-xl-10 col-lg-12 col-md-9">
         <table className="mb-0 table table-sm">
           <thead>
-            <tr><th>Party</th><th>Score</th><th>Ready for Elections</th></tr>
+            <tr>
+              <th>Party</th><th>Score</th>
+              {country.attributes.status === 'CAMPAIGN' && <th>Finished Campaigning</th> }
+              {country.attributes.status === 'PARLIAMENT' && <th>Ready for Elections</th> }
+            </tr>
           </thead>
           <tbody>
             {data && messages && data.data.map((party) =>
@@ -25,7 +29,8 @@ export default function PartyLister(props) {
                 <td>{party.attributes.name} [{party.attributes.template.data.attributes.name}]</td>
                 {/*<td>{getMessageCount(party.id)}</td>*/}
                 <td>{party.attributes.points}</td>
-                <td>{party.attributes.ready_for_election ? 'Yes' : 'No'}</td>
+                {country.attributes.status === 'CAMPAIGN' &&  <td>{party.attributes.finished_campaign ? 'Yes' : 'No'}</td> }
+                {country.attributes.status === 'PARLIAMENT' &&  <td>{party.attributes.ready_for_election ? 'Yes' : 'No'}</td> }
               </tr>
             )}
           </tbody>

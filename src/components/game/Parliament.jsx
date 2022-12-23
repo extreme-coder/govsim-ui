@@ -62,8 +62,7 @@ export default function Parliament(props) {
         />
       }
       {country &&
-        <div>
-          {!(country.data.attributes.elections_occurred) && <p>No elections have occurred yet</p>}
+        <div>          
           {(country.data.attributes.status === 'ELECTIONS') && <p>Elections are underway, results will be out soon</p>}
         </div>
       }
