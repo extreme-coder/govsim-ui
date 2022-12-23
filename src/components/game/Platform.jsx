@@ -12,6 +12,7 @@ import Promotions from './Promotions';
 export default function Platform(props) {
   const { partyId, countryId, electionsOccurred } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
+  const { data: countryLaws } = useGetEntitiesByFieldQuery({ name: 'country-law', field: 'country', value: countryId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
 
   const { data: country } = useGetEntityQuery({ name: 'country', id: countryId })
@@ -33,7 +34,7 @@ export default function Platform(props) {
           className="mb-3 nav-bordered "
         >
           <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
-            {country && data && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} country={country}/>}
+            {country && data && countryLaws && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} country={country} cLaws={countryLaws.data} />}
           </Tab>
 
           {country && allBills &&
@@ -102,12 +103,12 @@ function MyPlatform(props) {
         <tr><th>Bill</th><th>Law</th><th>Actions</th><th></th></tr>
       </thead>
       <tbody>
-        {data && data.map((bill) =>
+        {data && data.map((bill) => (
           <tr key={bill.id}>
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>
-              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED' ) && country.data.attributes.status === 'PARLIAMENT' && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}              
+              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED') && country.data.attributes.status === 'PARLIAMENT' && (props.cLaws.map((c) => (c.attributes.passed_law.data.id)).indexOf(bill.attributes.law.data.id) === -1) && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
             <td>
@@ -117,7 +118,7 @@ function MyPlatform(props) {
                 </OverlayTrigger>
               }
             </td>
-          </tr>
+          </tr>)
         )}
       </tbody>
     </table>
