@@ -18,14 +18,14 @@ export default function VotesInSession(props) {
 
   const getBallot = (voteId) => {
     for (let i = 0; i < ballots.data.length; ++i) {
-      if (ballots.data[i].attributes.vote.data.id == voteId) return ballots.data[i]
+      if (ballots.data[i].attributes.vote.data.id === voteId) return ballots.data[i]
     }
     return false
   }
 
   const voteActions = (vote, bill, ballot) => {
     if (bill.data.attributes.status === 'IN_VOTE') {
-      if (bill.data.attributes.party.data.id == partyId) {
+      if (bill.data.attributes.party.data.id === partyId) {
         return (<div>Your own vote</div>)
       }
       else if (ballot) {
@@ -40,7 +40,11 @@ export default function VotesInSession(props) {
           </div>)
       }
     } else {
-      return 'Vote finished'
+      if (vote.attributes.status === 'PASSED') {
+        return 'Bill passed'
+      } else if (vote.attributes.status === 'FAILED') {
+        return 'Bill failed'
+      }
     }
   }
 
