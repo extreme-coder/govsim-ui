@@ -10,6 +10,7 @@ import Demographics from '../../components/game/Demoraphics';
 import VotesInSession from '../../components/game/VotesInSession';
 import Parliament from '../../components/game/Parliament';
 import MessageHandler from '../../components/game/MessageHandler';
+import Laws from '../../components/game/Laws';
 import { useDispatch } from 'react-redux';
 import { changeGame, changeParty } from '../../redux/actions';
 import { useSelector } from 'react-redux';
@@ -90,7 +91,27 @@ export default function Game() {
             </div>
           </div>}
 
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Demographics</h4>
+                </div>    
+                {country && <Demographics countryId={country.data[0].id} />}
+              </div>
+            </div>
+          </div>
 
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Current Laws</h4>
+                </div>    
+                {country && party && party.data && party.data[0] && <Laws country={country.data[0]} partyId={party.data[0].id} />}
+              </div>
+            </div>
+          </div>
 
           <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
@@ -114,16 +135,9 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="col-xxl-4 col-lg-6 col-md-6 py-2">
-            <div className="card shadow-sm h-100 ">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Demographics</h4>
-                </div>    
-                {country && <Demographics countryId={country.data[0].id} />}
-              </div>
-            </div>
-          </div>
+
+
+          
 
        
           

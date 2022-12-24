@@ -28,14 +28,16 @@ class SelectableTitleCard extends React.Component {
     var {
       title,
       description,
-      selected
+      selected,
+      cardSize
     } = this.props;
     return (
       <SelectableCard onClick={this.props.onClick}
         selected={selected}>
         <div className="content">
-          <h3 className="title">{title}</h3>
-          <p className="description">{description}</p>
+          {cardSize === "small" && <h5 className="title">{title}</h5>}
+          {cardSize == null && <h3 className="title">{title}</h3>}
+          {description && <p className="description">{description}</p>}
         </div>
       </SelectableCard>
     );
@@ -89,7 +91,8 @@ class SelectableCardList extends React.Component {
   render() {
     var {
       contents,
-      multiple
+      multiple,
+      cardSize
     } = this.props;
 
     var content = contents.map((cardContent, i) => {
@@ -104,10 +107,15 @@ class SelectableCardList extends React.Component {
         <SelectableTitleCard key={id} 
           title={title} description={description}
           selected={selected} 
+          cardSize={cardSize}
           onClick={(e) => this.onItemSelected(id)} />
       );
     });
-    return (<div className="cardlist">{content}</div>);
+    const clsName = "cardlist_" + cardSize;
+    return (
+      <div className={clsName}>{content}</div>
+
+    );
   }
 }
 

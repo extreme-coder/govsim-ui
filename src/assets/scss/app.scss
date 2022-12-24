@@ -110,3 +110,25 @@ File: Main Css File
 @import "custom/plugins/ion-rangeslider";
 @import "custom/plugins/jstree";
 @import "custom/plugins/frappe-gantt";
+
+.carousel-indicators {
+  margin-bottom: -2rem;
+}
+.carousel-control-prev {
+  right: 33px;
+  left: auto;
+}
+.carousel-control-prev, .carousel-control-next{
+  top: 300px;
+}
+.cardlist_small .content{
+  padding: 2px;
+}
+
+.cardlist_small .scard .selectable .check:before {
+  border: 16px solid transparent;
+}
+
+.cardlist_small .scard {
+  margin: 10px 0px;
+}
