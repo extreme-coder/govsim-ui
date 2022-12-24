@@ -21,7 +21,8 @@ export default function JoinGame() {
   
   const joinGame = async (vals) => {    
     const e = await addEntity({ name: 'party', body: { data: { country: country.data[0].id, name: vals.name, template: selectedPartyType, user: user.user.id } } })
-    //check if any error came
+    localStorage.setItem("partyId", e.data.id)
+    //check if any error came    
     if (!e.error) {
       navigate(`/game/${code}`)
     }    

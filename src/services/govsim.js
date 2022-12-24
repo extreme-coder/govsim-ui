@@ -229,7 +229,21 @@ export const govsimApi = createApi({
 
           socket.on('new_vote', (message) => {         
             if(message.partyId !== parseInt(localStorage.getItem('partyId'))) {
-              toast( 'A new vote was called, Please cast your ballot')      
+              //toast( 'A new vote was called, Please cast your ballot')      
+              dispatch(showAlert({
+                show:true, 
+                title:'New Vote', 
+                showSpinner: true,
+                message:`Please cast your ballot for new bill ${message.promise.name} in support for ${message.promise.law.name}`,
+                msgBody: message,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,                
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Support',
+                denyButtonText: `Reject`,                           
+              }));     
             }         
             dispatch({
               type: `govsimApi/invalidateTags`,

@@ -13,7 +13,7 @@ export default function VotesInSession(props) {
 
 
   const addBallot = (voteId, forVote) => {
-    addEntity({ name: 'ballot', body: { data: { 'vote': voteId, for: forVote, party: partyId } } })
+    addEntity({ name: 'ballot', body: { data: { 'vote': voteId, for: forVote, party: partyId, country: countryId } } })
   }
 
   const getBallot = (voteId) => {

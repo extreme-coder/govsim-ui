@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery, useGetMessagesQuery } from '../../services/govsim';
+import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery, useGetMessagesQuery, useAddEntityMutation } from '../../services/govsim';
 import { useParams } from "react-router-dom";
 import PlayerInfo from '../../components/game/PlayerInfo';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import SweetAlert2 from 'react-sweetalert2';
 import spinner from '../../assets/images/spinner.gif';
 import Image from 'react-bootstrap/Image';
+import { showAlert } from '../../redux/actions';
 
 
 
@@ -25,6 +26,7 @@ export default function Game() {
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
+  const [addEntity] = useAddEntityMutation()
   const dispatch = useDispatch()
 
 
@@ -44,7 +46,25 @@ export default function Game() {
 
   return (
     <>
-      <SweetAlert2 {...message} >
+      <SweetAlert2 {...message} 
+      onResolve={result => {
+        console.log(result);
+        if(message.msgBody.promise) {
+          const voteId = message.msgBody.voteId;
+          const partyId = party.data[0].id;
+          const countryId = message.msgBody.country;
+          if(result.isConfirmed) {     
+            addEntity({ name: 'ballot', body: { data: { 'vote': voteId, for: true, party: partyId, country: countryId } } })                         
+          } else {
+            addEntity({ name: 'ballot', body: { data: { 'vote': voteId, for: false, party: partyId, country: countryId } } })                              
+          }
+        }        
+
+        dispatch(showAlert({
+          show:false,               
+        }));   
+      }}     
+      >
         {message.message}
         {message.showSpinner && <div><Image src={spinner}  /></div>}
       </SweetAlert2>
@@ -113,7 +133,7 @@ export default function Game() {
             </div>
           </div>
 
-          <div className="col-xxl-3 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -126,7 +146,7 @@ export default function Game() {
           </div>
 
 
-          <div className="col-xxl-5 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
