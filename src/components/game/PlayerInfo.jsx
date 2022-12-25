@@ -11,8 +11,16 @@ export default function PlayerInfo(props) {
     updateEntity({ name: 'party', id: party.id, body: { data: { ready_for_election: true } } })
   }
 
+  const revertReadyForElection = () => {
+    updateEntity({ name: 'party', id: party.id, body: { data: { ready_for_election: false } } })
+  }
+
   const finishedCampaign = () => {
     updateEntity({ name: 'party', id: party.id, body: { data: { finished_campaign: true } } })
+  }
+
+  const revertFinishedCampaign = () => {
+    updateEntity({ name: 'party', id: party.id, body: { data: { finished_campaign: false } } })
   }
 
   return (
@@ -24,7 +32,15 @@ export default function PlayerInfo(props) {
           <div className="col-xl-3 col-lg-3 col-md-3" >Score: {party.attributes.points}</div>
         <div className="col-xl-3 col-lg-3 col-md-3">
           {country.attributes.status === 'PARLIAMENT' && !isPartyReady && <Button onClick={() => readyForElection()}>Ready for Election</Button>}
-          {country.attributes.status === 'CAMPAIGN' &&  !party.attributes.finished_campaign && <Button onClick={() => finishedCampaign()}>Finish Campaigning</Button>}
+          {country.attributes.status === 'PARLIAMENT' && isPartyReady && <div>
+            <p>You are ready for the next election</p>
+            <Button onClick={() => revertReadyForElection()}>Go Back</Button>
+          </div>}
+          {country.attributes.status === 'CAMPAIGN' && !party.attributes.finished_campaign && <Button onClick={() => finishedCampaign()}>Finish Campaigning</Button>}
+          {country.attributes.status === 'CAMPAIGN' && party.attributes.finished_campaign && <div>
+            <p>You are finished campaigning</p>
+            <Button onClick={() => revertFinishedCampaign()}>Go Back</Button>
+          </div>}
         </div>
       </div>
     </div>
