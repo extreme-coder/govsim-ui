@@ -3,6 +3,13 @@ const getMenuItems = (gameCode) => {
   return [
     { key: 'navigation', label: 'Navigation', isTitle: true },
     {
+      key: 'apps-crm',
+      label: 'Game',
+      isTitle: false,
+      icon: 'uil-tachometer-fast',
+      url: `/game/${gameCode}`,
+    },
+    {
       key: 'apps-chat',
       label: 'Chat',
       isTitle: false,
@@ -10,10 +17,10 @@ const getMenuItems = (gameCode) => {
       url: `/chat/${gameCode}`,
     },
     {
-      key: 'apps-chat',
+      key: 'apps-calendar',
       label: 'History',
       isTitle: false,
-      icon: 'uil-comments-alt',
+      icon: 'uil-calender',
       url: `/history/${gameCode}`,
     },
   ];
