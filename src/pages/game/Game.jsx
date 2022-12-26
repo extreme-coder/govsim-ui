@@ -80,7 +80,7 @@ export default function Game() {
       <SweetAlert2 {...message} 
       onResolve={result => {
         console.log(result);
-        if(message.msgBody.promise) {
+        if(message.msgBody && message.msgBody.promise) {
           const voteId = message.msgBody.voteId;
           const partyId = party.data[0].id;
           const countryId = message.msgBody.country;

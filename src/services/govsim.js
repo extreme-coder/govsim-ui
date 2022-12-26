@@ -227,6 +227,24 @@ export const govsimApi = createApi({
             });              
           });
 
+          socket.on('vote_passed', (message) => {    
+            toast( 'Vote passed for bill ' + message.name + ' in support for ' + message.law.name)                    
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'vote', id: 'LIST' }, { type: 'promise', id: 'LIST' }, { type: 'country-law', id: 'LIST' }],
+            });              
+          });
+
+          socket.on('vote_failed', (message) => {                        
+            toast( 'Vote failed for bill ' + message.name + ' in support for ' + message.law.name)                    
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'vote', id: 'LIST' }, { type: 'promise', id: 'LIST' }],
+            });              
+          });
+
+          
+
           socket.on('new_vote', (message) => {         
             if(message.partyId !== parseInt(localStorage.getItem('partyId'))) {
               //toast( 'A new vote was called, Please cast your ballot')      
