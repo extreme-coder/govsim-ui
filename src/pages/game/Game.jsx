@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetEntitiesByFieldQuery, useGetEntityQuery, useGetPartiesQuery, useGetMessagesQuery, useAddEntityMutation } from '../../services/govsim';
 import { useParams } from "react-router-dom";
 import PlayerInfo from '../../components/game/PlayerInfo';
@@ -18,17 +18,37 @@ import SweetAlert2 from 'react-sweetalert2';
 import spinner from '../../assets/images/spinner.gif';
 import Image from 'react-bootstrap/Image';
 import { showAlert } from '../../redux/actions';
+import Joyride from 'react-joyride';
 
 
 
-export default function Game() {
+export default function Game() {  
   const { code } = useParams();
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
   const [addEntity] = useAddEntityMutation()
   const dispatch = useDispatch()
+  const [runJoyride, setRunJoyride] = useState(false);
 
+  const joyRide = {
+    steps: [
+      {
+        target: '.demographics',
+        content: 'Lets guide you on how to play this game',     
+        placement: 'center',  
+      },
+      {
+        target: '.demographics',
+        content: 'This card shows the demographics of your country.',     
+        disableBeacon: true,  
+      },
+      {
+        target: '.currentLaws',
+        content: 'This card shows the current laws in your country.',        
+      }     
+    ]
+  };
 
 
   useEffect(() => {
@@ -38,6 +58,11 @@ export default function Game() {
     if (party && party.data[0]) {
       dispatch(changeParty(party.data[0]))
     }    
+    //get from local storage
+    if(!localStorage.getItem("joyride1")) {
+      setRunJoyride(true);
+      localStorage.setItem("joyride1", true);
+    }
   }, [country, party]);
 
   const { message } = useSelector((state) => ({
@@ -46,6 +71,12 @@ export default function Game() {
 
   return (
     <>
+      <Joyride steps={joyRide.steps} 
+        continuous={true}
+        showProgress={true}
+        run={runJoyride}
+        scrollToFirstStep={true}
+      />
       <SweetAlert2 {...message} 
       onResolve={result => {
         console.log(result);
@@ -113,7 +144,7 @@ export default function Game() {
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">
+              <div className="card-body demographics">
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <h4 class="header-title">Demographics</h4>
                 </div>    
@@ -124,7 +155,7 @@ export default function Game() {
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">
+              <div className="card-body currentLaws">
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <h4 class="header-title">Current Laws</h4>
                 </div>    
