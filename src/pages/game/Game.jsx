@@ -20,7 +20,7 @@ import Image from 'react-bootstrap/Image';
 import { showAlert } from '../../redux/actions';
 import Joyride from 'react-joyride';
 import Approvals from '../../components/game/Approvals';
-
+import Stories from '../../components/game/Stories';
 
 
 export default function Game() {  
@@ -196,6 +196,20 @@ export default function Game() {
                 </div> 
                 {country && party && party.data && party.data[0] &&
                   <Approvals countryId={country.data[0].id} partyId={party.data[0].id} />
+                }
+              </div>
+            </div>
+          </div>
+
+
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">News Stories</h4>
+                </div> 
+                {country  &&
+                  <Stories country={country.data[0]} />
                 }
               </div>
             </div>

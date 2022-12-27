@@ -329,7 +329,7 @@ export const govsimApi = createApi({
             }    
             dispatch({
               type: `govsimApi/invalidateTags`,
-              payload: [{ type: 'country', id: 'LIST' }],
+              payload: [{ type: 'story', id: 'LIST' }],
             });              
           });
           
