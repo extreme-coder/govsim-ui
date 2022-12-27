@@ -183,7 +183,12 @@ export const govsimApi = createApi({
           // update our query result with the received message
           socket.on('message', (message) => {
             if(!window.location.href.includes('chat') && message.attributes.to_party.data.id === parseInt(localStorage.getItem('partyId'))) {
-              toast('You received a message from ' + message.attributes.from_party.data.attributes.name)
+              if(message.attributes.is_group) {
+                toast('A message was posted by ' + message.attributes.from_party.data.attributes.name + ' on All parties channel')
+              } else {
+                toast('You received a message from ' + message.attributes.from_party.data.attributes.name)
+              }
+             
             }            
             updateCachedData((draft) => {
               draft.data.push(message);
