@@ -6,6 +6,8 @@ import './Chat.css'
 import profileImg from './profile.png'
 import { useState, useRef, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
+import { changeGame } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 
 const getAvatar = (party) => {
   if (party.attributes.template.data.attributes.avatar.data) {
@@ -37,6 +39,14 @@ export default function Chat() {
     }
   }
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (country && country.data) {
+      dispatch(changeGame(country.data[0]))
+    }
+  }, [country]);
+
   const onPartyChange = (sparty) => {
     setSelectedParty(sparty)
     //update all messages to be read from this party
@@ -44,7 +54,7 @@ export default function Chat() {
   }
 
   return (
-    < div className="container" >
+    < div className="container pt-4" >
       <div className="row clearfix">
         <div className="col-lg-12">
           <div className="card chat-app">
