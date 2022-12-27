@@ -74,12 +74,14 @@ export default function VotesInSession(props) {
       }
       num++
     })
-    const support = supportTotal / num
-    const against = againstTotal / num
-    if (support > against) {
-      return `${support*100+Math.ceil(Math.random*5)}% of your supporters like this bill`
+    if (num > 0) {
+      const support = supportTotal / num
+      const against = againstTotal / num
+      if (support > against) {
+        return `${support*100+Math.ceil(Math.random*5)}% of your supporters like this bill`
+      }
+      return `${against*100+Math.ceil(Math.random*5)}% of your supporters oppose this bill`
     }
-    return `${against*100+Math.ceil(Math.random*5)}% of your supporters oppose this bill`
     return ''
   }
 
