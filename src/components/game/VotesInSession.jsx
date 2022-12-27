@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetEntitiesByFieldQuery } from '../../services/govsim';
+import { useGetEntitiesByFieldQuery, useGetEntitiesQuery } from '../../services/govsim';
 import BillCreator from './BillCreator';
 import { Button, Accordion } from 'react-bootstrap';
 import { useAddEntityMutation } from '../../services/govsim';
@@ -10,6 +10,8 @@ export default function VotesInSession(props) {
   const { data } = useGetEntitiesByFieldQuery({ name: 'vote', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=promise&populate[1]=promise.law&populate[2]=promise.party&populate[3]=promise.country_law' })
   const { data: ballots } = useGetEntitiesByFieldQuery({ name: 'ballot', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: promises } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
+  const { data: yourBlocks } = useGetEntitiesByFieldQuery({ name: 'block', field: 'preferred_party', value: partyId, relation: 'id', populate: true })
+  const { data: laws } = useGetEntitiesQuery({ name: 'law', populate: true })
   const [addEntity] = useAddEntityMutation()
 
 
@@ -25,7 +27,6 @@ export default function VotesInSession(props) {
   }
 
   const voteActions = (vote, bill, ballot) => {
-    console.log(vote)
     if (bill.data.attributes.status === 'IN_VOTE') {
       if (bill.data.attributes.party.data.id === partyId) {
         return (<div>Your own vote</div>)
@@ -51,18 +52,34 @@ export default function VotesInSession(props) {
   }
 
   const voteInfo = (vote, bill, ballot) => {
-    console.log(promises)
-    console.log(bill)
     if (bill.data.attributes.party.data.id === partyId) {
       return ''
     }
     if (promises && promises.data.map(p => p.attributes.country_law.data.id).indexOf(bill.data.attributes.country_law.data.id) !== -1) {
-      console.log('test')
       if (promises.data.map(p => p.attributes.law.data.id).indexOf(bill.data.attributes.law.data.id) !== -1) {
         return 'Supports a law in your campaign'
       }
       return 'Opposed to a law in your campaign'
     }
+    let supportTotal = 0
+    let num = 0
+    let againstTotal = 0
+    const law = laws.data[laws.data.map(l => l.id).indexOf(bill.data.attributes.law.data.id)]
+    yourBlocks.data.map(b => {
+      if (law.attributes.groups_support.data.map(g => g.id).indexOf(b.attributes.demographic.data.id) !== -1) {
+        supportTotal++
+      }
+      if (law.attributes.groups_against.data.map(g => g.id).indexOf(b.attributes.demographic.data.id) !== -1) {
+        againstTotal++
+      }
+      num++
+    })
+    const support = supportTotal / num
+    const against = againstTotal / num
+    if (support > against) {
+      return `${support*100+Math.ceil(Math.random*5)}% of your supporters like this bill`
+    }
+    return `${against*100+Math.ceil(Math.random*5)}% of your supporters oppose this bill`
     return ''
   }
 
@@ -73,7 +90,7 @@ export default function VotesInSession(props) {
         <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th><th>Info</th></tr>
       </thead>
       <tbody>
-        {data && ballots && data.data.map((vote) => {
+        {data && ballots && yourBlocks && laws && data.data.map((vote) => {
           const bill = vote.attributes.promise
           const ballot = getBallot(vote.id)
           return (<tr key={vote.id}>
