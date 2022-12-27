@@ -1,5 +1,5 @@
 
-const getMenuItems = (gameCode) => {
+const getMenuItems = (gameCode, msgCount) => {
   return [
     { key: 'navigation', label: 'Navigation', isTitle: true },
     {
@@ -11,7 +11,7 @@ const getMenuItems = (gameCode) => {
     },
     {
       key: 'apps-chat',
-      label: 'Chat',
+      label: 'Chat' + (msgCount > 0 ? ` (${msgCount})` : ''),
       isTitle: false,
       icon: 'uil-comments-alt',
       url: `/chat/${gameCode}`,

@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 import classNames from 'classnames';
@@ -14,6 +14,7 @@ import logoSm from '../assets/images/logo_sm.png';
 import logoDark from '../assets/images/logo-dark.png';
 import logoDarkSm from '../assets/images/logo_sm_dark.png';
 import logo from '../assets/images/logo.png';
+import { useGetMessagesQuery } from '../services/govsim';
 
 
 type SideBarContentProps = {
@@ -22,18 +23,32 @@ type SideBarContentProps = {
 
 /* sidebar content */
 const SideBarContent = ({ hideUserProfile }: SideBarContentProps) => {
-
+  
+  const [countryId, setCountryId] = useState(null)
   const { country } = useSelector((state) => ({
     country: state.theme.Game.country,
   }));
+  const {data: messages} = useGetMessagesQuery(countryId)
+
+  const unReadMessageCount = () => {
+    return (messages && messages.data.filter((m) => !m.attributes.is_read && m.attributes.to_party.data.id === parseInt(localStorage.getItem('partyId'))).length) || 0 
+  }
+
   let gameCode
   if(country) {
     gameCode = country.attributes.join_code
   }
 
+  useEffect(() => {
+    if(country) {
+      setCountryId(country.id)
+    }
+  }, [country])
+
+
   return (
     <>
-      <AppMenu menuItems={getMenuItems(gameCode)} />
+      <AppMenu menuItems={getMenuItems(gameCode, unReadMessageCount())} />
       <div className="clearfix" />
     </>
   );

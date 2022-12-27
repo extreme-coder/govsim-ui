@@ -5,11 +5,15 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import './Chat.css'
 import profileImg from './profile.png'
 import { useState, useRef, useEffect } from 'react';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { changeGame } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 
 const getAvatar = (party) => {
+  if(party.id == -1) {
+    return (<img src={profileImg} alt="avatar" />)
+  }
+
   if (party.attributes.template.data.attributes.avatar.data) {
     return (<img src={`${process.env.REACT_APP_API_DOMAIN}${party.attributes.template.data.attributes.avatar.data.attributes.url}`} alt="avatar" />)
   } else {
@@ -23,13 +27,26 @@ export default function Chat() {
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
+  const { data: parties } = useGetEntitiesByFieldQuery({ name: 'party', field: 'country', value: code, relation: 'join_code', populate: false })
+  
 
   const [addMessage] = useAddEntityMutation()
   const [updateMessages] = useUpdateMessagesReadMutation()
   const [messageText, setMessageText] = useState('')
+  const [countryId, setCountryId] = useState(null)
+  const { data: messages } = useGetMessagesQuery(countryId)
 
   const sendMessage = () => {
-    addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: selectedParty.id, from_party: party.data[0].id } } })
+    if( selectedParty.id == -1) {
+      //group message- loop thru all parties to send the message
+      parties.data.forEach(p => {
+        if(p.id != party.data[0].id) {
+          addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: p.id, from_party: party.data[0].id, is_group:true } } })
+        }
+      })
+    } else {
+      addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: selectedParty.id, from_party: party.data[0].id } } })
+    }    
     setMessageText('')
   }
 
@@ -44,13 +61,14 @@ export default function Chat() {
   useEffect(() => {
     if (country && country.data) {
       dispatch(changeGame(country.data[0]))
+      setCountryId(country.data[0].id)
     }
   }, [country]);
 
   const onPartyChange = (sparty) => {
     setSelectedParty(sparty)
     //update all messages to be read from this party
-    updateMessages({body:{ data: {from_party: sparty.id, to_party: party.data[0].id}}})
+    updateMessages({ body: { data: { from_party: sparty.id, to_party: party.data[0].id } } })
   }
 
   return (
@@ -58,7 +76,7 @@ export default function Chat() {
       <div className="row clearfix">
         <div className="col-lg-12">
           <div className="card chat-app">
-            {country && party && <PartyList countryId={country.data[0].id} onPartyChange={onPartyChange} myParty={party.data[0]} />}
+            {country && party && messages && <PartyList messages={messages} countryId={country.data[0].id} onPartyChange={onPartyChange} myParty={party.data[0]} />}
             <div className="chat">
               <div className="chat-header clearfix">
                 <div className="row">
@@ -72,12 +90,12 @@ export default function Chat() {
                     </div>
                   </div>
                   <div className="col-lg-6 hidden-sm text-right">
-                      <Link to={`/game/${code}`}><Button className="btn btn-secondary">Close</Button></Link>
+                    <Link to={`/game/${code}`}><Button className="btn btn-secondary">Close</Button></Link>
                   </div>
                 </div>
               </div>
               <div className="chat-history">
-                {selectedParty && party && country && <Messages countryId={country.data[0].id} selectedParty={selectedParty} myParty={party.data[0]} />}
+                {selectedParty && party && country && messages && <Messages messages={messages} countryId={country.data[0].id} selectedParty={selectedParty} myParty={party.data[0]} />}
               </div>
               <div className="chat-message clearfix">
                 <div className="input-group mb-0">
@@ -96,27 +114,30 @@ export default function Chat() {
 };
 
 export function Messages(props) {
-  const { selectedParty, myParty, countryId } = props
-  const { data: messages } = useGetMessagesQuery(countryId)
+  const { selectedParty, myParty, countryId, messages } = props
+  
   const [updateMessages] = useUpdateMessagesReadMutation()
 
   const getMessageRender = (message) => {
     if (!message.attributes.from_party) return
-    if (message.attributes.from_party.data.id === selectedParty.id && message.attributes.to_party.data.id === myParty.id) {
+    if ((message.attributes.from_party.data.id === selectedParty.id && message.attributes.to_party.data.id === myParty.id && !message.attributes.is_group) ||
+      (selectedParty.id == -1 && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group) ) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data">
-            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', {hour: '2-digit', minute: '2-digit'})}</span>
+            <span className="message-data-name">{message.attributes.from_party.data.attributes.name}</span> - 
+            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
           <div className="message my-message">{message.attributes.body}</div>
         </li>
       )
     }
-    if (message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id) {
+    if ((message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id && !message.attributes.is_group) ||
+    (selectedParty.id == -1 && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group)) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data text-right">
-            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', {hour: '2-digit', minute: '2-digit'})}</span>
+            <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', { hour: '2-digit', minute: '2-digit' })}</span>
             {getAvatar(myParty)}
           </div>
           <div className="message other-message float-right">{message.attributes.body}</div>
@@ -134,7 +155,7 @@ export function Messages(props) {
   useEffect(() => {
     scrollToBottom()
     //messages are read after rendering
-    updateMessages({body:{ data: {from_party: selectedParty.id, to_party: myParty.id}}})
+    updateMessages({ body: { data: { from_party: selectedParty.id, to_party: myParty.id } } })
   }, [messages]);
 
   return (
@@ -152,34 +173,66 @@ export function Messages(props) {
 }
 
 export function PartyList(props) {
-  const { countryId, onPartyChange, myParty } = props
+  const { countryId, onPartyChange, myParty, messages } = props
   const [selectedParty, setSelectedParty] = useState(null)
   const { data: parties } = useGetEntitiesByFieldQuery({ name: 'party', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=template&populate[1]=template.avatar' })
 
+  const allParty = {
+    id:-1, 
+    attributes:
+    {
+      name:'All',
+      template: {
+        data: {
+          attributes: {
+            name: 'All',
+          }
+        }
+      }
+    }
+  }
+
+  const getUnReadCount = (partyId) => {
+    if(partyId == -1) {
+      //get unread message with isgroup true
+      return messages && messages.data.filter((m) => m.attributes.from_party.data.id !== myParty.id && m.attributes.is_group && !m.attributes.is_read).length
+    } else {
+      //get unread message count from the party
+      return  messages && messages.data.filter((m) => m.attributes.from_party.data.id === partyId && !m.attributes.is_group  && !m.attributes.is_read).length
+    }    
+  }
+
   useEffect(() => {
     if (parties && parties.data && selectedParty == null) {
-      const firstParty = parties.data.filter((p)=> p.id !== myParty.id)[0]
+      const firstParty = parties.data.filter((p) => p.id !== myParty.id)[0]
       setSelectedParty(firstParty)
       onPartyChange(firstParty)
     }
-  }, [parties]);  
+  }, [parties]);
 
   return (
     <div id="plist" className="people-list">
 
       <ul className="list-unstyled chat-list mt-2 mb-0">
         {selectedParty && parties && parties.data.map((party) => {
-          if(party.id === myParty.id) return
+          if (party.id === myParty.id) return
           return (
             <li key={party.id} className={`clearfix ${(party.id === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(party); onPartyChange(party) }}>
               {getAvatar(party)}
               <div className="about">
-                <div className="name">{party.attributes.name}</div>
+                <div className="name">{party.attributes.name} ({getUnReadCount(party.id)}) </div>
               </div>
             </li>
           )
-        }
-        )}
+        })}
+
+        {selectedParty && <li key={-1} className={`clearfix ${(-1 === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(allParty); onPartyChange(allParty) }}>          
+          <div className="about">
+            <div className="name">All Parties ({getUnReadCount(-1)})</div>
+          </div>
+        </li>
+      }
+        
       </ul>
     </div>
   )

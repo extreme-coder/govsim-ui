@@ -105,8 +105,7 @@
   width: 40px
 }
 
-.chat .chat-history .message-data-time {
-  color: #434651;
+.chat .chat-history .message-data-time {  
   padding-left: 6px
 }
 
