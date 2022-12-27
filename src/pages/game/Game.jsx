@@ -19,6 +19,7 @@ import spinner from '../../assets/images/spinner.gif';
 import Image from 'react-bootstrap/Image';
 import { showAlert } from '../../redux/actions';
 import Joyride from 'react-joyride';
+import Approvals from '../../components/game/Approvals';
 
 
 
@@ -182,6 +183,19 @@ export default function Game() {
               <div className="card-body">
                 {country && party && party.data && party.data[0] &&
                   <Platform country={country.data[0]} countryId={country.data[0].id} partyId={party.data[0].id}  electionsOccurred={country.data[0].attributes.elections_occurred} />
+                }
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 class="header-title">Approval Ratings</h4>
+                </div> 
+                {country && party && party.data && party.data[0] &&
+                  <Approvals countryId={country.data[0].id} partyId={party.data[0].id} />
                 }
               </div>
             </div>
