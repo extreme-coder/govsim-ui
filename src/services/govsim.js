@@ -258,17 +258,17 @@ export const govsimApi = createApi({
               //toast( 'A new vote was called, Please cast your ballot')      
               dispatch(showAlert({
                 show:true, 
-                title:'New Vote', 
+                title:'Vote In Session', 
                 showSpinner: true,
-                message:`Please cast your ballot for new bill ${message.promise.name} in support for ${message.promise.law.name}`,
+                message:`The bill ${message.promise.name} has been proposed to change our ${message.promise.law_type.name} to ${message.promise.law.name}`,
                 msgBody: message,
                 showConfirmButton: true,
                 allowOutsideClick: false,
                 allowEscapeKey: false,                
                 showDenyButton: true,
                 showCancelButton: false,
-                confirmButtonText: 'Support',
-                denyButtonText: `Reject`,                           
+                confirmButtonText: 'Vote Yes',
+                denyButtonText: `Vote No`,                           
               }));     
             }         
             dispatch({
