@@ -7,7 +7,7 @@ import { useAddEntityMutation } from '../../services/govsim';
 
 export default function VotesInSession(props) {
   const { countryId, partyId } = props
-  const { data } = useGetEntitiesByFieldQuery({ name: 'vote', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=promise&populate[1]=promise.law&populate[2]=promise.party&populate[3]=promise.country_law' })
+  const { data } = useGetEntitiesByFieldQuery({ name: 'vote', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=promise&populate[1]=promise.law&populate[2]=promise.party&populate[3]=promise.country_law', sort: 'desc' })
   const { data: ballots } = useGetEntitiesByFieldQuery({ name: 'ballot', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: promises } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: yourBlocks } = useGetEntitiesByFieldQuery({ name: 'block', field: 'preferred_party', value: partyId, relation: 'id', populate: true })

@@ -65,7 +65,7 @@ export const govsimApi = createApi({
     }),
     getEntitiesByField: builder.query({
       query: (arg) => {
-        const { name, field, value, relation, populate } = arg;
+        const { name, field, value, relation, populate, sort } = arg;
         let query
         if (relation) {
           query = `${pluralize(name.replace('_', '-'))}?filters[${field}][${relation}][$eq]=${value}`
@@ -76,6 +76,9 @@ export const govsimApi = createApi({
           query += '&populate=*'
         } else if (populate !== undefined) {
           query += '&' + populate
+        }
+        if (sort) {
+          query += `&sort=id%3A${sort}`          
         }
         return query
       },
