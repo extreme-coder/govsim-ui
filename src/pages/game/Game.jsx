@@ -36,18 +36,22 @@ export default function Game() {
     steps: [
       {
         target: '.demographics',
-        content: 'Lets guide you on how to play this game',     
+        content: "Welcome to NationBuildr! Let's learn how to play.",     
         placement: 'center',  
       },
       {
         target: '.demographics',
-        content: 'This card shows the demographics of your country.',     
+        content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`, 
         disableBeacon: true,  
       },
       {
         target: '.currentLaws',
-        content: 'This card shows the current laws in your country.',        
-      }     
+        content: `Over here, you can see the laws which are active right now in ${country.data[0].attributes.name}.`,        
+      },
+      {
+        target: '.platform',
+        content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,   
+      }
     ]
   };
 
@@ -180,7 +184,7 @@ export default function Game() {
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">
+              <div className="card-body platform">
                 {country && party && party.data && party.data[0] &&
                   <Platform country={country.data[0]} countryId={country.data[0].id} partyId={party.data[0].id}  electionsOccurred={country.data[0].attributes.elections_occurred} />
                 }
