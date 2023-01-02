@@ -181,3 +181,5 @@ function AllPlatform(props) {
     </table>
   )
 }
+
+export { MyPlatform, AllPlatform }
