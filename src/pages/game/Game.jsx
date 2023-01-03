@@ -31,29 +31,31 @@ export default function Game() {
   const [addEntity] = useAddEntityMutation()
   const dispatch = useDispatch()
   const [runJoyride, setRunJoyride] = useState(false);
-
-  const joyRide = {
-    steps: [
-      {
-        target: '.demographics',
-        content: "Welcome to NationBuildr! Let's learn how to play.",     
-        placement: 'center',  
-      },
-      {
-        target: '.demographics',
-        content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`, 
-        disableBeacon: true,  
-      },
-      {
-        target: '.currentLaws',
-        content: `Over here, you can see the laws which are active right now in ${country.data[0].attributes.name}.`,        
-      },
-      {
-        target: '.platform',
-        content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,   
-      }
-    ]
-  };
+  const joyRide = {}
+  if (country && country.data) {
+    joyRide = {
+      steps: [
+        {
+          target: '.demographics',
+          content: "Welcome to NationBuildr! Let's learn how to play.",     
+          placement: 'center',  
+        },
+        {
+          target: '.demographics',
+          content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`, 
+          disableBeacon: true,  
+        },
+        {
+          target: '.currentLaws',
+          content: `Over here, you can see the laws which are active right now in ${country.data[0].attributes.name}.`,        
+        },
+        {
+          target: '.platform',
+          content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,   
+        }
+      ]
+    };
+  }
 
 
   useEffect(() => {
