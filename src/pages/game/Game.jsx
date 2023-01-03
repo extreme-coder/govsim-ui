@@ -31,7 +31,7 @@ export default function Game() {
   const [addEntity] = useAddEntityMutation()
   const dispatch = useDispatch()
   const [runJoyride, setRunJoyride] = useState(false);
-  const joyRide = {}
+  let joyRide = {}
   if (country && country.data) {
     joyRide = {
       steps: [
@@ -212,7 +212,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">News Stories</h4>
+                  <h4 class="header-title">Latest News</h4>
                 </div> 
                 {country  &&
                   <Stories country={country.data[0]} />
