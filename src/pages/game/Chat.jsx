@@ -39,9 +39,15 @@ export default function Chat() {
   const sendMessage = () => {
     if( selectedParty.id == -1) {
       //group message- loop thru all parties to send the message
-      parties.data.forEach(p => {
+      let first = true
+      parties.data.forEach(p => {        
+        let is_cc = true
         if(p.id != party.data[0].id) {
-          addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: p.id, from_party: party.data[0].id, is_group:true } } })
+          if(first) {
+            is_cc = false
+            first = false
+          }
+          addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: p.id, from_party: party.data[0].id, is_group:true, is_cc: is_cc } } })
         }
       })
     } else {
@@ -133,7 +139,7 @@ export function Messages(props) {
       )
     }
     if ((message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id && !message.attributes.is_group) ||
-    (selectedParty.id == -1 && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group)) {
+    (selectedParty.id == -1 && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc)) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data text-right">
