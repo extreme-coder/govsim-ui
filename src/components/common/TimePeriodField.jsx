@@ -37,8 +37,8 @@ export const TimePeriodField = ({ ...props }) => {
       <Form.Label>{props.label}</Form.Label>
       <InputGroup>
         {props.inputGroupPrepend}
-        <Form.Control type="text" name={`${field.name}_hrs`} value={hours} onChange={(val)=>{updateHours(val)}} />
-        <Form.Control type="text" name={`${field.name}_min`} value={min} onChange={(val)=>{updateMins(val)}} />
+        Hours: <Form.Control style={{width:'50px', flex: 'none', marginLeft: '10px', marginRight: '10px'}} type="text" name={`${field.name}_hrs`} value={hours} onChange={(val)=>{updateHours(val)}} />
+        Minutes: <Form.Control style={{width:'50px', flex: 'none', marginLeft: '10px', marginRight: '10px'}} type="text" name={`${field.name}_min`} value={min} onChange={(val)=>{updateMins(val)}} />
       </InputGroup>
     </Form.Group>
   );

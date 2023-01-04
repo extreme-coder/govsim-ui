@@ -229,6 +229,46 @@ export const govsimApi = createApi({
               payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
             });              
           });
+
+          socket.on('ready_for_parliament', (message) => {       
+            if(message.id !== parseInt(localStorage.getItem('partyId'))) {
+              toast( message.name + ' is ready for Parliament session')
+            }
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
+            });              
+          });
+
+          socket.on('country_status_change', (message) => {       
+            if(message.status === 'CAMPAIGN') {
+              dispatch(showAlert({
+                show:true, 
+                title:'Campaigning Period', 
+                showSpinner: false,
+                message:`Elections are now open. You can now start campaigning for your party.`,
+                msgBody: message,
+                showConfirmButton: true,                
+              }));     
+            }
+            if(message.status === 'PARLIAMENT') {
+              dispatch(showAlert({
+                show:true, 
+                title:'Parliament Session', 
+                showSpinner: false,
+                message:`Parliament session is now open. You can now vote for the bills that are up for vote.`,
+                msgBody: message,
+                showConfirmButton: true,                
+              }));     
+            }
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }, { type: 'country', id: 'LIST' }],
+            });              
+          });
+
+          
+          
           
 
           socket.on('new_bill', (message) => {                        
@@ -306,7 +346,7 @@ export const govsimApi = createApi({
                 show:true, 
                 showSpinner: false,
                 title:'Elections',                 
-                message:'Elections result are out',                            
+                message:'Election result are out and its time to form Coalitions with other parties',                            
               }));   
             }, 100);
             

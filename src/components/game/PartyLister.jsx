@@ -26,6 +26,7 @@ export default function PartyLister(props) {
               <th>Party</th><th>Score</th>
               {country.attributes.status === 'CAMPAIGN' && <th>Finished Campaigning</th>}
               {country.attributes.status === 'PARLIAMENT' && <th>Ready for Elections</th>}
+              {country.attributes.status === 'COALITIONS' && <th>Ready for Parliament</th>}
               <th />
             </tr>
           </thead>
@@ -37,6 +38,7 @@ export default function PartyLister(props) {
                 <td>{party.attributes.points}</td>
                 {country.attributes.status === 'CAMPAIGN' && <td>{party.attributes.finished_campaign ? 'Yes' : 'No'}</td>}
                 {country.attributes.status === 'PARLIAMENT' && <td>{party.attributes.ready_for_election ? 'Yes' : 'No'}</td>}
+                {country.attributes.status === 'COALITIONS' && <td>{party.attributes.ready_for_parliament ? 'Yes' : 'No'}</td>}
                 <td><Button className="btn btn-primary" onClick={() => setPartyViewing(party.id)}>View Platform</Button></td>
               </tr>
             )}

@@ -15,6 +15,14 @@ export default function PlayerInfo(props) {
     updateEntity({ name: 'party', id: party.id, body: { data: { ready_for_election: false } } })
   }
 
+  const readyForParliament = () => {
+    updateEntity({ name: 'party', id: party.id, body: { data: { ready_for_parliament: true } } })
+  }
+
+  const revertReadyForParliament = () => {
+    updateEntity({ name: 'party', id: party.id, body: { data: { ready_for_parliament: false } } })
+  }
+
   const finishedCampaign = () => {
     updateEntity({ name: 'party', id: party.id, body: { data: { finished_campaign: true } } })
   }
@@ -40,6 +48,11 @@ export default function PlayerInfo(props) {
           {country.attributes.status === 'CAMPAIGN' && party.attributes.finished_campaign && <div>
             <p>You are finished campaigning</p>
             <Button onClick={() => revertFinishedCampaign()}>Go Back</Button>
+          </div>}
+          {country.attributes.status === 'COALITIONS' && !party.attributes.ready_for_parliament && <Button onClick={() => readyForParliament()}>Ready for Parliament</Button>}
+          {country.attributes.status === 'COALITIONS' && party.attributes.ready_for_parliament && <div>
+            <p>You are ready for Parliament Session</p>
+            <Button onClick={() => revertReadyForParliament()}>Go Back</Button>
           </div>}
         </div>
       </div>

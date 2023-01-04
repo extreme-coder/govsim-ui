@@ -138,7 +138,7 @@ export default function Game() {
             </div>
           </div>}
 
-          {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">

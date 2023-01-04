@@ -45,6 +45,10 @@ export default function CountryInfo(props) {
             <h4>Build your platform and campaign, elections will start in <Countdown date={new Date(props.country.attributes.next_election)} renderer={renderer} />
               or when all parties finish campaigning</h4>
           }
+          {country.attributes.status === 'COALITIONS' &&
+            <h4>Election results are out and its time to form Coalitions with other parties. Parliament session will start in <Countdown date={new Date(props.country.attributes.next_parliament_session)} renderer={renderer} />
+              or when all parties are ready for the Parliament session</h4>
+          }
           {country.attributes.status === 'PARLIAMENT' &&
             <h4>Parliament is in session, Campaigning for next elections will be in <Countdown date={new Date(props.country.attributes.next_campaign)} renderer={renderer} />
               or when all parties are ready for elections</h4>

@@ -79,7 +79,7 @@ function NewGameForm({onSubmit}) {
 
   return (
     <div className="container">
-      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: '', is_public: true, election_period:120, campaign_period:30 }}>
+      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: '', is_public: true, election_period:120, campaign_period:30, coalition_period:30 }}>
         {(props) => (
           <Form noValidate onSubmit={props.handleSubmit}>
             <Form.Group controlId="formBasicName">
@@ -88,8 +88,9 @@ function NewGameForm({onSubmit}) {
               </SelectField>
               <TextField name="name" label="Country Name" placeholder="Name your Country" />             
               <TextField type="hidden" name="is_public" />
-              Election Period : <TimePeriodField name="election_period" />
-              Campaign Period : <TimePeriodField name="campaign_period" />
+              <TimePeriodField name="election_period" label="Election Period"/>              
+              <TimePeriodField name="campaign_period" label="Campaign Period"/>
+              <TimePeriodField name="coalition_period" label="Coalition Period"/>
               <SelectableCardList 
                 multiple={false}           
                 contents={[{id: 1, title:'Public'}, {id:2 , title:'Private'}]}
