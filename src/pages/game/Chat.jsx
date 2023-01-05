@@ -9,7 +9,12 @@ import { Button } from 'react-bootstrap';
 import { changeGame } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 
-const getAvatar = (party) => {
+const getAvatar = (party, isCoalition) => {
+  
+  if(isCoalition) {
+    return (<img src={profileImg} alt="avatar" />)
+  }
+
   if(party.id == -1) {
     return (<img src={profileImg} alt="avatar" />)
   }
@@ -24,6 +29,7 @@ const getAvatar = (party) => {
 export default function Chat() {
   const { code } = useParams();
   const [selectedParty, setSelectedParty] = useState(null)
+  const [isCoalition, setIsCoalition] = useState(false)
   const [user, setUser] = useLocalStorage("user", "");
   const { data: country } = useGetEntitiesByFieldQuery({ name: 'country', field: 'join_code', value: code })
   const { data: party } = useGetPartiesQuery({ code, user: user.user.id })
@@ -50,7 +56,20 @@ export default function Chat() {
           addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: p.id, from_party: party.data[0].id, is_group:true, is_cc: is_cc } } })
         }
       })
-    } else {
+    } else if(isCoalition) {
+      let first = true
+      selectedParty.attributes.parties.data.forEach(p => {        
+        let is_cc = true
+        if(p.id != party.data[0].id) {
+          if(first) {
+            is_cc = false
+            first = false
+          }
+          addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: p.id, from_party: party.data[0].id, is_group:true, is_cc: is_cc, coalition: selectedParty.id } } })
+        }
+      })
+    }
+    else {
       addMessage({ name: 'message', body: { data: { country: country.data[0].id, body: messageText, to_party: selectedParty.id, from_party: party.data[0].id } } })
     }    
     setMessageText('')
@@ -71,8 +90,9 @@ export default function Chat() {
     }
   }, [country]);
 
-  const onPartyChange = (sparty) => {
+  const onPartyChange = (sparty, isCoalition) => {
     setSelectedParty(sparty)
+    setIsCoalition(isCoalition)
     //update all messages to be read from this party
     updateMessages({ body: { data: { from_party: sparty.id, to_party: party.data[0].id } } })
   }
@@ -88,11 +108,11 @@ export default function Chat() {
                 <div className="row">
                   <div className="col-lg-6">
                     <a href="" data-toggle="modal" data-target="#view_info">
-                      {selectedParty && getAvatar(selectedParty)}
+                      {selectedParty && getAvatar(selectedParty, isCoalition)}
                     </a>
                     <div className="chat-about">
                       <h6 className="m-b-0">{selectedParty && selectedParty.attributes.name}</h6>
-                      <small>{selectedParty && selectedParty.attributes.template.data.attributes.name}</small>
+                      <small>{!isCoalition && selectedParty && selectedParty.attributes.template.data.attributes.name}</small>
                     </div>
                   </div>
                   <div className="col-lg-6 hidden-sm text-right">
@@ -101,7 +121,7 @@ export default function Chat() {
                 </div>
               </div>
               <div className="chat-history">
-                {selectedParty && party && country && messages && <Messages messages={messages} countryId={country.data[0].id} selectedParty={selectedParty} myParty={party.data[0]} />}
+                {selectedParty && party && country && messages && <Messages messages={messages} countryId={country.data[0].id} isCoalition={isCoalition} selectedParty={selectedParty} myParty={party.data[0]} />}
               </div>
               <div className="chat-message clearfix">
                 <div className="input-group mb-0">
@@ -120,14 +140,16 @@ export default function Chat() {
 };
 
 export function Messages(props) {
-  const { selectedParty, myParty, countryId, messages } = props
+  const { selectedParty, myParty, countryId, messages, isCoalition } = props
   
   const [updateMessages] = useUpdateMessagesReadMutation()
 
   const getMessageRender = (message) => {
     if (!message.attributes.from_party) return
     if ((message.attributes.from_party.data.id === selectedParty.id && message.attributes.to_party.data.id === myParty.id && !message.attributes.is_group) ||
-      (selectedParty.id == -1 && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group) ) {
+      (selectedParty.id == -1 && !message.attributes.coalition && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group) ||
+      (isCoalition && message.attributes.coalition && selectedParty.id == message.attributes.coalition.data.id && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group)
+      ) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data">
@@ -139,12 +161,14 @@ export function Messages(props) {
       )
     }
     if ((message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id && !message.attributes.is_group) ||
-    (selectedParty.id == -1 && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc)) {
+    (selectedParty.id == -1 && !message.attributes.coalition && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc) ||
+    (isCoalition && message.attributes.coalition && selectedParty.id == message.attributes.coalition.data.id && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc)
+    ) {
       return (
         <li className="clearfix" key={message.id}>
           <div className="message-data text-right">
             <span className="message-data-time">{new Date(message.attributes.createdAt).toLocaleTimeString('en-us', { hour: '2-digit', minute: '2-digit' })}</span>
-            {getAvatar(myParty)}
+            {getAvatar(myParty, true)}
           </div>
           <div className="message other-message float-right">{message.attributes.body}</div>
         </li>
@@ -181,8 +205,9 @@ export function Messages(props) {
 export function PartyList(props) {
   const { countryId, onPartyChange, myParty, messages } = props
   const [selectedParty, setSelectedParty] = useState(null)
+  const [isCoalition, setIsCoalition] = useState(false)
   const { data: parties } = useGetEntitiesByFieldQuery({ name: 'party', field: 'country', value: countryId, relation: 'id', populate: 'populate[0]=template&populate[1]=template.avatar' })
-
+  const { data: coalitions } = useGetEntitiesByFieldQuery({ name: 'coalition', field: 'country', value: countryId, relation: 'id', populate: true })
   const allParty = {
     id:-1, 
     attributes:
@@ -212,7 +237,7 @@ export function PartyList(props) {
     if (parties && parties.data && selectedParty == null) {
       const firstParty = parties.data.filter((p) => p.id !== myParty.id)[0]
       setSelectedParty(firstParty)
-      onPartyChange(firstParty)
+      onPartyChange(firstParty, false)
     }
   }, [parties]);
 
@@ -223,7 +248,7 @@ export function PartyList(props) {
         {selectedParty && parties && parties.data.map((party) => {
           if (party.id === myParty.id) return
           return (
-            <li key={party.id} className={`clearfix ${(party.id === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(party); onPartyChange(party) }}>
+            <li key={party.id} className={`clearfix ${(!isCoalition && party.id === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(party); onPartyChange(party, false);setIsCoalition(false) }}>
               {getAvatar(party)}
               <div className="about">
                 <div className="name">{party.attributes.name} ({getUnReadCount(party.id)}) </div>
@@ -232,12 +257,23 @@ export function PartyList(props) {
           )
         })}
 
-        {selectedParty && <li key={-1} className={`clearfix ${(-1 === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(allParty); onPartyChange(allParty) }}>          
+        {coalitions && coalitions.data.map((coalition) => {
+          if (coalition.id === myParty.id) return
+          return (
+            <li key={coalition.id} className={`clearfix ${(isCoalition && coalition.id === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(coalition); onPartyChange(coalition, true);setIsCoalition(true) }}>              
+              <div className="about">
+                <div className="name">{coalition.attributes.name} ({getUnReadCount(coalition.id)}) </div>
+              </div>
+            </li>
+          )
+        })}
+
+        {selectedParty && <li key={-1} className={`clearfix ${(-1 === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(allParty); onPartyChange(allParty, false);setIsCoalition(false) }}>          
           <div className="about">
             <div className="name">All Parties ({getUnReadCount(-1)})</div>
           </div>
         </li>
-      }
+        }
         
       </ul>
     </div>
