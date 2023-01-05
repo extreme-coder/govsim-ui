@@ -187,7 +187,11 @@ export const govsimApi = createApi({
           socket.on('message', (message) => {
             if(!window.location.href.includes('chat') && message.attributes.to_party.data.id === parseInt(localStorage.getItem('partyId'))) {
               if(message.attributes.is_group) {
-                toast('A message was posted by ' + message.attributes.from_party.data.attributes.name + ' on All parties channel')
+                if(message.attributes.coalition) {
+                  toast('A message was posted by ' + message.attributes.from_party.data.attributes.name + ' on ' +  message.attributes.coalition.data.attributes.name + ' channel')
+                } else {
+                  toast('A message was posted by ' + message.attributes.from_party.data.attributes.name + ' on All parties channel')
+                }                
               } else {
                 toast('You received a message from ' + message.attributes.from_party.data.attributes.name)
               }
@@ -209,6 +213,16 @@ export const govsimApi = createApi({
               payload: [{ type: 'party', id: 'LIST' }],
             });              
           });
+
+          socket.on('new_coalition', (message) => {            
+            toast('You have been invited to a new Coalition : ' + message.name)
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'coalition', id: 'LIST' }],
+            });              
+          });
+
+          
 
           socket.on('ready_for_election', (message) => {       
             if(message.id !== parseInt(localStorage.getItem('partyId'))) {

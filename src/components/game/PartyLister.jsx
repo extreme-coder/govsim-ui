@@ -13,7 +13,7 @@ export default function PartyLister(props) {
   const { data: messages } = useGetMessagesQuery(countryId)
   const { data: countryLaws } = useGetEntitiesByFieldQuery({ name: 'country-law', field: 'country', value: countryId, relation: 'id', populate: true })
   const { data: promises } = useGetEntitiesQuery({ name: 'promise', populate: true })
-  const { data: coalitions } = useGetEntitiesByFieldQuery({ name: 'coalition', field: 'country', value: countryId, relation: 'id', populate: false })
+  const { data: coalitions } = useGetEntitiesByFieldQuery({ name: 'coalition', field: 'country', value: countryId, relation: 'id', populate: true })
   const [partyViewing, setPartyViewing] = useState(-1)
   const [coalition, setCoalition] = useState([myParty.id])
   const [addEntity] = useAddEntityMutation() 
@@ -94,6 +94,24 @@ export default function PartyLister(props) {
           <MyPlatform data={promises.data.filter(p => p.attributes.party.data.id === partyViewing)} countryId={countryId} partyId={partyViewing} electionsOccurred={country.attributes.elections_occurred} country={country} cLaws={countryLaws.data} />
           <Button className="btn btn-primary" onClick={() => setPartyViewing(-1)}>Back</Button>
         </div>}
+      </div>
+      <div className="col-xl-10 col-lg-12 col-md-9">
+        <div><table className="mb-0 table table-sm">
+          <thead>
+            <tr>
+              <th>Coalition Name</th><th>Parties</th>                            
+            </tr>
+          </thead>
+          <tbody>
+            {coalitions && coalitions.data.map((coalition) =>
+              <tr key={coalition.id}>
+                <td>{coalition.attributes.name} </td>                
+                <td>{coalition.attributes.parties.data.map((p) => p.attributes.name).join(', ')}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>        
+        </div>
       </div>
     </div>
   );
