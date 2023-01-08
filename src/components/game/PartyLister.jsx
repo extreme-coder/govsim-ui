@@ -86,10 +86,10 @@ export default function PartyLister(props) {
             )}
           </tbody>
         </table>
-        <Link to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link></div>}
+        <Link to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link>
         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={createCoalition}>
-          <Button>Create Coalition</Button>
-        </OverlayTrigger>
+          <Button className="m-2">Create Coalition</Button>
+        </OverlayTrigger></div>}
         {partyViewing !== -1 && <div>
           <MyPlatform data={promises.data.filter(p => p.attributes.party.data.id === partyViewing)} countryId={countryId} partyId={partyViewing} electionsOccurred={country.attributes.elections_occurred} country={country} cLaws={countryLaws.data} />
           <Button className="btn btn-primary" onClick={() => setPartyViewing(-1)}>Back</Button>

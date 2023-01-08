@@ -99,7 +99,8 @@ function LawSelector(props) {
             <TextField style={{zIndex:0}} name="name" label="Bill Name" />
             </div>
             <div className="actions">
-              <Button type="submit" > Save </Button>              
+              <Button type="submit" > Save </Button>    
+              <Button className="m-1" onClick={closeCallback} > Cancel </Button>              
                            
             </div>
           </Form.Group>
