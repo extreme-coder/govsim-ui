@@ -48,7 +48,7 @@ export default function Platform(props) {
 
         </Tabs>
 
-        {country && country.attributes.status === 'CAMPAIGN' && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+        {country && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
 
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
