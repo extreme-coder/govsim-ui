@@ -262,7 +262,7 @@ export function PartyList(props) {
         })}
 
         {coalitions && coalitions.data.map((coalition) => {
-          if (coalition.id === myParty.id) return
+          if(!coalition.attributes.parties.data.map((p) => p.id).includes(myParty.id)) return          
           return (
             <li key={coalition.id} className={`clearfix ${(isCoalition && coalition.id === selectedParty.id) ? 'active' : ''}`} onClick={() => { setSelectedParty(coalition); onPartyChange(coalition, true);setIsCoalition(true) }}>              
               <div className="about">
