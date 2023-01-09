@@ -31,12 +31,15 @@ export default function Game() {
   const [addEntity] = useAddEntityMutation()
   const dispatch = useDispatch()
   const [runJoyride, setRunJoyride] = useState(false);
+  const [runCoalitionJoyride, setRunCoalitionJoyride] = useState(false);
+  const [runParliamentJoyride, setRunParliamentJoyride] = useState(false);
+
   let joyRide = {}
   if (country && country.data) {
     joyRide = {
       steps: [
         {
-          target: '.demographics',
+          target: 'body',
           content: "Welcome to NationBuildr! Let's learn how to play.",     
           placement: 'center',  
         },
@@ -44,16 +47,50 @@ export default function Game() {
           target: '.demographics',
           content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`, 
           disableBeacon: true,  
+          placement: 'bottom'
         },
         {
           target: '.currentLaws',
           content: `Over here, you can see the laws which are active right now in ${country.data[0].attributes.name}.`,        
         },
         {
-          target: '.platform',
+          target: '.carousel-control-next-icon',
+          content: 'Click here to see the laws of next Ministry.',          
+        },
+        {
+          target: '.uil-question-circle',
+          content: 'Click here to learn more about the law and different options and its effect on the country.',          
+          
+        },
+        {
+          target: '.billsTable',
           content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,   
         }
+      ],
+      
+      coalitionSteps: [
+        {
+          target: '.parliament',
+          content: `Over here, you can see the parliament of ${country.data[0].attributes.name}.`,          
+          disableBeacon: true,  
+        },
+        {
+          target: '.partyList',
+          content: 'To make coalition, select other parties from the list and click on the "Create Coalition" button.',         
+        },
+        {
+          target: '.open_chat',
+          content: 'You can chat with other parties or have a group chat with your coalition members.',
+        }
+      ],
+
+      parliamentSteps: [
+        {
+          target: '.billsTable',
+          content: 'You can call your bills for a vote here. If your bill is voted into law, you will get 400 points while everyboy who voted for it will get 100 points.',
+        }
       ]
+
     };
   }
 
@@ -61,14 +98,23 @@ export default function Game() {
   useEffect(() => {
     if (country && country.data) {
       dispatch(changeGame(country.data[0]))
+      if(country.data[0].attributes.status === 'COALITIONS' && !localStorage.getItem("coalitionJoyride")) {
+        setRunCoalitionJoyride(true);
+        localStorage.setItem("coalitionJoyride", true);
+      }
+      if(country.data[0].attributes.status === 'PARLIAMENT' && !localStorage.getItem("parliamentJoyride")) {
+        setRunParliamentJoyride(true);
+        localStorage.setItem("parliamentJoyride", true);
+      }
+      
     }
     if (party && party.data[0]) {
       dispatch(changeParty(party.data[0]))
     }    
     //get from local storage
-    if(!localStorage.getItem("joyride1")) {
+    if(!localStorage.getItem("joyride2")) {
       setRunJoyride(true);
-      localStorage.setItem("joyride1", true);
+      localStorage.setItem("joyride2", true);
     }
   }, [country, party]);
 
@@ -83,7 +129,23 @@ export default function Game() {
         showProgress={true}
         run={runJoyride}
         scrollToFirstStep={true}
+        scrollOffset={150}
       />
+      <Joyride steps={joyRide.coalitionSteps} 
+        continuous={true}
+        showProgress={true}
+        run={runCoalitionJoyride}
+        scrollToFirstStep={true}
+        scrollOffset={150}
+      />
+      <Joyride steps={joyRide.parliamentSteps} 
+        continuous={true}
+        showProgress={true}
+        run={runParliamentJoyride}
+        scrollToFirstStep={true}
+        scrollOffset={150}
+      />
+      
       <SweetAlert2 {...message} 
       onResolve={result => {
         console.log(result);
@@ -142,7 +204,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Parliament</h4>
+                  <h4 class="header-title parliament">Parliament</h4>
                 </div> 
                 {country && <Parliament countryId={country.data[0].id} />}
               </div>
@@ -151,9 +213,9 @@ export default function Game() {
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body demographics">
+              <div className="card-body ">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Demographics</h4>
+                  <h4 className="header-title demographics">Demographics</h4>
                 </div>    
                 {country && <Demographics countryId={country.data[0].id} />}
               </div>

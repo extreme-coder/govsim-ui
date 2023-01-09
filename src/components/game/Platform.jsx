@@ -97,7 +97,7 @@ function MyPlatform(props) {
   );
 
   return (
-    <table className="mb-0 table table-sm ">
+    <table className="mb-0 table table-sm billsTable">
       <thead>
         <tr><th>Bill</th><th>Law</th><th>Actions</th><th></th></tr>
       </thead>

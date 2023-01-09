@@ -56,7 +56,7 @@ export default function PartyLister(props) {
   return (
     <div className="container">      
       <div className="col-xl-10 col-lg-12 col-md-9">
-        {partyViewing === -1 && <div><table className="mb-0 table table-sm">
+        {partyViewing === -1 && <div><table className="mb-0 table table-sm partyList">
           <thead>
             <tr>
               <th>Party</th><th>Score</th>
@@ -86,9 +86,9 @@ export default function PartyLister(props) {
             )}
           </tbody>
         </table>
-        <Link to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link>
+        <Link className="open_chat" to={`/chat/${countryCode}`} ><Button className="btn btn-primary">Open Chat</Button></Link>
         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={createCoalition}>
-          <Button className="m-2">Create Coalition</Button>
+          <Button className="m-2 create_coalition">Create Coalition</Button>
         </OverlayTrigger></div>}
         {partyViewing !== -1 && <div>
           <MyPlatform data={promises.data.filter(p => p.attributes.party.data.id === partyViewing)} countryId={countryId} partyId={partyViewing} electionsOccurred={country.attributes.elections_occurred} country={country} cLaws={countryLaws.data} />
