@@ -144,11 +144,15 @@ export function Messages(props) {
   
   const [updateMessages] = useUpdateMessagesReadMutation()
 
+  const hasCoalition = (message) => {
+    message.attributes.coalition && message.attributes.coalition.data
+  }
+
   const getMessageRender = (message) => {
     if (!message.attributes.from_party) return
     if ((message.attributes.from_party.data.id === selectedParty.id && message.attributes.to_party.data.id === myParty.id && !message.attributes.is_group) ||
-      (selectedParty.id == -1 && !message.attributes.coalition && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group) ||
-      (isCoalition && message.attributes.coalition && selectedParty.id == message.attributes.coalition.data.id && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group)
+      (selectedParty.id == -1 && !hasCoalition(message) && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group) ||
+      (isCoalition && hasCoalition(message) && selectedParty.id == message.attributes.coalition.data.id && message.attributes.to_party.data.id === myParty.id && message.attributes.is_group)
       ) {
       return (
         <li className="clearfix" key={message.id}>
@@ -161,8 +165,8 @@ export function Messages(props) {
       )
     }
     if ((message.attributes.from_party.data.id === myParty.id && message.attributes.to_party.data.id === selectedParty.id && !message.attributes.is_group) ||
-    (selectedParty.id == -1 && !message.attributes.coalition && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc) ||
-    (isCoalition && message.attributes.coalition && selectedParty.id == message.attributes.coalition.data.id && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc)
+    (selectedParty.id == -1 && !hasCoalition(message) && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc) ||
+    (isCoalition && hasCoalition(message) && selectedParty.id == message.attributes.coalition.data.id && message.attributes.from_party.data.id === myParty.id && message.attributes.is_group && !message.attributes.is_cc)
     ) {
       return (
         <li className="clearfix" key={message.id}>
