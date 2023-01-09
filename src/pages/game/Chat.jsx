@@ -145,7 +145,7 @@ export function Messages(props) {
   const [updateMessages] = useUpdateMessagesReadMutation()
 
   const hasCoalition = (message) => {
-    message.attributes.coalition && message.attributes.coalition.data
+    return (message.attributes.coalition && message.attributes.coalition.data)
   }
 
   const getMessageRender = (message) => {
