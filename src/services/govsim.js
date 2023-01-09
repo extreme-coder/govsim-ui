@@ -161,7 +161,7 @@ export const govsimApi = createApi({
       providesTags: (result, error, arg) => [{ type: 'party', id: 'LIST' }],
     }),
     getMessages: builder.query({
-      query: (country) => `messages?filters[country][id]=${country}&populate=*&pagination[pageSize]=1000`,
+      query: (country) => `messages?filters[$or][0][from_party][id][$eq]=${parseInt(localStorage.getItem('partyId'))}&filters[$or][1][to_party][id][$eq]=${parseInt(localStorage.getItem('partyId'))}&filters[country][id][$eq]=${country}&populate=*&pagination[pageSize]=1000`,
       async onCacheEntryAdded(
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
