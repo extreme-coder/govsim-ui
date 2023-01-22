@@ -172,13 +172,14 @@ export default function Game() {
       </SweetAlert2>
       <div className="container-fluid pt-2">
         <div className="row">
-          <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+          
+          {country && country.data[0].attributes.status === 'COALITIONS' &&  <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">                           
                 {country && <CountryInfo country={country.data[0]} /> }              
               </div>
             </div>
-          </div>
+          </div>}
 
           <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
             <div className="card shadow-sm h-100 ">
