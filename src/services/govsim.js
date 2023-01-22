@@ -166,6 +166,7 @@ export const govsimApi = createApi({
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
+        if(!arg) return;
         // create a websocket connection when the cache subscription starts
         //const ws = new WebSocket('ws://localhost:1337')
         const socket = io(process.env.REACT_APP_API_DOMAIN);
@@ -254,7 +255,7 @@ export const govsimApi = createApi({
             });              
           });
 
-          socket.on('country_status_change', (message) => {       
+          socket.on('country_status_change', (message) => {                   
             if(message.status === 'CAMPAIGN') {
               dispatch(showAlert({
                 show:true, 
@@ -289,6 +290,14 @@ export const govsimApi = createApi({
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'promise', id: 'LIST' }],
+            });              
+          });
+
+          socket.on('new_turn', (message) => {        
+            toast('It is now ' + message.party.name + ' party\'s turn ')                            
+            dispatch({
+              type: `govsimApi/invalidateTags`,
+              payload: [{ type: 'party', id: 'LIST' }],
             });              
           });
 

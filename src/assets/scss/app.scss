@@ -132,3 +132,39 @@ File: Main Css File
 .cardlist_small .scard {
   margin: 10px 0px;
 }
+
+
+.playing_card {
+  height:250px;
+  width: 180px;
+  background-size:contain;
+  padding-top:50px;
+  padding-left:20px;
+  background-repeat:no-repeat;
+  background-image: url(/assets/images/default_card.png);
+}
+
+.party_card {
+  height:150px;
+  width: 100px;
+  background-size:contain;
+  padding-top:50px;
+  padding-left:10px;
+  background-repeat:no-repeat;
+  background-image: url(/assets/images/default_card.png);  
+}
+
+.party_card_start {
+  height:218px;
+  width: 150px;
+  background-size:contain;
+  padding-top:50px;
+  padding-left:10px;
+  background-repeat:no-repeat;
+  background-image: url(/assets/images/default_card.png);  
+}
+
+.party_card.active {
+  height:170px;
+  width: 120px;
+} 

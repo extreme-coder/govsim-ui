@@ -21,6 +21,8 @@ import { showAlert } from '../../redux/actions';
 import Joyride from 'react-joyride';
 import Approvals from '../../components/game/Approvals';
 import Stories from '../../components/game/Stories';
+import TurnAction from '../../components/game/TurnAction';
+import PartyCards from '../../components/game/PartyCards';
 
 
 export default function Game() {  
@@ -186,12 +188,30 @@ export default function Game() {
             </div>
           </div>
 
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">                      
+                {party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} /> }              
+              </div>
+            </div>
+          </div>}
+
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">          
+                {party && party.data && party.data[0] && <TurnAction country={country.data[0]} party={party.data[0]} />}                
+              </div>
+            </div>
+          </div>}
+
+          
+
 
           {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Votes In Session</h4>
+                  <h4 className="header-title">Votes In Session</h4>
                 </div> 
                 {country && party && party.data && party.data[0] &&
                   <VotesInSession countryId={country.data[0].id} partyId={party.data[0].id} />
@@ -204,9 +224,21 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title parliament">Parliament</h4>
+                  <h4 className="header-title parliament">Parliament</h4>
                 </div> 
                 {country && <Parliament countryId={country.data[0].id} />}
+              </div>
+            </div>
+          </div>}
+
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+            <div className="card shadow-sm h-100 ">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h4 className="header-title">Parties</h4>
+                </div> 
+                {country && party && party.data && party.data[0] &&
+                  <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} country={country.data[0]} />}
               </div>
             </div>
           </div>}
@@ -222,30 +254,7 @@ export default function Game() {
             </div>
           </div>
 
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
-            <div className="card shadow-sm h-100 ">
-              <div className="card-body currentLaws">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Current Laws</h4>
-                </div>    
-                {country && party && party.data && party.data[0] && <Laws country={country.data[0]} partyId={party.data[0].id} />}
-              </div>
-            </div>
-          </div>
-
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
-            <div className="card shadow-sm h-100 ">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Parties</h4>
-                </div> 
-                {country && party && party.data && party.data[0] &&
-                  <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} country={country.data[0]} />}
-              </div>
-            </div>
-          </div>
-
-
+  
           <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
             <div className="card shadow-sm h-100 ">
               <div className="card-body platform">
@@ -260,7 +269,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Approval Ratings</h4>
+                  <h4 className="header-title">Approval Ratings</h4>
                 </div> 
                 {country && party && party.data && party.data[0] &&
                   <Approvals countryId={country.data[0].id} partyId={party.data[0].id} />
@@ -274,7 +283,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 class="header-title">Latest News</h4>
+                  <h4 className="header-title">Latest News</h4>
                 </div> 
                 {country  &&
                   <Stories country={country.data[0]} />

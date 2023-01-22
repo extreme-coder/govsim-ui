@@ -24,7 +24,7 @@ export default function JoinGame() {
     localStorage.setItem("partyId", e.data.id)
     //check if any error came    
     if (!e.error) {
-      navigate(`/game/${code}`)
+      navigate(`/startgame/${code}`)
     }    
   }
 

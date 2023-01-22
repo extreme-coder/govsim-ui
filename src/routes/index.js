@@ -15,6 +15,7 @@ import Logout from '../pages/account/Logout';
 import Register from '../pages/account/Register';
 import ForgetPassword from '../pages/account/ForgetPassword';
 import NewGame from '../pages/game/NewGame';
+import StartGame from '../pages/game/StartGame';
 
 
 
@@ -56,6 +57,10 @@ const AllRoutes = () => {
         {
           path: 'game/:code',          
           element: <PrivateRoute roles={'Admin'} component={Game} />,
+        },
+        {
+          path: 'startgame/:code',          
+          element: <PrivateRoute roles={'Admin'} component={StartGame} />,
         },
         {
           path: 'chat/:code',          

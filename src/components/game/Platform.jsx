@@ -48,7 +48,7 @@ export default function Platform(props) {
 
         </Tabs>
 
-        {country && <Button onClick={() => setAddBill(true)}>Add Bill</Button>}
+     
 
       </div>}
       {addBill && <BillCreator partyId={partyId} closeCallback={() => setAddBill(false)} countryId={props.countryId} />}
@@ -99,7 +99,7 @@ function MyPlatform(props) {
   return (
     <table className="mb-0 table table-sm billsTable">
       <thead>
-        <tr><th>Bill</th><th>Law</th><th>Actions</th><th></th></tr>
+        <tr><th>Bill</th><th>Law</th><th></th></tr>
       </thead>
       <tbody>
         {data && data.map((bill) => (
@@ -110,13 +110,7 @@ function MyPlatform(props) {
               {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED') && country.attributes.status === 'PARLIAMENT' && (props.cLaws.map((c) => (c.attributes.passed_law.data.id)).indexOf(bill.attributes.law.data.id) === -1) && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
               {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
             </td>
-            <td>
-              {country.attributes.status === 'CAMPAIGN' &&
-                <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
-                  <Button variant="success">Promote</Button>
-                </OverlayTrigger>
-              }
-            </td>
+            
           </tr>)
         )}
       </tbody>
@@ -160,7 +154,7 @@ function AllPlatform(props) {
   return (
     <table className="mb-0 table table-sm ">
       <thead>
-        <tr><th>Bill</th><th>Law</th><th>Party</th><th>Actions</th></tr>
+        <tr><th>Bill</th><th>Law</th><th>Party</th></tr>
       </thead>
       <tbody>
         {data && data.map((bill) =>
@@ -168,13 +162,7 @@ function AllPlatform(props) {
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
             <td>{bill.attributes.party.data.attributes.name}</td>
-            <td>
-              {country.attributes.status === 'CAMPAIGN' &&
-                <OverlayTrigger trigger="click" placement="auto" overlay={popover(bill)} rootClose>
-                  <Button variant="success">Oppose</Button>
-                </OverlayTrigger>
-              }
-            </td>
+            
           </tr>
         )}
       </tbody>
