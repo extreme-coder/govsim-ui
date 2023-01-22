@@ -173,7 +173,7 @@ export default function Game() {
       <div className="container-fluid pt-2">
         <div className="row">
           
-          {country && country.data[0].attributes.status === 'COALITIONS' &&  <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+          {country && country.data[0].attributes.status === 'COALITIONS' &&  <div className="col-xxl-12 col-lg-12 col-md-12 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">                           
                 {country && <CountryInfo country={country.data[0]} /> }              
@@ -181,7 +181,7 @@ export default function Game() {
             </div>
           </div>}
 
-          <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+          <div className="col-xxl-12 col-lg-12 col-md-12 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">                      
                 {party && party.data && party.data[0] && country && <PlayerInfo name={user.user.username} party={party.data[0]} country={country.data[0]} /> }              
@@ -189,7 +189,7 @@ export default function Game() {
             </div>
           </div>
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">                      
                 {party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} /> }              
@@ -197,7 +197,7 @@ export default function Game() {
             </div>
           </div>}
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-2">
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN' ) && <div className="col-xxl-12 col-lg-12 col-md-12 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">          
                 {party && party.data && party.data[0] && <TurnAction country={country.data[0]} party={party.data[0]} />}                
@@ -208,7 +208,7 @@ export default function Game() {
           
 
 
-          {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -221,7 +221,7 @@ export default function Game() {
             </div>
           </div>}
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -232,7 +232,7 @@ export default function Game() {
             </div>
           </div>}
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS' ) && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -244,7 +244,7 @@ export default function Game() {
             </div>
           </div>}
 
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body ">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -256,7 +256,7 @@ export default function Game() {
           </div>
 
   
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body platform">
                 {country && party && party.data && party.data[0] &&
@@ -266,7 +266,7 @@ export default function Game() {
             </div>
           </div>
 
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
@@ -280,7 +280,7 @@ export default function Game() {
           </div>
 
 
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-2">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-2">
