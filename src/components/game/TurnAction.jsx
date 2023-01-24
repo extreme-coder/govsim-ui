@@ -34,8 +34,8 @@ export default function TurnAction(props) {
         </Row>
       </div>}
       {showBillCreator && <BillCreatorAction country={country} party={party} />}
-      {showPromoteBill && <PromoteAction country={country} party={party} promote={true} />}
-      {showOpposeBill && <PromoteAction country={country} party={party} promote={false} />}
+      {showPromoteBill && bills && (bills.data.length) > 0 && <PromoteAction country={country} party={party} promote={true} />}
+      {showOpposeBill && bills && (bills.data.length) > 0 && <PromoteAction country={country} party={party} promote={false} />}
     </div>
   )
 
