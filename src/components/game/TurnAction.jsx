@@ -45,12 +45,15 @@ export default function TurnAction(props) {
 
   const parliamentActions = (
     <div>
-      <h2>Choose one of your Bills to Call Vote</h2>
-      <Row>
-        {bills && bills.data.filter((bill) => bill.attributes.status == 'NEW' || bill.attributes.status == 'PROPOSED').map((bill) =>
-          <Col><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
-        )}
-      </Row>
+      {bills && bills.data.filter((bill) => bill.attributes.status === 'IN_VOTE').length===0 && <div>
+        <h2>Choose one of your Bills to Call Vote</h2>
+        <Row>
+          {bills && bills.data.filter((bill) => bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED').map((bill) =>
+            <Col><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
+          )}
+        </Row>
+      </div>}
+      {bills && bills.data.filter((bill) => bill.attributes.status === 'IN_VOTE').length>0 && <h2>Vote In Session...</h2>}
     </div>
   )
 
