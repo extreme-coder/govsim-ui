@@ -11,7 +11,7 @@ type LayoutColorProps = {
     layoutConstants: typeof layoutConstants,
 };
 
-const LayoutColor = ({
+const LayoutColor = layoutConstants.LAYOUT_COLOR_LIGHT/*({
     changeLayoutColorScheme,
     layoutColor,
     layoutConstants,
@@ -34,7 +34,7 @@ const LayoutColor = ({
                 <Form.Check.Label htmlFor="vertical-layout">Light Mode</Form.Check.Label>
             </Form.Check>
 
-            <Form.Check className="form-check form-switch mb-1">
+        <Form.Check className="form-check form-switch mb-1">
                 <Form.Check.Input
                     type="radio"
                     onChange={(e) => changeLayoutColorScheme(e.target.value)}
@@ -47,6 +47,6 @@ const LayoutColor = ({
             </Form.Check>
         </>
     );
-};
+}*/
 
 export default LayoutColor;
