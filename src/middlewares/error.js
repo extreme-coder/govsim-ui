@@ -10,6 +10,7 @@ export const rtkQueryErrorLogger = (api) => (next) => (action) => {
   if (isRejectedWithValue(action)) {       
     if(action.payload.status === 401) {
       //redirect to login
+      localStorage.removeItem('user');
       window.location = '/account/login'
     } else {
       toast(action.payload.data.error.message)

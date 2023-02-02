@@ -294,7 +294,11 @@ export const govsimApi = createApi({
           });
 
           socket.on('new_turn', (message) => {        
-            toast('It is now ' + message.party.name + ' party\'s turn ')                            
+            if(message.party.id === parseInt(localStorage.getItem('partyId'))) {
+              toast('It is your turn')                            
+            } else {
+              toast('It is now ' + message.party.name + ' party\'s turn ')                            
+            }
             dispatch({
               type: `govsimApi/invalidateTags`,
               payload: [{ type: 'party', id: 'LIST' }],
