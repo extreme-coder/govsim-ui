@@ -79,7 +79,7 @@ function NewGameForm({onSubmit}) {
 
   return (
     <div className="container">
-      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: '', is_public: true, campaign_rounds:3, parliament_rounds:3, coalition_period:30 }}>
+      <Formik enableReinitialize validationSchema={GameSchema} onSubmit={onSubmit} initialValues={{ name: '', is_public: true, campaign_rounds:4, parliament_rounds:3, coalition_period:30 }}>
         {(props) => (
           <Form noValidate onSubmit={props.handleSubmit}>
             <Form.Group controlId="formBasicName">

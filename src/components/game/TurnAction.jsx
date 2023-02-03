@@ -29,8 +29,8 @@ export default function TurnAction(props) {
         <h2>Select your action</h2>
         <Row>
           <Col><Card onClick={() => setShowBillCreator(true)} className="playing_card">Create a Bill</Card></Col>
-          <Col><Card onClick={() => setShowPromoteBill(true)} className="playing_card">Promote your Bill</Card></Col>
-          <Col><Card onClick={() => setShowOpposeBill(true)} className="playing_card">Oppose a Bill</Card></Col>
+          {bills && (bills.data.length) > 0 && <Col><Card onClick={() => setShowPromoteBill(true)} className="playing_card">Promote your Bill</Card></Col>}
+          {bills && (bills.data.length) > 0 && <Col><Card onClick={() => setShowOpposeBill(true)} className="playing_card">Oppose a Bill</Card></Col>}
         </Row>
       </div>}
       {showBillCreator && <BillCreatorAction country={country} party={party} />}
