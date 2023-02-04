@@ -2,7 +2,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { useGetEntitiesByFieldQuery, useAddEntityMutation } from "../../services/govsim"
 import React, { useState } from 'react'
 
-import { Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import FormInput from '../FormInput';
 
 
@@ -16,9 +16,9 @@ export default function PromoteAction(props) {
   const [showPromoteForm, setShowPromoteForm] = useState(false)
 
   const [addEntity] = useAddEntityMutation()
-  
+
   const promoteBill = (billId) => {
-    if(promote) {
+    if (promote) {
       addEntity({ name: 'promotion', body: { data: { type: 'POSITIVE', 'promise': billId, party: party.id, budget: promotionBudget } } })
     } else {
       addEntity({ name: 'promotion', body: { data: { type: 'NEGATIVE', 'promise': billId, party: party.id, budget: promotionBudget } } })
@@ -30,7 +30,7 @@ export default function PromoteAction(props) {
   const promoteForm = (bill) => (
     <div>
       <FormInput
-        label={promote?"Budget for Promotion":"Budget for Negative Promotion"}
+        label={promote ? "Budget for Promotion" : "Budget for Negative Promotion"}
         type="text"
         name="budget"
         containerClass={'mb-3'}
@@ -51,15 +51,28 @@ export default function PromoteAction(props) {
 
   return (
     <div>
-      <h2>{(promote)?`Choose one of your Bills to Promote`:`Choose a Bill you want to Oppose`}</h2>
+      
       <Row>
+        <Col> </Col>
+        <Col className="col-md-auto me-3"><h2>{(promote) ? `Choose one of your Bills to Promote` : `Choose a Bill you want to Oppose`}</h2></Col>
+        <Col> </Col>
+      </Row>
+      <Row>
+        <Col></Col>
         {promote && bills && bills.data.filter((bill) => bill.attributes.status == 'NEW' || bill.attributes.status == 'PROPOSED').map((bill) =>
-          <Col><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
+          <Col className="col-md-auto me-3"><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
         )}
         {!promote && allBills && allBills.data.filter((b) => b.attributes.party.data.id !== party.id).filter((bill) => bill.attributes.status == 'NEW' || bill.attributes.status == 'PROPOSED').map((bill) =>
-          <Col><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
+          <Col className="col-md-auto me-3"><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
         )}
+        <Col></Col>        
+      </Row>
+      <Row>
+        <Col> </Col>
+        <Col className="col-md-auto me-3">
         {showPromoteForm && promoteForm(selectedBill)}
+        </Col>
+        <Col> </Col>
       </Row>
     </div>
   )

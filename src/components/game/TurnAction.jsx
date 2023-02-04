@@ -5,7 +5,10 @@ import { useState } from 'react';
 import { useGetEntitiesByFieldQuery, useAddEntityMutation } from "../../services/govsim";
 import PromoteAction from './PromoteAction';
 import { useEffect } from 'react';
-
+import createBillImg from '../../assets/images/createbill.png'
+import promoteBillImg from '../../assets/images/promote.png'
+import opposeBillImg from '../../assets/images/oppose.png'
+import callVoteImg from '../../assets/images/callvote.png'
 
 export default function TurnAction(props) {
   const { country, party } = props
@@ -39,9 +42,18 @@ export default function TurnAction(props) {
         
         <Row>
           <Col></Col>
-          <Col className="col-md-auto me-3"><Card onClick={() => setShowBillCreator(true)} className="playing_card">Create a Bill</Card></Col>
-          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3"><Card onClick={() => setShowPromoteBill(true)} className="playing_card">Promote your Bill</Card></Col>}
-          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3"><Card onClick={() => setShowOpposeBill(true)} className="playing_card">Oppose a Bill</Card></Col>}
+          <Col className="col-md-auto me-3">
+            <Card onClick={() => setShowBillCreator(true)} className="playing_card" style={{ backgroundImage: `url(${createBillImg})` }}>              
+            </Card>
+          </Col>
+          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3">
+            <Card onClick={() => setShowPromoteBill(true)} className="playing_card" style={{ backgroundImage: `url(${promoteBillImg})` }}>              
+            </Card>
+          </Col>}
+          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3">
+            <Card onClick={() => setShowOpposeBill(true)} className="playing_card" style={{ backgroundImage: `url(${opposeBillImg})` }}>              
+            </Card>
+          </Col>}
           <Col></Col>
         </Row>
       </div>}
