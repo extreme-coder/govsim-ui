@@ -36,7 +36,7 @@ export default function MinistryLaws(props) {
   const { data: lawTypes } = useGetEntitiesQuery({ name: 'category', populate: true })
   const { data: cLaws } = useGetEntitiesByFieldQuery({ name: 'country-law', field: 'country', value: country.id, relation: 'id', populate: true })
   //get laws for law type
-  const { data: laws } = useGetEntitiesQuery({ name: 'law', populate: true })
+  const { data: laws } = useGetEntitiesQuery({ name: 'law', populate: 'populate=*&pagination[pageSize]=100' })
 
   const [showSelector, setShowSelector] = useState(false)
   const [lawType, setLawType] = useState(0)

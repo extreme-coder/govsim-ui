@@ -30,7 +30,12 @@ export const govsimApi = createApi({
       query: (arg) => {
         const { name, populate } = arg;
         let query = `${pluralize(name.replace('_', '-'))}`
-        if (populate) query += '?populate=*'
+        
+        if (populate === true) {
+          query += '?populate=*'
+        } else if (populate !== undefined) {
+          query += '?' + populate
+        }
         return query
       }
     }),
