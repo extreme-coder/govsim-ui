@@ -1,6 +1,6 @@
 import MinistryLaws from "./MinistryLaw";
 import { useGetEntitiesQuery } from "../../services/govsim"
-import {Row, Col, Card} from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import { useState } from 'react';
 import defaultCard from '../../assets/images/default_card.png'
 
@@ -11,28 +11,34 @@ export default function BillCreatorAction(props) {
   const { country, party } = props
 
   const getCardImage = (deptt) => {
-    if(deptt.attributes.card_image && deptt.attributes.card_image.data) {
+    if (deptt.attributes.card_image && deptt.attributes.card_image.data) {
       return `url(${process.env.REACT_APP_API_DOMAIN}${deptt.attributes.card_image.data.attributes.url})`
     } else {
       return `url(${defaultCard})`
     }
   }
 
-  
+
 
   return (
-    <div>     
-      <h2>Select a Ministry</h2>
+    <div>
+      
       <Row>
-      {departments && departments.data.map((deptt) =>         
-          <Col>
-            <Card onClick={()=>setDeptt(deptt)} className="shadow-sm-no playing_card" style={{backgroundImage:getCardImage(deptt)}}>
-              <div >
-              {deptt.attributes.name}
-              </div>
+        <Col> </Col>
+        <Col className="col-md-auto me-3"><h2>Select a Ministry</h2></Col>
+        <Col> </Col>
+      </Row>
+
+      <Row>
+        <Col></Col>
+        {departments && departments.data.map((deptt) =>
+          <Col className="col-md-auto me-3">
+            <Card onClick={() => setDeptt(deptt)} className="shadow-sm-no playing_card" style={{ backgroundImage: getCardImage(deptt) }}>
+             
             </Card>
-          </Col>                  
-      )}
+          </Col>
+        )}
+        <Col></Col>
       </Row>
 
       {deptt && <MinistryLaws deptt={deptt} country={country} party={party} partyId={party.id} />}

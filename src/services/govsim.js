@@ -386,7 +386,7 @@ export const govsimApi = createApi({
 
           socket.on('new_story', (message) => {
             console.log('story received')
-            if (parseInt(localStorage.getItem('partyId')) === parseInt(message.party.id) || message.allParties) {
+            if (parseInt(localStorage.getItem('partyId')) === parseInt(message.party.id) || message.all_parties) {
               dispatch(showAlert({
                 show:true, 
                 title: message.headline, 

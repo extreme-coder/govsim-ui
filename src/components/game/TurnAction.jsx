@@ -26,11 +26,23 @@ export default function TurnAction(props) {
   const capaignActions = (
     <div>
       {!showBillCreator && !showPromoteBill && <div>
-        <h2>Select your action</h2>
         <Row>
-          <Col><Card onClick={() => setShowBillCreator(true)} className="playing_card">Create a Bill</Card></Col>
-          {bills && (bills.data.length) > 0 && <Col><Card onClick={() => setShowPromoteBill(true)} className="playing_card">Promote your Bill</Card></Col>}
-          {bills && (bills.data.length) > 0 && <Col><Card onClick={() => setShowOpposeBill(true)} className="playing_card">Oppose a Bill</Card></Col>}
+          <Col> </Col>
+          <Col className="col-md-auto me-3"><h2>Your Turn</h2> </Col>
+          <Col> </Col>
+        </Row>
+        <Row>
+          <Col> </Col>
+          <Col className="col-md-auto me-3"><h3>Select your action</h3> </Col>
+          <Col> </Col>
+        </Row>
+        
+        <Row>
+          <Col></Col>
+          <Col className="col-md-auto me-3"><Card onClick={() => setShowBillCreator(true)} className="playing_card">Create a Bill</Card></Col>
+          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3"><Card onClick={() => setShowPromoteBill(true)} className="playing_card">Promote your Bill</Card></Col>}
+          {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3"><Card onClick={() => setShowOpposeBill(true)} className="playing_card">Oppose a Bill</Card></Col>}
+          <Col></Col>
         </Row>
       </div>}
       {showBillCreator && <BillCreatorAction country={country} party={party} />}
@@ -46,11 +58,23 @@ export default function TurnAction(props) {
   const parliamentActions = (
     <div>
       {bills && bills.data.filter((bill) => bill.attributes.status === 'IN_VOTE').length===0 && <div>
-        <h2>Choose one of your Bills to Call Vote</h2>
+      <Row>
+          <Col> </Col>
+          <Col className="col-md-auto me-3"><h2>Your Turn</h2> </Col>
+          <Col> </Col>
+        </Row>
         <Row>
+          <Col> </Col>
+          <Col className="col-md-auto me-3"><h3>Choose one of your Bills to Call Vote</h3></Col>
+          <Col> </Col>
+        </Row>
+        
+        <Row>
+          <Col></Col>
           {bills && bills.data.filter((bill) => bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED').map((bill) =>
-            <Col><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
+            <Col className="col-md-auto me-3"><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
           )}
+          <Col></Col>
         </Row>
       </div>}
       {bills && bills.data.filter((bill) => bill.attributes.status === 'IN_VOTE').length>0 && <h2>Vote In Session...</h2>}
@@ -60,7 +84,7 @@ export default function TurnAction(props) {
   return (
     <>
       {party.attributes.is_turn && <div>
-        <h3>Your Turn</h3>
+       
         {country.attributes.status === 'CAMPAIGN' && capaignActions}
         {country.attributes.status === 'PARLIAMENT' && parliamentActions}
       </div>

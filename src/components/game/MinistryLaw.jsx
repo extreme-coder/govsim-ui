@@ -75,13 +75,13 @@ export default function MinistryLaws(props) {
   }, [deptt])
 
   const showLawTypeTips = (e, lt) => {
-    e.preventDefault()    
+    e.preventDefault()
     setShowTips({ ...showTips, [lt.id]: true })
     return false
   }
 
   const clickOnCard = (e, lt) => {
-    if(e.defaultPrevented) return
+    if (e.defaultPrevented) return
     setShowSelector(true)
     setLawType(lt.id)
   }
@@ -89,38 +89,53 @@ export default function MinistryLaws(props) {
 
   return (
     <div>
-      <h3 className="tt">{deptt.attributes.name}</h3>
-      <h4>Select a Law to Change</h4>
+      
+      
       <Row>
-      {!showSelector && lawTypes && lawTypes.data.filter((lt) => (lt.attributes.department.data.id === deptt.id)).map((lt) =>      
-        <Col key={lt.id}>
-          <Card className="playing_card" onClick={(e) => { return clickOnCard(e, lt) }}>
-          <div className="row">           
-              <h4>
-                {lt.attributes.name}
-              </h4>                       
-          </div>
-
-          {joyRideReady && laws && <Joyride steps={getSteps(laws, lt)} run={showTips[lt.id]}
-            showProgress
-            continuous
-            callback={handleJoyrideCallback}
-          />}
-          <Row>
-            <h5>Current Law: </h5>
-          </Row>          
-          <Row>
-            <h5>{cLaws && getCountryLawName(lt)} </h5>
-          </Row>
-            <div style={{fontSize:'2em'}}>
-                <i style={{cursor:'pointer'}} className="uil-question-circle" onClick={(e) => {showLawTypeTips(e, lt) }} />
-            </div>
-          </Card>
-        </Col>
-      )}
+        <Col> </Col>
+        <Col className="col-md-auto me-3"><h3 className="tt">{deptt.attributes.name}</h3></Col>
+        <Col> </Col>
       </Row>
+      {!showSelector && <Row>
+        <Col> </Col>
+        <Col className="col-md-auto me-3"><h4>Select a Law to Change</h4></Col>
+        <Col> </Col>
+      </Row>}
+      <Row>
+        <Col></Col>
+        {!showSelector && lawTypes && lawTypes.data.filter((lt) => (lt.attributes.department.data.id === deptt.id)).map((lt) =>
+          <Col className="col-md-auto me-3" key={lt.id}>
+            <Card className="playing_card big" onClick={(e) => { return clickOnCard(e, lt) }}>
+              <div className="row">
+                <h4>
+                  {lt.attributes.name}
+                </h4>
+              </div>
 
-      {showSelector && <LawSelector lawType={lawType} laws={laws} partyId={partyId} cLaw={getCountryLaw(lawType)} closeCallback={(e) => setShowSelector(false)} />}             
+              {joyRideReady && laws && <Joyride steps={getSteps(laws, lt)} run={showTips[lt.id]}
+                showProgress
+                continuous
+                callback={handleJoyrideCallback}
+              />}
+              <Row>
+                <h5>Current Law: </h5>
+              </Row>
+              <Row>
+                <h5>{cLaws && getCountryLawName(lt)} </h5>
+              </Row>
+              <div style={{ fontSize: '2em' }}>
+                <i style={{ cursor: 'pointer' }} className="uil-question-circle" onClick={(e) => { showLawTypeTips(e, lt) }} />
+              </div>
+            </Card>
+          </Col>
+        )}
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col></Col>
+        <Col>{showSelector && <LawSelector lawType={lawType} laws={laws} partyId={partyId} cLaw={getCountryLaw(lawType)} closeCallback={(e) => setShowSelector(false)} />}</Col>
+        <Col></Col>
+      </Row>
 
     </div>
 

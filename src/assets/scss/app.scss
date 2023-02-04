@@ -135,14 +135,20 @@ File: Main Css File
 
 
 .playing_card {
-  height:250px;
-  width: 180px;
+  height:150px;
+  width: 120px;
   background-size:contain;
   padding-top:50px;
   padding-left:20px;
   background-repeat:no-repeat;
   cursor: pointer;
   background-image: url(/assets/images/default_card.png);
+}
+
+.playing_card.big {
+  height:200px;
+  width: 150px;  
+  padding-top:20px;
 }
 
 .party_card {
@@ -169,6 +175,7 @@ File: Main Css File
 .party_card.active {
   height:120px;
   width: 80px;
+  
 } 
 
 .card {
