@@ -280,10 +280,10 @@ export default function Game() {
           </div>
 
 
-          <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
+          <div className="col-xxl-6 col-lg-6 col-md-6 py-1" >
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-2">
+              <div className="card-body" style={{ overflowY: "auto", height: "400px"}}>
+                <div className="d-flex align-items-center justify-content-between mb-2" >
                   <h4 className="header-title">Latest News</h4>
                 </div> 
                 {country  &&
