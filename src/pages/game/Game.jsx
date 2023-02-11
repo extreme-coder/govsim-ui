@@ -210,7 +210,7 @@ export default function Game() {
 
           {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body">
+              <div className="card-body" style={{ overflowY: "auto", height: "400px"}}>
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <h4 className="header-title">Votes In Session</h4>
                 </div> 
