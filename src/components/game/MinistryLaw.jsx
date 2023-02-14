@@ -91,20 +91,15 @@ export default function MinistryLaws(props) {
     <div>
       
       
-      <Row>
-        <Col> </Col>
-        <Col className="col-md-auto me-3"><h3 className="tt">{deptt.attributes.name}</h3></Col>
-        <Col> </Col>
+      <Row className="justify-content-center">        
+        <Col className="col-md-auto me-3"><h3 className="tt">{deptt.attributes.name}</h3></Col>        
       </Row>
-      {!showSelector && <Row>
-        <Col> </Col>
-        <Col className="col-md-auto me-3"><h4>Select a Law to Change</h4></Col>
-        <Col> </Col>
+      {!showSelector && <Row className="justify-content-center">        
+        <Col className="col-md-auto me-3"><h4>Select a Law to Change</h4></Col>        
       </Row>}
-      <Row>
-        <Col></Col>
+      <Row className="justify-content-center">        
         {!showSelector && lawTypes && lawTypes.data.filter((lt) => (lt.attributes.department.data.id === deptt.id)).map((lt) =>
-          <Col className="col-md-auto me-3" key={lt.id}>
+          <Col className="col-md-auto me-3 " key={lt.id}>
             <Card className="playing_card big" onClick={(e) => { return clickOnCard(e, lt) }}>
               <div className="row">
                 <h4>
@@ -128,13 +123,10 @@ export default function MinistryLaws(props) {
               </div>
             </Card>
           </Col>
-        )}
-        <Col></Col>
+        )}        
       </Row>
-      <Row>
-        <Col></Col>
-        <Col>{showSelector && <LawSelector lawType={lawType} laws={laws} partyId={partyId} cLaw={getCountryLaw(lawType)} closeCallback={(e) => setShowSelector(false)} />}</Col>
-        <Col></Col>
+      <Row className="justify-content-center">        
+        <Col className="col-md-4 me-3 " >{showSelector && <LawSelector lawType={lawType} laws={laws} partyId={partyId} cLaw={getCountryLaw(lawType)} closeCallback={(e) => setShowSelector(false)} />}</Col>        
       </Row>
 
     </div>

@@ -23,22 +23,18 @@ export default function BillCreatorAction(props) {
   return (
     <div>
       
-      <Row>
-        <Col> </Col>
-        <Col className="col-md-auto me-3"><h2>Select a Ministry</h2></Col>
-        <Col> </Col>
+      <Row className="justify-content-center">        
+        <Col className="col-md-auto me-3"><h2>Select a Ministry</h2></Col>        
       </Row>
 
-      <Row>
-        <Col></Col>
+      <Row className="justify-content-center">       
         {departments && departments.data.map((deptt) =>
           <Col className="col-md-auto me-3">
             <Card onClick={() => setDeptt(deptt)} className="shadow-sm-no playing_card" style={{ backgroundImage: getCardImage(deptt) }}>
              
             </Card>
           </Col>
-        )}
-        <Col></Col>
+        )}        
       </Row>
 
       {deptt && <MinistryLaws deptt={deptt} country={country} party={party} partyId={party.id} />}
