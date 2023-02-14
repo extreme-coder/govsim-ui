@@ -9,15 +9,15 @@ export default function PartyCards(props) {
 
   return (
     <div>      
-     
+     <Row className="justify-content-center">
       {parties && parties.data.map((party) =>         
-          <Row>
-            <Col className="col-md-auto me-3" key={party.id} >
-              <Card className={`shadow-sm-no party_card ${(party.attributes.is_turn)?'active':''}`}>{party.attributes.name}</Card>
+          
+            <Col className="col-md-12 col-lg-6" key={party.id} >
+              <Card className={`shadow-sm-no justify-content-center party_card ${(party.attributes.is_turn)?'active':''}`}>{party.attributes.name}</Card>
             </Col>              
-          </Row>      
+          
       )}
-     
+     </Row>      
     </div>  
   )
 }
