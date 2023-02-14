@@ -52,27 +52,21 @@ export default function PromoteAction(props) {
   return (
     <div>
       
-      <Row>
-        <Col> </Col>
-        <Col className="col-md-auto me-3"><h2>{(promote) ? `Choose one of your Bills to Promote` : `Choose a Bill you want to Oppose`}</h2></Col>
-        <Col> </Col>
+      <Row className="justify-content-center">        
+        <Col className="col-md-auto me-3"><h2>{(promote) ? `Choose one of your Bills to Promote` : `Choose a Bill you want to Oppose`}</h2></Col>        
       </Row>
-      <Row>
-        <Col></Col>
+      <Row className="justify-content-center">        
         {promote && bills && bills.data.filter((bill) => bill.attributes.status == 'NEW' || bill.attributes.status == 'PROPOSED').map((bill) =>
           <Col className="col-md-auto me-3"><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
         )}
         {!promote && allBills && allBills.data.filter((b) => b.attributes.party.data.id !== party.id).filter((bill) => bill.attributes.status == 'NEW' || bill.attributes.status == 'PROPOSED').map((bill) =>
           <Col className="col-md-auto me-3"><Card onClick={(e) => onBillClick(e, bill)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
-        )}
-        <Col></Col>        
+        )}        
       </Row>
-      <Row>
-        <Col> </Col>
+      <Row className="justify-content-center">        
         <Col className="col-md-auto me-3">
         {showPromoteForm && promoteForm(selectedBill)}
-        </Col>
-        <Col> </Col>
+        </Col>        
       </Row>
     </div>
   )
