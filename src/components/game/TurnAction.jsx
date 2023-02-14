@@ -29,19 +29,14 @@ export default function TurnAction(props) {
   const capaignActions = (
     <div>
       {!showBillCreator && !showPromoteBill && <div>
-        <Row>
-          <Col> </Col>
-          <Col className="col-md-auto me-3"><h2>Your Turn</h2> </Col>
-          <Col> </Col>
+        <Row className="justify-content-center">         
+          <Col className="col-md-auto me-3"><h2>Your Turn</h2> </Col>          
         </Row>
-        <Row>
-          <Col> </Col>
-          <Col className="col-md-auto me-3"><h3>Select your action</h3> </Col>
-          <Col> </Col>
+        <Row className="justify-content-center">          
+          <Col className="col-md-auto me-3"><h3>Select your action</h3> </Col>          
         </Row>
         
-        <Row>
-          <Col></Col>
+        <Row className="justify-content-center">          
           <Col className="col-md-auto me-3">
             <Card onClick={() => setShowBillCreator(true)} className="playing_card" style={{ backgroundImage: `url(${createBillImg})` }}>              
             </Card>
@@ -53,8 +48,7 @@ export default function TurnAction(props) {
           {bills && (bills.data.length) > 0 && <Col className="col-md-auto me-3">
             <Card onClick={() => setShowOpposeBill(true)} className="playing_card" style={{ backgroundImage: `url(${opposeBillImg})` }}>              
             </Card>
-          </Col>}
-          <Col></Col>
+          </Col>}          
         </Row>
       </div>}
       {showBillCreator && <BillCreatorAction country={country} party={party} />}
