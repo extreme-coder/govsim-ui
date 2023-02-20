@@ -23,6 +23,8 @@ import Approvals from '../../components/game/Approvals';
 import Stories from '../../components/game/Stories';
 import TurnAction from '../../components/game/TurnAction';
 import PartyCards from '../../components/game/PartyCards';
+import ScoreCards from '../../components/game/ScoreCards';
+import { Tabs, Tab } from 'react-bootstrap';
 
 
 export default function Game() {
@@ -198,14 +200,31 @@ export default function Game() {
                   </div>
                 </div>}
               </div>
-              <div className='col'>
-                {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN') && <div className="col-xxl-12 col-lg-12 col-md-12 py-1 h-100 ">
-                  <div className="card shadow-sm h-100 ">
-                    <div className="card-body">
-                      {party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}
-                    </div>
+              <div className='col py-2'>
+                <div className="card shadow-sm h-100 ">
+                  <div className="card-body">
+                    <Tabs
+                      defaultActiveKey="party_cards"
+                      id="uncontrolled-tab-example"
+                      className="mb-3 nav-bordered "
+                    >
+                      <Tab eventKey="party_cards" title="Parties" >
+                        {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN') && 
+                           party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}
+                                                  
+                      </Tab>
+
+
+
+                      <Tab eventKey="score_cards" title="Score Cards" >
+                        
+                            {party && party.data && party.data[0] && country && <ScoreCards party={party.data[0]} country={country.data[0]} />}
+                        
+                      </Tab>
+
+                    </Tabs>
                   </div>
-                </div>}
+                </div>
               </div>
             </div>
           </div>
