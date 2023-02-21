@@ -71,7 +71,7 @@ export default function Game() {
           content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`,
           disableBeacon: true,
           placement: 'bottom'
-        },     
+        },
         {
           target: '.my_platform',
           content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,
@@ -91,6 +91,11 @@ export default function Game() {
 
       coalitionSteps: [
         {
+          target: 'body',
+          content: "Election results are out and its time to form Coalitions with other parties.",
+          placement: 'center',
+        },
+        {
           target: '.parliament',
           content: `Over here, you can see the parliament of ${country.data[0].attributes.name}.`,
           disableBeacon: true,
@@ -102,6 +107,10 @@ export default function Game() {
         {
           target: '.open_chat',
           content: 'You can chat with other parties or have a group chat with your coalition members.',
+        },
+        {
+          target: '.ready_parliament',
+          content: 'Once you are ready to go to parliament, click on the "Ready for Parliament" button.',
         }
       ],
 
@@ -146,32 +155,35 @@ export default function Game() {
 
   const handleJoyrideCallback = (data) => {
     const { action, index, status, type } = data;
-    if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] ).includes(type)) {
+    if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND]).includes(type)) {
       // Update state to advance the tour
-      let newIndex = index + (action === ACTIONS.PREV ? -1 : 1) 
-      
-      if(newIndex == 3) {
+      let newIndex = index + (action === ACTIONS.PREV ? -1 : 1)
+
+      if (newIndex == 3) {
         setPartyScoreActiveKey('scorecards');
       }
-      if(newIndex == 6) {
+      if (newIndex == 6) {
         setPlatformActiveKey('other_bills');
       }
-      if(newIndex == 7) {
+      if (newIndex == 7) {
         setPlatformActiveKey('my_promotions');
       }
       setStepIndex1(newIndex);
-    } else if (([STATUS.FINISHED, STATUS.SKIPPED] ).includes(status)) {
+    } else if (([STATUS.FINISHED, STATUS.SKIPPED]).includes(status)) {
       // Need to set our running state to false, so we can restart if we click start again.
       setRunJoyride(false);
       setPartyScoreActiveKey('partycards');
       setPlatformActiveKey('my_platform');
-    }    
+    }
   };
 
   const handlePlatformSelect = (key) => {
     setPlatformActiveKey(key);
   }
 
+  const handlePartyScoreSelect = (key) => {
+    setPartyScoreActiveKey(key);
+  }
   return (
     <>
       <Joyride steps={joyRide.steps}
@@ -247,7 +259,38 @@ export default function Game() {
                     </div>
                   </div>
                 </div>}
+
+                <div className="col-xxl-12 col-lg-12 col-md-12 py-1 ">
+                  <div className='row'>
+
+                    {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS') && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
+                      <div className="card shadow-sm h-100 ">
+                        <div className="card-body parliament">
+                          <div className="d-flex align-items-center justify-content-between mb-2">
+                            <h4 className="header-title ">Parliament</h4>
+                          </div>
+                          {country && <Parliament countryId={country.data[0].id} />}
+                        </div>
+                      </div>
+                    </div>}
+
+                    {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS') && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
+                      <div className="card shadow-sm h-100 ">
+                        <div className="card-body">
+                          <div className="d-flex align-items-center justify-content-between mb-2">
+                            <h4 className="header-title">Parties</h4>
+                          </div>
+                          {country && party && party.data && party.data[0] &&
+                            <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} country={country.data[0]} />}
+                        </div>
+                      </div>
+                    </div>}
+                  </div>
+                </div>
+
+
               </div>
+
               <div className='col py-2'>
                 <div className="card shadow-sm h-100 ">
                   <div className="card-body">
@@ -256,19 +299,20 @@ export default function Game() {
                       activeKey={partyScoreActiveKey}
                       id="uncontrolled-tab-example"
                       className="mb-3 nav-bordered "
+                      onSelect={handlePartyScoreSelect}
                     >
                       <Tab eventKey="partycards" title="Parties" className="partycards">
-                        {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN') && 
-                           party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}                                                  
+                        {party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}
                       </Tab>
-                      <Tab eventKey="scorecards" title="Score Cards" className="scorecards">                        
-                            {party && party.data && party.data[0] && country && <ScoreCards party={party.data[0]} country={country.data[0]} />}                        
+                      <Tab eventKey="scorecards" title="Score Cards" className="scorecards">
+                        {party && party.data && party.data[0] && country && <ScoreCards party={party.data[0]} country={country.data[0]} />}
                       </Tab>
 
                     </Tabs>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
 
@@ -285,28 +329,7 @@ export default function Game() {
             </div>
           </div>}
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS') && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
-            <div className="card shadow-sm h-100 ">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 className="header-title parliament">Parliament</h4>
-                </div>
-                {country && <Parliament countryId={country.data[0].id} />}
-              </div>
-            </div>
-          </div>}
 
-          {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'COALITIONS') && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
-            <div className="card shadow-sm h-100 ">
-              <div className="card-body">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 className="header-title">Parties</h4>
-                </div>
-                {country && party && party.data && party.data[0] &&
-                  <PartyLister countryId={country.data[0].id} countryCode={code} myParty={party.data[0]} country={country.data[0]} />}
-              </div>
-            </div>
-          </div>}
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
