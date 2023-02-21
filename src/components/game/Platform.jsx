@@ -110,10 +110,7 @@ function MyPlatform(props) {
           <tr key={bill.id}>
             <td>{bill.attributes.name}</td>
             <td>{bill.attributes.law.data.attributes.name}</td>
-            <td>
-              {(bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED') && country.attributes.status === 'PARLIAMENT' && (props.cLaws.map((c) => (c.attributes.passed_law.data.id)).indexOf(bill.attributes.law.data.id) === -1) && <Button onClick={() => callVote(bill.id)}>Call Vote</Button>}
-              {bill.attributes.status === 'IN_VOTE' && <div>Bill is currently in voting</div>}
-            </td>
+         
             
           </tr>)
         )}
