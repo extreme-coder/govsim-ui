@@ -39,10 +39,10 @@ export default function PlayerInfo(props) {
           <div className="col-xl-3 col-lg-3 col-md-3">Remaining Budget: {party.attributes.budget}</div>
           <div className="col-xl-3 col-lg-3 col-md-3" >Score: {party.attributes.points}</div>
           {country.attributes.status === 'COALITIONS' && <div className="col-xl-3 col-lg-3 col-md-3">         
-            {!party.attributes.ready_for_parliament && <Button onClick={() => readyForParliament()}>Ready for Parliament</Button>}
+            {!party.attributes.ready_for_parliament && <Button className="ready_parliament" onClick={() => readyForParliament()}>Ready for Parliament</Button>}
             {party.attributes.ready_for_parliament && <div>
             <p>You are ready for Parliament Session</p>
-            <Button onClick={() => revertReadyForParliament()}>Go Back</Button>
+            <Button  onClick={() => revertReadyForParliament()}>Go Back</Button>
           </div>}
         </div>}
       </div>
