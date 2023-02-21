@@ -52,17 +52,17 @@ export default function Game() {
         },
         {
           target: '.turnaction',
-          content: "This is where you can see who's turn it is, and if its your turn you will be able to take actions for your turn here",
+          content: "This is where you can see whose turn it is. If it's your turn, you will be able to take actions from here.",
           placement: 'bottom',
         },
         {
           target: '.partycards',
-          content: "Here you will see list of all players in the game",
+          content: "Here, you will see a list of all the players in the game.",
           placement: 'bottom',
         },
         {
           target: '.scorecards',
-          content: "Here you can see all the score cards won by you",
+          content: "Here, you can see all the scorecards you have won.",
           placement: 'bottom',
         },
 
@@ -79,12 +79,12 @@ export default function Game() {
         },
         {
           target: '.other_bills',
-          content: `Here you will see bills proposed by other parties`,
+          content: `Here, you will see bills that have been proposed by other parties.`,
           placement: 'bottom'
         },
         {
           target: '.my_promotions',
-          content: `Here you will see your promotions for your bills and oppositions for others' bills`,
+          content: `Promotions are how you get your party's name out there, by paying money for ad campaigns and canvassing. Here you can see all the promotions you've done so far You can create a promotion by clicking on the 'Create Promotion' button.`,
           placement: 'bottom'
         }
       ],
@@ -97,18 +97,18 @@ export default function Game() {
         },
         {
           target: '.partyList',
-          content: 'To make coalition, select other parties from the list and click on the "Create Coalition" button.',
+          content: 'To create a coalition, select other parties from the list and click on the "Create Coalition" button.',
         },
         {
           target: '.open_chat',
-          content: 'You can chat with other parties or have a group chat with your coalition members.',
+          content: 'You can chat with other parties individually or have a group chat with your coalition members.',
         }
       ],
 
       parliamentSteps: [
         {
           target: '.billsTable',
-          content: 'You can call your bills for a vote here. If your bill is voted into law, you will get 400 points while everyboy who voted for it will get 100 points.',
+          content: 'You can call for a vote on your bills from here. If your bill is voted into law, you will receive 400 points, while everybody who voted for it will get 100 points!',
         }
       ]
 
