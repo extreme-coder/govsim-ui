@@ -84,7 +84,7 @@ export default function Game() {
         },
         {
           target: '.my_promotions',
-          content: `Promotions are how you get your party's name out there, by paying money for ad campaigns and canvassing. Here you can see all the promotions you've done so far You can create a promotion by clicking on the 'Create Promotion' button.`,
+          content: `Promotions are how you get your party's name out there, by paying money for ad campaigns and canvassing. Here you can see all the promotions you've done so far You can promote a bill by clicking on the 'Promote' button.`,
           placement: 'bottom'
         }
       ],
