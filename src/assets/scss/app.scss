@@ -152,10 +152,12 @@ File: Main Css File
 }
 
 .party_card {
-  height:125px;
-  width: 100px;
+  height:150px;
+  width: 120px;
   font-size: 12px;
   background-size:contain;  
+  padding-left: 12px;
+  padding-right: 12px;
   text-align: center;
   background-repeat:no-repeat;
   background-image: url(/assets/images/default_card.png);  

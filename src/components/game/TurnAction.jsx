@@ -78,7 +78,7 @@ export default function TurnAction(props) {
         <Row>
           <Col></Col>
           {bills && bills.data.filter((bill) => bill.attributes.status === 'NEW' || bill.attributes.status === 'PROPOSED').map((bill) =>
-            <Col className="col-md-auto me-3"><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
+            <Col key={bill.id} className="col-md-auto me-3"><Card onClick={() => callVote(bill.id)} className="shadow-sm-no playing_card">{bill.attributes.name}</Card></Col>
           )}
           <Col></Col>
         </Row>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGetEntitiesByFieldQuery, useGetEntityQuery } from '../../services/govsim';
 import BillCreator from './BillCreator';
 import { Button, Tabs, Tab, Popover, OverlayTrigger } from 'react-bootstrap';
@@ -10,7 +10,7 @@ import Promotions from './Promotions';
 
 
 export default function Platform(props) {
-  const { partyId, countryId, electionsOccurred, country } = props
+  const { partyId, countryId, electionsOccurred, country, activeTab, handlePlatformSelect } = props
   const { data } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'party', value: partyId, relation: 'id', populate: true })
   const { data: countryLaws } = useGetEntitiesByFieldQuery({ name: 'country-law', field: 'country', value: countryId, relation: 'id', populate: true })
   const { data: allBills } = useGetEntitiesByFieldQuery({ name: 'promise', field: 'country', value: countryId, relation: 'id', populate: true })
@@ -18,31 +18,35 @@ export default function Platform(props) {
 
   const [addBill, setAddBill] = useState(false)
 
-
   let otherBills = []
   if (allBills) {
     otherBills = allBills.data.filter((b) => b.attributes.party.data.id !== partyId)
   }
+
+
+
   return (
     <div>
       {!addBill && <div>
 
         <Tabs
           defaultActiveKey="my_platform"
+          activeKey={activeTab}
           id="uncontrolled-tab-example"
           className="mb-3 nav-bordered "
+          onSelect={handlePlatformSelect}
         >
-          <Tab eventKey="my_platform" title="My Platform" className="tableFixHead">
+          <Tab eventKey="my_platform" title="My Platform" className="tableFixHead my_platform">
             {country && data && countryLaws && <MyPlatform data={data.data} countryId={countryId} partyId={partyId} electionsOccurred={electionsOccurred} country={country} cLaws={countryLaws.data} />}
           </Tab>
 
           {country && allBills &&
-            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead">
+            <Tab eventKey="other_bills" title={`Other Bills (${otherBills.length})`} className="tableFixHead other_bills">
               <AllPlatform data={otherBills} countryId={countryId} country={country} />
             </Tab>
           }
 
-          <Tab eventKey="my_promotions" title="Promotions" className="tableFixHead">
+          <Tab eventKey="my_promotions" title="Promotions" className="tableFixHead my_promotions">
             <Promotions partyId={partyId} />
           </Tab>
 

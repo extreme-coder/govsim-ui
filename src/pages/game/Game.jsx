@@ -18,7 +18,7 @@ import SweetAlert2 from 'react-sweetalert2';
 import spinner from '../../assets/images/spinner.gif';
 import Image from 'react-bootstrap/Image';
 import { showAlert } from '../../redux/actions';
-import Joyride from 'react-joyride';
+import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import Approvals from '../../components/game/Approvals';
 import Stories from '../../components/game/Stories';
 import TurnAction from '../../components/game/TurnAction';
@@ -37,6 +37,9 @@ export default function Game() {
   const [runJoyride, setRunJoyride] = useState(false);
   const [runCoalitionJoyride, setRunCoalitionJoyride] = useState(false);
   const [runParliamentJoyride, setRunParliamentJoyride] = useState(false);
+  const [stepIndex1, setStepIndex1] = useState(0);
+  const [partyScoreActiveKey, setPartyScoreActiveKey] = useState('partycards');
+  const [platformActiveKey, setPlatformActiveKey] = useState('my_platform');
 
   let joyRide = {}
   if (country && country.data) {
@@ -48,27 +51,41 @@ export default function Game() {
           placement: 'center',
         },
         {
+          target: '.turnaction',
+          content: "This is where you can see who's turn it is, and if its your turn you will be able to take actions for your turn here",
+          placement: 'bottom',
+        },
+        {
+          target: '.partycards',
+          content: "Here you will see list of all players in the game",
+          placement: 'bottom',
+        },
+        {
+          target: '.scorecards',
+          content: "Here you can see all the score cards won by you",
+          placement: 'bottom',
+        },
+
+        {
           target: '.demographics',
           content: `You are an up-and-coming politician in the country of ${country.data[0].attributes.name}. Over here, you can see your country's population, and what groups they belong to. This info will be important for your campaign!`,
           disableBeacon: true,
           placement: 'bottom'
-        },
+        },     
         {
-          target: '.currentLaws',
-          content: `Over here, you can see the laws which are active right now in ${country.data[0].attributes.name}.`,
-        },
-        {
-          target: '.carousel-control-next-icon',
-          content: 'Click here to see the laws of next Ministry.',
-        },
-        {
-          target: '.uil-question-circle',
-          content: 'Click here to learn more about the law and different options and its effect on the country.',
-
-        },
-        {
-          target: '.billsTable',
+          target: '.my_platform',
           content: `Over here, you can see your platform. Your platform is how you attract votes; it's made out of 'promises' to change or keep laws. It's pretty empty right now, but you can add your first promises with the 'Add Bill' button.`,
+          placement: 'bottom'
+        },
+        {
+          target: '.other_bills',
+          content: `Here you will see bills proposed by other parties`,
+          placement: 'bottom'
+        },
+        {
+          target: '.my_promotions',
+          content: `Here you will see your promotions for your bills and oppositions for others' bills`,
+          placement: 'bottom'
         }
       ],
 
@@ -126,10 +143,41 @@ export default function Game() {
     message: state.theme.Game.message,
   }));
 
+
+  const handleJoyrideCallback = (data) => {
+    const { action, index, status, type } = data;
+    if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] ).includes(type)) {
+      // Update state to advance the tour
+      let newIndex = index + (action === ACTIONS.PREV ? -1 : 1) 
+      
+      if(newIndex == 3) {
+        setPartyScoreActiveKey('scorecards');
+      }
+      if(newIndex == 6) {
+        setPlatformActiveKey('other_bills');
+      }
+      if(newIndex == 7) {
+        setPlatformActiveKey('my_promotions');
+      }
+      setStepIndex1(newIndex);
+    } else if (([STATUS.FINISHED, STATUS.SKIPPED] ).includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      setRunJoyride(false);
+      setPartyScoreActiveKey('partycards');
+      setPlatformActiveKey('my_platform');
+    }    
+  };
+
+  const handlePlatformSelect = (key) => {
+    setPlatformActiveKey(key);
+  }
+
   return (
     <>
       <Joyride steps={joyRide.steps}
         continuous={true}
+        callback={handleJoyrideCallback}
+        stepIndex={stepIndex1}
         showProgress={true}
         run={runJoyride}
         scrollToFirstStep={true}
@@ -193,8 +241,8 @@ export default function Game() {
                   </div>
                 </div>
                 {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN') && <div className="col-xxl-12 col-lg-12 col-md-12 py-1">
-                  <div className="card shadow-sm h-100 ">
-                    <div className="card-body">
+                  <div className="card shadow-sm h-100 turnaction">
+                    <div className="card-body ">
                       {party && party.data && party.data[0] && <TurnAction country={country.data[0]} party={party.data[0]} />}
                     </div>
                   </div>
@@ -204,22 +252,17 @@ export default function Game() {
                 <div className="card shadow-sm h-100 ">
                   <div className="card-body">
                     <Tabs
-                      defaultActiveKey="party_cards"
+                      defaultActiveKey="partycards"
+                      activeKey={partyScoreActiveKey}
                       id="uncontrolled-tab-example"
                       className="mb-3 nav-bordered "
                     >
-                      <Tab eventKey="party_cards" title="Parties" >
+                      <Tab eventKey="partycards" title="Parties" className="partycards">
                         {country && (country.data[0].attributes.status === 'PARLIAMENT' || country.data[0].attributes.status === 'CAMPAIGN') && 
-                           party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}
-                                                  
+                           party && party.data && party.data[0] && country && <PartyCards party={party.data[0]} country={country.data[0]} />}                                                  
                       </Tab>
-
-
-
-                      <Tab eventKey="score_cards" title="Score Cards" >
-                        
-                            {party && party.data && party.data[0] && country && <ScoreCards party={party.data[0]} country={country.data[0]} />}
-                        
+                      <Tab eventKey="scorecards" title="Score Cards" className="scorecards">                        
+                            {party && party.data && party.data[0] && country && <ScoreCards party={party.data[0]} country={country.data[0]} />}                        
                       </Tab>
 
                     </Tabs>
@@ -228,15 +271,6 @@ export default function Game() {
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
 
           {country && country.data[0].attributes.status === 'PARLIAMENT' && <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
@@ -276,9 +310,9 @@ export default function Game() {
 
           <div className="col-xxl-6 col-lg-6 col-md-6 py-1">
             <div className="card shadow-sm h-100 ">
-              <div className="card-body ">
+              <div className="card-body demographics">
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h4 className="header-title demographics">Demographics</h4>
+                  <h4 className="header-title ">Demographics</h4>
                 </div>
                 {country && <Demographics countryId={country.data[0].id} />}
               </div>
@@ -290,7 +324,7 @@ export default function Game() {
             <div className="card shadow-sm h-100 ">
               <div className="card-body platform">
                 {country && party && party.data && party.data[0] &&
-                  <Platform country={country.data[0]} countryId={country.data[0].id} partyId={party.data[0].id} electionsOccurred={country.data[0].attributes.elections_occurred} />
+                  <Platform handlePlatformSelect={handlePlatformSelect} activeTab={platformActiveKey} country={country.data[0]} countryId={country.data[0].id} partyId={party.data[0].id} electionsOccurred={country.data[0].attributes.elections_occurred} />
                 }
               </div>
             </div>

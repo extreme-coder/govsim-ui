@@ -12,7 +12,7 @@ export default function ScoreCards(props) {
      <Row className="justify-content-center">
       {cards && cards.data.map((card) =>         
           
-            <Col className="col-md-12 col-lg-6" key={party.id} >
+            <Col className="col-md-12 col-lg-6" key={card.id} >
               <Card className={`shadow-sm-no justify-content-center party_card`}>
                 <h3>{card.attributes.score}</h3>
 
