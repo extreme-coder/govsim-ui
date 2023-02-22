@@ -16,6 +16,7 @@ import Register from '../pages/account/Register';
 import ForgetPassword from '../pages/account/ForgetPassword';
 import NewGame from '../pages/game/NewGame';
 import StartGame from '../pages/game/StartGame';
+import HowToPlay from '../pages/game/HowToPlay';
 
 
 
@@ -74,7 +75,10 @@ const AllRoutes = () => {
           path: 'newgame',          
           element: <PrivateRoute roles={'Admin'} component={NewGame} />,
         },        
-        
+        {
+          path: 'learn',          
+          element: <PrivateRoute roles={'Admin'} component={HowToPlay} />,
+        }, 
       ],
     },
   ]);

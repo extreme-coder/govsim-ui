@@ -23,6 +23,13 @@ const getMenuItems = (gameCode, msgCount) => {
       icon: 'uil-calender',
       url: `/history/${gameCode}`,
     },
+    {
+      key: 'apps-calendar',
+      label: 'How To Play',
+      isTitle: false,
+      icon: 'uil-calender',
+      url: `/learn`,
+    },
   ];
 };
 
