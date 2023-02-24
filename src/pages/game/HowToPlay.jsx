@@ -30,6 +30,13 @@ export default function HowToPlay() {
       <p>After the debate, it's time to vote on the bill. Players can either vote for or against the bill, or choose to abstain. A bill needs a majority of votes to pass, so it's important to try to convince others to vote in favor of the bill.</p>
       <p>If a bill passes, the player who proposed the bill will receive 400 points, and everyone who voted for it will receive 100 points. If the bill fails, nobody gets any points.</p>
       <h1>Scoring Points</h1>
+      <p>Players receive points for completing the following objectives:</p>
+      <ul>
+        <li>Passing bills - 400 points</li>
+        <li>Voting on successful bills - 100 points</li>
+        <li>Winning seats - points proportional to # of seats won</li>
+      </ul>
+      <p>You can get a more detailed view of your score throughout the game by looking at your Scorecards, which record your achievements. At the end of the day, points are what decide which party was able to win the game, and leave their mark on their country. Make sure you keep points in mind when formulating your strategy!</p>
       <h1>Tips & Strategies</h1>
       <p>NationBuildr is a complex simulation, with lots of variables, and plenty of opportunities to outmaneuver your opponents and achieve parliamentary victory. Here are some tips and strategies to keep in mind as you play:</p>
       <ul>
