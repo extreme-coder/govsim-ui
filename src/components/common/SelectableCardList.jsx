@@ -2,7 +2,7 @@ import React from "react";
 
 class Card extends React.Component {
   render() {
-    return (<div className="scard">{this.props.children}</div>)
+    return (<div className="scard col col-md-5">{this.props.children}</div>)
   }
 }
 
@@ -113,7 +113,7 @@ class SelectableCardList extends React.Component {
     });
     const clsName = "cardlist_" + cardSize;
     return (
-      <div className={clsName}>{content}</div>
+      <div className="row">{content}</div>
 
     );
   }

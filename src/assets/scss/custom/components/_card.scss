@@ -180,6 +180,7 @@ $card-shadow-hover: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   &:hover {
     box-shadow: $card-shadow-hover;
   }
+  padding: 0px
 }
 
 /* Selectable */
@@ -219,6 +220,7 @@ $selected-color: #44aadd;
   
   &.selected {
     border-color: $selected-color;
+    height: 100%;
     .check {
       &:before {
         border-color: $selected-color $selected-color rgba(0,0,255,0) rgba(255,0,0,0);

@@ -56,7 +56,7 @@ export default function JoinGame() {
     console.log(allParties)
     return (
       <div className="container">
-        {country && <div>{country.data[0].attributes.name}</div>}
+        {country && <div><h3>Joining Country : {country.data[0].attributes.name}</h3></div>}
         <div className="row justify-content-center">
           <Formik enableReinitialize onSubmit={joinGame} initialValues={{ name: '', is_public: true }} validationSchema={LoginSchema}>
             {(props) => (
@@ -64,11 +64,13 @@ export default function JoinGame() {
                 <Form.Group controlId="formBasicName">
                   <div className="col-xl-10 col-lg-12 col-md-9">
                     <TextField name="name" label="Choose a name for your party:" placeholder="Enter Name" />
+                    <p></p>
+                    <p></p>
                     Pick a template for your party to get started:
                     {data && 
                     <SelectableCardList 
                     multiple={false}           
-                    contents={data.data.map((a) => { return {id: a.id, title: a.attributes.name} } )}
+                    contents={data.data.map((a) => { return {id: a.id, title: a.attributes.name, description: a.attributes.description} } )}
                     onChange={(e)=>{onPartyTypeChanged(e)}}
                     />
                     }
