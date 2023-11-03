@@ -17,7 +17,7 @@ import ForgetPassword from '../pages/account/ForgetPassword';
 import NewGame from '../pages/game/NewGame';
 import StartGame from '../pages/game/StartGame';
 import HowToPlay from '../pages/game/HowToPlay';
-
+import HomePage from '../pages/game/Home';
 
 
 const AllRoutes = () => {
@@ -25,7 +25,7 @@ const AllRoutes = () => {
   let Layout = VerticalLayout;
 
   return useRoutes([
-    { path: '/', element: <Root /> },
+    { path: '/', element: <HomePage/> },
     {
       // public routes
       path: '/',

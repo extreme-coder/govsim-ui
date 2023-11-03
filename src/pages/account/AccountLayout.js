@@ -29,15 +29,8 @@ const AccountLayout = ({ bottomLinks, children }: AccountLayoutProps): React$Ele
                 <Container>
                     <Row className="justify-content-center">
                         <Col md={8} lg={6} xl={5} xxl={4}>
-                            <Card>
-                                {/* logo */}
-                                <Card.Header className="pt-4 pb-4 text-center bg-primary">
-                                    <Link to="/">
-                                        <span>
-                                            <img src={Logo} alt="" height="18" />
-                                        </span>
-                                    </Link>
-                                </Card.Header>
+                            <Card>                               
+                               
                                 <Card.Body className="p-4">{children}</Card.Body>
                             </Card>
 
@@ -47,7 +40,7 @@ const AccountLayout = ({ bottomLinks, children }: AccountLayoutProps): React$Ele
                     </Row>
                 </Container>
             </div>
-            <footer className="footer footer-alt">{t('2018 - 2021 © Hyper - Coderthemes.com')}</footer>
+            
         </>
     );
 };
