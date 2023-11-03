@@ -27,17 +27,22 @@ const AllRoutes = () => {
   return useRoutes([
     { path: '/', element: <HomePage/> },
     {
+      path: 'learn',          
+      element: <HowToPlay />,
+    },   
+    {
       // public routes
       path: '/',
       element: <DefaultLayout />,
-      children: [
+      children: [                  
         {
           path: 'account',
           children: [
             { path: 'login', element: <Login/> },
             { path: 'logout', element: <Logout/> },
             { path: 'register', element: <Register/> },            
-            { path: 'forget-password', element: <ForgetPassword/> },            
+            { path: 'forget-password', element: <ForgetPassword/> },    
+                
           ],
         }
       ],
@@ -75,10 +80,7 @@ const AllRoutes = () => {
           path: 'newgame',          
           element: <PrivateRoute roles={'Admin'} component={NewGame} />,
         },        
-        {
-          path: 'learn',          
-          element: <PrivateRoute roles={'Admin'} component={HowToPlay} />,
-        }, 
+        
       ],
     },
   ]);
