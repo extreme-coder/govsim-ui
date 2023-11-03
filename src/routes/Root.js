@@ -8,7 +8,7 @@ const Root = () => {
 
     const url = getRootUrl();
 
-    return <Navigate to={`/${url}`} />;
+    return <Navigate to={`${url}`} />;
 };
 
 export default Root;
