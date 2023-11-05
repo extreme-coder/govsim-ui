@@ -28,7 +28,7 @@ const HomePage = () => {
           <div className="mb-4 text-center">
             <Link to="/learn" className="btn btn-primary mx-2">Learn More</Link>
             <Link to="/account/register" className="btn btn-primary mx-2">Signup to Play</Link>
-            <Link to="/newgame" className="btn btn-success mx-2">Start Playing</Link>
+            <Link to="/games" className="btn btn-success mx-2">Start Playing</Link>
           </div>
         </div>
       </div>
